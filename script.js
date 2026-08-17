@@ -401,17 +401,15 @@ if (radioPlayBtn) {
             initRadioAudioContext();
             radioAudio.play().then(() => {
                 isRadioPlaying = true;
-                this.classList.add('playing');
-                // Меняем иконку
-                this.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                this.textContent = '⏸';
+                this.style.fontSize = '24px';
                 drawVisualizer();
             }).catch(() => alert('Не удалось загрузить радио'));
         } else {
             radioAudio.pause();
             isRadioPlaying = false;
-            this.classList.remove('playing');
-            // Меняем обратно на Play
-            this.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+            this.textContent = '▶';
+            this.style.fontSize = '24px';
             if (ctx) { ctx.fillStyle = '#0a0c0d'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
         }
     });
