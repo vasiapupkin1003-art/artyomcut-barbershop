@@ -143,52 +143,53 @@
         </section>
 
         <!-- МУЗЫКА -->
-        <section id="music" class="music">
-            <div class="container">
-                <h2>МУЗЫКА <span>⚡</span></h2>
-                <div class="music-players">
-                    <div class="radio-player">
-                        <div class="player-header">
-                            <span class="radio-icon">📻</span>
-                            <h3>ARTYOMCUT RADIO</h3>
-                            <span class="live-badge">🔴 LIVE</span>
-                        </div>
-                        <div class="radio-info">
-                            <p class="radio-status">ROCK • 80s • CLASSIC</p>
-                        </div>
-                        <canvas id="visualizer" width="600" height="100"></canvas>
-                        <div class="radio-controls">
-                            <button class="radio-play-btn" id="radioPlayBtn">▶</button>
-                            <div class="volume-control">
-                                <span>🔊</span>
-                                <input type="range" id="radioVolume" min="0" max="100" value="70">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="playlist-player">
-                        <div class="player-header">
-                            <span class="playlist-icon">🎸</span>
-                            <h3>ARTYOMCUT PLAYLIST</h3>
-                        </div>
-                        <div class="radio-info">
-                            <p class="radio-status">MY SELECTION</p>
-                        </div>
-                        <canvas id="playlistVisualizer" width="600" height="100"></canvas>
-                        <div class="playlist-tracks" id="playlistTracks"></div>
-                        <div class="radio-controls">
-    <button class="radio-play-btn" id="radioPlayBtn"></button>
-    <div class="volume-control">
-        <span>🔊</span>
-        <input type="range" id="radioVolume" min="0" max="100" value="70">
-    </div>
-</div>
-                        <div class="current-track-info">
-                            <span id="currentTrackName"></span>
-                        </div>
+<section id="music" class="music">
+    <div class="container">
+        <h2>МУЗЫКА <span>⚡</span></h2>
+        <div class="music-players">
+            <!-- РАДИО -->
+            <div class="radio-player">
+                <div class="player-header">
+                    <span class="radio-icon">📻</span>
+                    <h3>ARTYOMCUT RADIO</h3>
+                    <span class="live-badge">🔴 LIVE</span>
+                </div>
+                <div class="radio-info">
+                    <p class="radio-status">ROCK • 80s • CLASSIC</p>
+                </div>
+                <canvas id="visualizer" width="600" height="100"></canvas>
+                <div class="radio-controls">
+                    <button class="radio-play-btn" id="radioPlayBtn"></button>
+                    <div class="volume-control">
+                        <span>🔊</span>
+                        <input type="range" id="radioVolume" min="0" max="100" value="70">
                     </div>
                 </div>
             </div>
-        </section>
+            
+            <!-- ПЛЕЙЛИСТ -->
+            <div class="playlist-player">
+                <div class="player-header">
+                    <span class="playlist-icon">🎸</span>
+                    <h3>ARTYOMCUT PLAYLIST</h3>
+                </div>
+                <div class="radio-info">
+                    <p class="radio-status">MY SELECTION</p>
+                </div>
+                <canvas id="playlistVisualizer" width="600" height="100"></canvas>
+                <div class="playlist-tracks" id="playlistTracks"></div>
+                <div class="playlist-controls">
+                    <button id="prevTrackBtn">⏮</button>
+                    <button id="playTrackBtn" class="play-track-btn"></button>
+                    <button id="nextTrackBtn">⏭</button>
+                </div>
+                <div class="current-track-info">
+                    <span id="currentTrackName"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- ЗАПИСЬ -->
         <section id="booking" class="booking">
