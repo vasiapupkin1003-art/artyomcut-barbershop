@@ -3035,10 +3035,10 @@ select {
 .playlist-controls .play-track-btn.playing::before {
     content: '';
     border: none;
-    width: 12px;
-    height: 18px;
-    border-left: 4px solid #fff;
-    border-right: 4px solid #fff;
+    width: 10px;
+    height: 14px;
+    border-left: 3px solid #fff;
+    border-right: 3px solid #fff;
     transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
