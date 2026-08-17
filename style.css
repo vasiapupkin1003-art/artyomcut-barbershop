@@ -3030,14 +3030,16 @@ select {
     border-bottom: 11px solid transparent;
 }
 
-/* ПАУЗА КОГДА ИГРАЕТ */
+/* ПАУЗА - УЖЕ */
 .radio-play-btn.playing::before,
 .playlist-controls .play-track-btn.playing::before {
     content: '';
     border: none;
-    width: 14px;
+    width: 12px;
     height: 18px;
-    border-left: 5px solid #fff;
-    border-right: 5px solid #fff;
+    border-left: 4px solid #fff;
+    border-right: 4px solid #fff;
     transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
 }
