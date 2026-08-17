@@ -2540,3 +2540,153 @@ select {
         grid-template-columns: 1fr;
     }
 }
+/* БУРГЕР-КНОПКА */
+.burger-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 5px;
+}
+
+.burger-btn span {
+    width: 25px;
+    height: 2px;
+    background: #fff;
+    transition: all 0.3s;
+}
+
+/* МОБИЛЬНОЕ МЕНЮ */
+@media (max-width: 768px) {
+    .burger-btn {
+        display: flex;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0d1011;
+        flex-direction: column;
+        padding: 80px 30px;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    
+    .nav.open {
+        right: 0;
+    }
+    
+    .nav a {
+        font-size: 18px;
+    }
+    
+    .socials {
+        margin-left: auto;
+    }
+}
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 45px;
+        letter-spacing: -2px;
+        line-height: 1;
+    }
+    
+    .small-title {
+        font-size: 14px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    
+    .hero-buttons .btn {
+        min-height: 45px;
+        padding: 0 25px;
+        font-size: 14px;
+    }
+}
+@media (max-width: 768px) {
+    .about-gallery {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .about-gallery img {
+        height: 250px;
+        object-fit: cover;
+    }
+}
+@media (max-width: 768px) {
+    /* Громкость — сделайте шире */
+    .volume-control {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .volume-control input[type="range"] {
+        width: 100%;
+        min-width: 0;
+    }
+    
+    /* Кнопка play в плейлисте */
+    .playlist-controls {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #292d2e;
+    }
+    
+    .playlist-controls .play-track-btn {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+    }
+    
+    /* Эквалайзер */
+    #visualizer,
+    #playlistVisualizer {
+        height: 100px;
+        min-height: 100px;
+    }
+    
+    /* Рамки плееров */
+    .radio-player,
+    .playlist-player {
+        height: auto;
+        min-height: 400px;
+        padding: 15px;
+    }
+    
+    /* Треки */
+    .playlist-tracks {
+        height: 120px;
+        min-height: 120px;
+        max-height: 120px;
+    }
+}
+@media (max-width: 768px) {
+    .radio-controls {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .radio-play-btn {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+    }
+    
+    .volume-control {
+        flex: 1;
+        min-width: 150px;
+    }
+}
