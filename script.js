@@ -369,26 +369,26 @@ function drawVisualizer() {
     
     requestAnimationFrame(drawVisualizer);
     
-    // Убедимся что canvas не скрыт
-    if (canvas) {
-        canvas.style.display = 'block';
-    }
-    
     analyser.getByteFrequencyData(dataArray);
     
+    // Очищаем canvas
     ctx.fillStyle = '#0a0c0d';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    const barWidth = canvas.width / dataArray.length;
+    const barWidth = (canvas.width / dataArray.length) * 2.5;
     let x = 0;
     
     for (let i = 0; i < dataArray.length; i++) {
         const barHeight = (dataArray[i] / 255) * canvas.height;
-        const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
-        gradient.addColorStop(0, '#c51f25');
-        gradient.addColorStop(1, '#e0262d');
+        
+        // Градиент
+        const gradient = ctx.createLinearGradient(0, canvas.height - barHeight, 0, canvas.height);
+        gradient.addColorStop(0, '#e0262d');
+        gradient.addColorStop(1, '#c51f25');
+        
         ctx.fillStyle = gradient;
         ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        
         x += barWidth + 1;
     }
 }
