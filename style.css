@@ -2915,12 +2915,33 @@ select {
     border: none;
     border-radius: 50%;
     color: #fff;
+    font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 8px 20px rgba(197, 31, 37, 0.4);
     transition: all 0.3s;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Опустить кнопку плей в плейлисте */
+.playlist-controls .play-track-btn {
+    margin-top: 5px;
+}
+
+/* Убрать SVG смайлики */
+.playlist-controls button svg {
+    display: none;
+}
+
+.playlist-controls button {
+    background: none;
+    border: none;
+    color: #ddd;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .radio-play-btn:hover,
