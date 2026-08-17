@@ -2903,3 +2903,26 @@ select {
     text-decoration: none;
     margin-left: auto;
 }
+.radio-play-btn,
+.playlist-controls .play-track-btn {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    background: #c51f25;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(197, 31, 37, 0.4);
+    transition: all 0.3s;
+}
+
+.radio-play-btn:hover,
+.playlist-controls .play-track-btn:hover {
+    background: #e0262d;
+    transform: scale(1.05);
+}
