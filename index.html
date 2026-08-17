@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>ArtyomCut — Barbershop | Хихон</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
     <!-- =========================
          ШАПКА САЙТА
     ========================== -->
 
     <header class="header">
-
         <div class="container header-inner">
-
-            <!-- ЛОГОТИП -->
             <a href="#" class="logo">
                 <img src="images/logo/logo.png" alt="ArtyomCut Barbershop">
             </a>
 
-            <!-- МЕНЮ -->
-            <nav class="nav">
+            <!-- БУРГЕР-КНОПКА ДЛЯ ТЕЛЕФОНА -->
+            <button class="burger-btn" id="burgerBtn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
+            <nav class="nav" id="mobileNav">
                 <a href="#home" class="active">ГЛАВНАЯ</a>
                 <a href="#services">УСЛУГИ</a>
                 <a href="#master">МАСТЕР</a>
@@ -33,506 +34,271 @@
                 <a href="#music">МУЗЫКА</a>
                 <a href="#booking">ЗАПИСЬ</a>
                 <a href="#contacts">КОНТАКТЫ</a>
-
             </nav>
 
-            <!-- СОЦСЕТИ -->
             <div class="socials">
-
                 <a href="https://www.instagram.com/artembarbercat/" target="_blank" aria-label="Instagram" class="social-link">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="currentColor"/>
-                    </svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                 </a>
-
                 <a href="https://t.me/artyomcut" target="_blank" aria-label="Telegram" class="social-link">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" fill="currentColor"/>
-                    </svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                 </a>
-
             </div>
-
         </div>
-
     </header>
-
-
-    <!-- =========================
-         ГЛАВНЫЙ ЭКРАН
-    ========================== -->
 
     <main>
 
+        <!-- ГЛАВНЫЙ ЭКРАН -->
         <section id="home" class="hero">
-
             <div class="container hero-inner">
-
-                <!-- ЛЕВАЯ ЧАСТЬ -->
                 <div class="hero-content">
-
-                    <div class="small-title">
-                        ARTYOMCUT BARBERSHOP
-                    </div>
-
-                    <h1>
-    СТИЛЬ<br>
-    <span>РЕШАЕТ</span><br>
-    ВСЁ.
-</h1>
-
-                    <p class="hero-subtitle">
-                        ТВОЙ СТИЛЬ. ТВОИ ПРАВИЛА.
-                    </p>
-
+                    <div class="small-title">ARTYOMCUT BARBERSHOP</div>
+                    <h1>СТИЛЬ<br><span>РЕШАЕТ</span><br>ВСЁ.</h1>
+                    <p class="hero-subtitle">ТВОЙ СТИЛЬ. ТВОИ ПРАВИЛА.</p>
                     <div class="hero-line"></div>
-
                     <div class="hero-buttons">
-
-                        <a href="#booking" class="btn btn-red">
-                            ЗАПИСАТЬСЯ
-                        </a>
-
-                        <a href="#gallery" class="btn btn-outline">
-                            НАШИ РАБОТЫ
-                        </a>
-
+                        <a href="#booking" class="btn btn-red">ЗАПИСАТЬСЯ</a>
+                        <a href="#gallery" class="btn btn-outline">НАШИ РАБОТЫ</a>
                     </div>
-
                 </div>
-
-
-                <!-- ПРАВАЯ ЧАСТЬ -->
                 <div class="hero-image">
-
-                    <img
-                        src="images/barber/hero.jpeg"
-                        alt="ArtyomCut Barber"
-                    >
-
+                    <img src="images/barber/hero.jpeg" alt="ArtyomCut Barber">
                 </div>
-
             </div>
-
         </section>
 
-
-        <!-- =========================
-             УСЛУГИ
-        ========================== -->
-
-<section id="services" class="services">
-    <div class="container">
-        <div class="services-heading">
-            <h2>НАШИ <span>УСЛУГИ</span></h2>
-        </div>
-        
-        <div class="services-grid">
-            <!-- Карточка 1 -->
-<div class="service-card" onclick="selectService('Стрижка')">
-    <img src="images/services/haircut.jpg" alt="Мужская стрижка">
-    <div class="service-overlay">
-        <h3>СТРИЖКА</h3>
-        <span class="service-type">ФЕЙД / КЛАССИКА / АНДЕРКАРТ</span>
-        <span class="price">20€</span>
-    </div>
-</div>
-
-<!-- Карточка 2 -->
-<div class="service-card" onclick="selectService('Борода')">
-    <img src="images/services/beard.jpg" alt="Борода">
-    <div class="service-overlay">
-        <h3>БОРОДА</h3>
-        <span class="service-type">БРИТЬЕ / УХОД</span>
-        <span class="price">15€</span>
-    </div>
-</div>
-
-<!-- Карточка 3 -->
-<div class="service-card" onclick="selectService('Стрижка + борода')">
-    <img src="images/services/combo.jpg" alt="Стрижка + борода">
-    <div class="service-overlay">
-        <h3>СТРИЖКА + БОРОДА</h3>
-        <span class="service-type">КОМПЛЕКС</span>
-        <span class="price">30€</span>
-    </div>
-</div>
-
-<!-- Карточка 4 -->
-<div class="service-card" onclick="selectService('Детская')">
-    <img src="images/services/kids.jpg" alt="Детская стрижка">
-    <div class="service-overlay">
-        <h3>ДЕТСКАЯ</h3>
-        <span class="service-type">ДО 12 ЛЕТ</span>
-        <span class="price">15€</span>
-    </div>
-</div>
-        </div>
-    </div>
-</section>
-
-
-        <!-- =========================
-             О МАСТЕРЕ
-        ========================== -->
-
-        <section id="master" class="about">
-
-            <div class="container about-inner">
-
-                <div class="about-text">
-    <h2>О МАСТЕРЕ</h2>
-    <div class="section-line"></div>
-    
-    <p>
-        Привет, я <span style="color: #c51f25; font-weight: 700;">АРТЁМ</span> — твой барбер в Хихоне.
-    </p>
-    
-    <p>
-        Более 10 лет я создаю стиль для мужчин, которые знают,
-        чего хотят. Для меня барберинг — это не просто стрижка,
-        это искусство подчеркнуть твой характер.
-    </p>
-    
-    <p>
-        Рок, барабаны, кофе и идеальный фейд — вот моя формула.
-        Приходи, и ты поймёшь, почему мои клиенты возвращаются.
-    </p>
-    
-    <p style="color: #c51f25; font-size: 24px; font-weight: 900; font-style: italic;">
-        Твой стиль. Твои правила.
-    </p>
-</div>
-
-                <div class="about-gallery">
-
-                    <img
-                        src="images/barber/barber-1.jpeg"
-                        alt="ArtyomCut"
-                    >
-
-                    <img
-                        src="images/barber/barber-2.jpeg"
-                        alt="ArtyomCut Barber"
-                    >
-
-                    <img
-                        src="images/barber/barber-3.jpeg"
-                        alt="ArtyomCut"
-                    >
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             ГАЛЕРЕЯ
-        ========================== -->
-
-        <section id="gallery" class="gallery">
-
+        <!-- УСЛУГИ -->
+        <section id="services" class="services">
             <div class="container">
-
-                <div class="section-heading">
-    <h2>
-        ГАЛЕРЕЯ <span>РАБОТ</span>
-    </h2>
-    <a href="gallery.html" style="position: relative; z-index: 100; display: inline-block;">
-        СМОТРЕТЬ ВСЕ →
-    </a>
-</div>
-
-
-                <div class="gallery-grid">
-
-                    <img
-                        src="images/works/work-1.jpeg"
-                        alt="Работа ArtyomCut"
-                    >
-
-                    <img
-                        src="images/works/work-2.jpeg"
-                        alt="Работа ArtyomCut"
-                    >
-
-                    <img
-                        src="images/works/work-3.jpeg"
-                        alt="Работа ArtyomCut"
-                    >
-
-                    <img
-                        src="images/works/work-4.jpeg"
-                        alt="Работа ArtyomCut"
-                    >
-
+                <div class="services-heading">
+                    <h2>НАШИ <span>УСЛУГИ</span></h2>
                 </div>
-
+                <div class="services-grid">
+                    <div class="service-card" onclick="selectService('СТРИЖКА')">
+                        <img src="images/services/haircut.jpg" alt="Мужская стрижка">
+                        <div class="service-overlay">
+                            <h3>СТРИЖКА</h3>
+                            <span class="service-type">ФЕЙД / КЛАССИКА / АНДЕРКАРТ</span>
+                            <span class="price">20€</span>
+                        </div>
+                    </div>
+                    <div class="service-card" onclick="selectService('БОРОДА')">
+                        <img src="images/services/beard.jpg" alt="Борода">
+                        <div class="service-overlay">
+                            <h3>БОРОДА</h3>
+                            <span class="service-type">БРИТЬЕ / УХОД</span>
+                            <span class="price">15€</span>
+                        </div>
+                    </div>
+                    <div class="service-card" onclick="selectService('СТРИЖКА + БОРОДА')">
+                        <img src="images/services/combo.jpg" alt="Стрижка + борода">
+                        <div class="service-overlay">
+                            <h3>СТРИЖКА + БОРОДА</h3>
+                            <span class="service-type">КОМПЛЕКС</span>
+                            <span class="price">30€</span>
+                        </div>
+                    </div>
+                    <div class="service-card" onclick="selectService('ДЕТСКАЯ')">
+                        <img src="images/services/kids.jpg" alt="Детская стрижка">
+                        <div class="service-overlay">
+                            <h3>ДЕТСКАЯ</h3>
+                            <span class="service-type">ДО 12 ЛЕТ</span>
+                            <span class="price">15€</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </section>
 
-
-<!-- =========================
-     МУЗЫКА
-========================== -->
-
-<section id="music" class="music">
-    <div class="container">
-        <h2>
-            МУЗЫКА <span>⚡</span>
-        </h2>
-
-        <div class="music-players">
-            <!-- РАДИО -->
-            <div class="radio-player">
-                <div class="player-header">
-                    <span class="radio-icon">📻</span>
-                    <h3>ARTYOMCUT RADIO</h3>
-                    <span class="live-badge">🔴 LIVE</span>
+        <!-- О МАСТЕРЕ -->
+        <section id="master" class="about">
+            <div class="container about-inner">
+                <div class="about-text">
+                    <h2>О МАСТЕРЕ</h2>
+                    <div class="section-line"></div>
+                    <p>Привет, я <span style="color: #c51f25; font-weight: 700;">АРТЁМ</span> — твой барбер в Хихоне.</p>
+                    <p>Более 10 лет я создаю стиль для мужчин, которые знают, чего хотят. Для меня барберинг — это не просто стрижка, это искусство подчеркнуть твой характер.</p>
+                    <p>Рок, барабаны, кофе и идеальный фейд — вот моя формула. Приходи, и ты поймёшь, почему мои клиенты возвращаются.</p>
+                    <p style="color: #c51f25; font-size: 24px; font-weight: 900; font-style: italic;">Твой стиль. Твои правила.</p>
                 </div>
-
-                <div class="radio-info">
-                    <p class="radio-status">ROCK • 80s • CLASSIC</p>
-                </div>
-
-                <canvas id="visualizer" width="600" height="100"></canvas>
-
-                <div class="radio-controls">
-                    <button class="radio-play-btn" id="radioPlayBtn">▶</button>
-                    <div class="volume-control">
-                        <span>🔊</span>
-                        <input type="range" id="radioVolume" min="0" max="100" value="70">
-                    </div>
+                <div class="about-gallery">
+                    <img src="images/barber/barber-1.jpeg" alt="ArtyomCut">
+                    <img src="images/barber/barber-2.jpeg" alt="ArtyomCut Barber">
+                    <img src="images/barber/barber-3.jpeg" alt="ArtyomCut">
                 </div>
             </div>
-            <!-- ПЛЕЙЛИСТ -->
-            <div class="playlist-player">
-                <div class="player-header">
-                    <span class="playlist-icon">🎸</span>
-                    <h3>ARTYOMCUT PLAYLIST</h3>
+        </section>
+
+        <!-- ГАЛЕРЕЯ -->
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>ГАЛЕРЕЯ <span>РАБОТ</span></h2>
+                    <a href="gallery.html" style="position: relative; z-index: 100; display: inline-block;">СМОТРЕТЬ ВСЕ →</a>
                 </div>
-
-                <div class="radio-info">
-                    <p class="radio-status">MY SELECTION</p>
-                </div>
-
-                <canvas id="playlistVisualizer" width="600" height="100"></canvas>
-
-                <div class="playlist-tracks" id="playlistTracks"></div>
-
-                <div class="playlist-controls">
-                    <button id="prevTrackBtn">⏮</button>
-                    <button id="playTrackBtn" class="play-track-btn">▶</button>
-                    <button id="nextTrackBtn">⏭</button>
-                </div>
-
-                <div class="current-track-info">
-                    <span id="currentTrackName"></span>
+                <div class="gallery-grid">
+                    <img src="images/works/work-1.jpeg" alt="Работа ArtyomCut">
+                    <img src="images/works/work-2.jpeg" alt="Работа ArtyomCut">
+                    <img src="images/works/work-3.jpeg" alt="Работа ArtyomCut">
+                    <img src="images/works/work-4.jpeg" alt="Работа ArtyomCut">
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-
-        <!-- =========================
-             ЗАПИСЬ
-        ========================== -->
-
-<!-- =========================
-     ЗАПИСЬ
-========================== -->
-
-<section id="booking" class="booking">
-    <div class="container">
-        <h2>ОНЛАЙН-ЗАПИСЬ</h2>
-        
-        <div class="booking-container-new">
-            <!-- ТРИ РАМКИ НА ОДНОЙ ЛИНИИ -->
-            <div class="booking-layout-3">
-                <!-- 1. КАЛЕНДАРЬ -->
-                <div class="booking-frame">
-                    <label class="booking-label">1. ВЫБЕРИТЕ ДАТУ</label>
-                    <div class="calendar">
-                        <div class="calendar-header">
-                            <button class="calendar-nav" onclick="changeMonth(-1)">‹</button>
-                            <span id="calendarMonth">АВГУСТ 2026</span>
-                            <button class="calendar-nav" onclick="changeMonth(1)">›</button>
+        <!-- МУЗЫКА -->
+        <section id="music" class="music">
+            <div class="container">
+                <h2>МУЗЫКА <span>⚡</span></h2>
+                <div class="music-players">
+                    <div class="radio-player">
+                        <div class="player-header">
+                            <span class="radio-icon">📻</span>
+                            <h3>ARTYOMCUT RADIO</h3>
+                            <span class="live-badge">🔴 LIVE</span>
                         </div>
-                        <div class="calendar-weekdays">
-                            <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+                        <div class="radio-info">
+                            <p class="radio-status">ROCK • 80s • CLASSIC</p>
                         </div>
-                        <div class="calendar-days" id="calendarDays"></div>
-                    </div>
-                </div>
-                
-                <!-- 2. УСЛУГА -->
-                <div class="booking-frame">
-                    <label class="booking-label">2. ВЫБЕРИТЕ УСЛУГУ</label>
-                    <div class="service-options" id="serviceOptions">
-                        <div class="service-option-item" onclick="selectServiceOption('Стрижка', this)">
-    <div class="service-radio">
-        <span class="radio-dot"></span>
-    </div>
-    <div>
-        <h3>СТРИЖКА</h3>
-        <p>Фейд / Классика / Андеркарт</p>
-        <span class="service-price">20€</span>
-    </div>
-</div>
-                        
-                        <div class="service-option-item" onclick="selectServiceOption('Стрижка + борода', this)">
-                            <div class="service-radio">
-                                <span class="radio-dot"></span>
-                            </div>
-                            <div>
-                                <h3>СТРИЖКА + БОРОДА</h3>
-                                <p>Комплекс</p>
-                                <span class="service-price">30€</span>
-                            </div>
-                        </div>
-                        
-                        <div class="service-option-item" onclick="selectServiceOption('Борода', this)">
-                            <div class="service-radio">
-                                <span class="radio-dot"></span>
-                            </div>
-                            <div>
-                                <h3>БОРОДА</h3>
-                                <p>Бритье / Уход</p>
-                                <span class="service-price">15€</span>
-                            </div>
-                        </div>
-                        
-                        <div class="service-option-item" onclick="selectServiceOption('Детская стрижка', this)">
-                            <div class="service-radio">
-                                <span class="radio-dot"></span>
-                            </div>
-                            <div>
-                                <h3>ДЕТСКАЯ</h3>
-                                <p>До 12 лет</p>
-                                <span class="service-price">15€</span>
+                        <canvas id="visualizer" width="600" height="100"></canvas>
+                        <div class="radio-controls">
+                            <button class="radio-play-btn" id="radioPlayBtn">▶</button>
+                            <div class="volume-control">
+                                <span>🔊</span>
+                                <input type="range" id="radioVolume" min="0" max="100" value="70">
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- 3. ВРЕМЯ -->
-                <div class="booking-frame">
-                    <label class="booking-label">3. ВЫБЕРИТЕ ВРЕМЯ</label>
-                    <div class="time-buttons-grid" id="timeGroups">
-                        <p class="time-placeholder">Сначала выберите дату</p>
+                    <div class="playlist-player">
+                        <div class="player-header">
+                            <span class="playlist-icon">🎸</span>
+                            <h3>ARTYOMCUT PLAYLIST</h3>
+                        </div>
+                        <div class="radio-info">
+                            <p class="radio-status">MY SELECTION</p>
+                        </div>
+                        <canvas id="playlistVisualizer" width="600" height="100"></canvas>
+                        <div class="playlist-tracks" id="playlistTracks"></div>
+                        <div class="playlist-controls">
+                            <button id="prevTrackBtn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                            </button>
+                            <button id="playTrackBtn" class="play-track-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                            <button id="nextTrackBtn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 6l8.5 6L6 18z"/></svg>
+                            </button>
+                        </div>
+                        <div class="current-track-info">
+                            <span id="currentTrackName"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- КНОПКА -->
-            <div class="booking-btn-row">
-                <button class="btn btn-red" onclick="proceedToBooking()">ЗАПИСАТЬСЯ →</button>
-            </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-
-        <!-- =========================
-     КОНТАКТЫ
-========================== -->
-
-<section id="contacts" class="contacts">
-    <div class="container">
-        <div class="contacts-layout">
-            <!-- КАРТА СЛЕВА -->
-            <div class="map-frame">
-                <iframe 
-                    src="https://www.google.com/maps?q=Calle+de+San+Manuel+13,+33210+Gij%C3%B3n,+Asturias,+Spain&output=embed&z=18" 
-                    width="100%" 
-                    height="450" 
-                    style="border: 0; border-radius: 10px;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-                
-                <a href="https://www.google.com/maps/dir/?api=1&destination=Calle+de+San+Manuel+13,+33210+Gij%C3%B3n,+Asturias" 
-                   target="_blank" 
-                   class="btn btn-red btn-route">
-                    🧭 ПОСТРОИТЬ МАРШРУТ
-                </a>
-            </div>
-            
-            <!-- КОНТАКТЫ СПРАВА -->
-            <div class="contacts-frame">
-                <div class="contact-item">
-                    <span class="contact-icon">📍</span>
-                    <div>
-                        <h3>АДРЕС</h3>
-                        <p>Calle de San Manuel, 13</p>
-                        <span>Centro, 33210 Gijón</span>
+        <!-- ЗАПИСЬ -->
+        <section id="booking" class="booking">
+            <div class="container">
+                <h2>ОНЛАЙН-ЗАПИСЬ</h2>
+                <div class="booking-container-new">
+                    <div class="booking-layout-3">
+                        <div class="booking-frame">
+                            <label class="booking-label">1. ВЫБЕРИТЕ ДАТУ</label>
+                            <div class="calendar">
+                                <div class="calendar-header">
+                                    <button class="calendar-nav" onclick="changeMonth(-1)">‹</button>
+                                    <span id="calendarMonth">АВГУСТ 2026</span>
+                                    <button class="calendar-nav" onclick="changeMonth(1)">›</button>
+                                </div>
+                                <div class="calendar-weekdays">
+                                    <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+                                </div>
+                                <div class="calendar-days" id="calendarDays"></div>
+                            </div>
+                        </div>
+                        <div class="booking-frame">
+                            <label class="booking-label">2. ВЫБЕРИТЕ УСЛУГУ</label>
+                            <div class="service-options">
+                                <div class="service-option-item" onclick="selectServiceOption('Стрижка', this)">
+                                    <div class="service-radio"><span class="radio-dot"></span></div>
+                                    <div><h3>СТРИЖКА</h3><p>Фейд / Классика / Андеркарт</p><span class="service-price">20€</span></div>
+                                </div>
+                                <div class="service-option-item" onclick="selectServiceOption('Стрижка + борода', this)">
+                                    <div class="service-radio"><span class="radio-dot"></span></div>
+                                    <div><h3>СТРИЖКА + БОРОДА</h3><p>Комплекс</p><span class="service-price">30€</span></div>
+                                </div>
+                                <div class="service-option-item" onclick="selectServiceOption('Борода', this)">
+                                    <div class="service-radio"><span class="radio-dot"></span></div>
+                                    <div><h3>БОРОДА</h3><p>Бритье / Уход</p><span class="service-price">15€</span></div>
+                                </div>
+                                <div class="service-option-item" onclick="selectServiceOption('Детская стрижка', this)">
+                                    <div class="service-radio"><span class="radio-dot"></span></div>
+                                    <div><h3>ДЕТСКАЯ</h3><p>До 12 лет</p><span class="service-price">15€</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="booking-frame">
+                            <label class="booking-label">3. ВЫБЕРИТЕ ВРЕМЯ</label>
+                            <div class="time-buttons-grid" id="timeGroups">
+                                <p class="time-placeholder">Сначала выберите дату</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="contact-divider"></div>
-                
-                <div class="contact-item">
-                    <span class="contact-icon">☎</span>
-                    <div>
-                        <h3>ТЕЛЕФОН</h3>
-                        <p>+34 602 692 534</p>
-                    </div>
-                </div>
-                
-                <div class="contact-divider"></div>
-                
-                <div class="contact-item">
-                    <span class="contact-icon">✈️</span>
-                    <div>
-                        <h3>TELEGRAM</h3>
-                        <p>@artyomcut</p>
-                    </div>
-                </div>
-                
-                <div class="contact-divider"></div>
-                
-                <div class="contact-item">
-                    <span class="contact-icon">◎</span>
-                    <div>
-                        <h3>INSTAGRAM</h3>
-                        <p>@artembarbercat</p>
+                    <div class="booking-btn-row">
+                        <button class="btn btn-red" onclick="proceedToBooking()">ЗАПИСАТЬСЯ →</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
+        <!-- КОНТАКТЫ -->
+        <section id="contacts" class="contacts">
+            <div class="container">
+                <div class="contacts-layout">
+                    <div class="map-frame">
+                        <iframe src="https://www.google.com/maps?q=Calle+de+San+Manuel+13,+33210+Gij%C3%B3n,+Asturias,+Spain&output=embed&z=18" width="100%" height="450" style="border: 0; border-radius: 10px;" allowfullscreen="" loading="lazy"></iframe>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Calle+de+San+Manuel+13,+33210+Gij%C3%B3n,+Asturias" target="_blank" class="btn btn-red btn-route">🧭 ПОСТРОИТЬ МАРШРУТ</a>
+                    </div>
+                    <div class="contacts-frame">
+                        <div class="contact-item">
+                            <span class="contact-icon">📍</span>
+                            <div><h3>АДРЕС</h3><p>Calle de San Manuel, 13</p><span>Centro, 33210 Gijón</span></div>
+                        </div>
+                        <div class="contact-divider"></div>
+                        <div class="contact-item">
+                            <span class="contact-icon">☎</span>
+                            <div><h3>ТЕЛЕФОН</h3><p>+34 602 692 534</p></div>
+                        </div>
+                        <div class="contact-divider"></div>
+                        <div class="contact-item">
+                            <span class="contact-icon">✈️</span>
+                            <div><h3>TELEGRAM</h3><p>@artyomcut</p></div>
+                        </div>
+                        <div class="contact-divider"></div>
+                        <div class="contact-item">
+                            <span class="contact-icon">◎</span>
+                            <div><h3>INSTAGRAM</h3><p>@artembarbercat</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- =========================
-         ПОДВАЛ
-    ========================== -->
+    </main>
 
+    <!-- ПОДВАЛ -->
     <footer class="footer">
-    <div class="container">
-        <p>
-            © 2026 ArtyomCut Barbershop — Gijón
-        </p>
-        
-        <p>
-            ROCK & CUTS ⚡ SINCE 2021
-        </p>
-        <!-- ССЫЛКА НА АДМИН-ПАНЕЛЬ -->
-<a href="admin.html" class="admin-link" aria-label="Админ-панель">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 15.5A3.5 3.5 0 100 12a3.5 3.5 0 000 7zM19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 8.9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 012.83-2.83l.06.06A1.7 1.7 0 008.9 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09a1.7 1.7 0 001.04 1.56 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 012.83 2.83l-.06.06A1.7 1.7 0 0019.4 8.9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.56 1.04z" fill="currentColor"/>
-    </svg>
-</a>
-    </div>
-</footer>
-
+        <div class="container">
+            <p>© 2026 ArtyomCut Barbershop — Gijón</p>
+            <p>ROCK & CUTS ⚡ SINCE 2021</p>
+            <a href="admin.html" class="admin-link" aria-label="Админ-панель">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5A3.5 3.5 0 100 12a3.5 3.5 0 000 7zM19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 8.9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 012.83-2.83l.06.06A1.7 1.7 0 008.9 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09a1.7 1.7 0 001.04 1.56 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 012.83 2.83l-.06.06A1.7 1.7 0 0019.4 8.9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.56 1.04z"/></svg>
+            </a>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
-
 </body>
 </html>
