@@ -486,7 +486,10 @@ function playTrack(index) {
     trackAudio.src = playlist[index].src;
     trackAudio.play().then(() => {
         isTrackPlaying = true;
-        if (playTrackBtn) playTrackBtn.textContent = '⏸';
+        if (playTrackBtn) {
+            playTrackBtn.textContent = '⏸';
+            playTrackBtn.style.fontSize = '22px';
+        }
         if (currentTrackName) currentTrackName.textContent = `${playlist[index].artist} — ${playlist[index].title}`;
         displayPlaylist();
     }).catch(() => alert('Не удалось загрузить трек'));
