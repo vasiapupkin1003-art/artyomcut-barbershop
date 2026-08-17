@@ -2949,3 +2949,73 @@ select {
     background: #e0262d;
     transform: scale(1.05);
 }
+/* КНОПКА PLAY РАДИО */
+.radio-play-btn {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    background: #c51f25;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(197, 31, 37, 0.4);
+    transition: all 0.3s;
+    padding: 0;
+    line-height: 1;
+}
+
+/* КНОПКА PLAY ПЛЕЙЛИСТА — ТАКАЯ ЖЕ */
+.playlist-controls .play-track-btn {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    background: #c51f25;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(197, 31, 37, 0.4);
+    transition: all 0.3s;
+    padding: 0;
+    line-height: 1;
+    margin-top: 5px;
+}
+
+/* УБРАТЬ SVG ИЗ КНОПОК ПЕРЕМОТКИ */
+.playlist-controls button:not(.play-track-btn) {
+    background: none;
+    border: none;
+    color: #ddd;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.playlist-controls button:not(.play-track-btn) svg {
+    display: none;
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ — БЕЗ СМАЙЛИКОВ */
+@media (max-width: 768px) {
+    .radio-play-btn,
+    .playlist-controls .play-track-btn {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        min-height: 55px;
+        font-size: 22px;
+    }
+}
