@@ -2730,3 +2730,72 @@ select {
         order: 4;
     }
 }
+@media (max-width: 768px) {
+    /* Скрыть ползунок громкости на телефоне */
+    .volume-control input[type="range"] {
+        display: none;
+    }
+    
+    /* Оставить только иконку звука */
+    .volume-control span {
+        font-size: 22px;
+        cursor: pointer;
+    }
+    
+    /* Эквалайзер видимый */
+    #visualizer,
+    #playlistVisualizer {
+        height: 120px;
+        min-height: 120px;
+        display: block;
+        background: #0a0c0d;
+    }
+    
+    /* Кнопка play красивая */
+    .radio-play-btn {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        background: #c51f25;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #fff;
+    }
+    
+    .radio-play-btn svg {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* Плейлист play кнопка */
+    .playlist-controls .play-track-btn {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        background: #c51f25;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        margin-bottom: 10px;
+    }
+    
+    .playlist-controls .play-track-btn svg {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* Кнопки перемотки */
+    .playlist-controls button {
+        color: #fff;
+        background: none;
+        border: none;
+    }
+}
