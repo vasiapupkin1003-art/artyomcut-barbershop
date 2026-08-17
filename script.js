@@ -538,3 +538,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🚀 Сайт загружен');
+function toggleMobileMenu() {
+    const nav = document.getElementById('mobileNav');
+    nav.classList.toggle('open');
+    
+    // Закрыть меню при клике на ссылку
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+            nav.classList.remove('open');
+        });
+    });
+}
