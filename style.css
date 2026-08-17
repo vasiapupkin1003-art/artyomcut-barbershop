@@ -2615,12 +2615,12 @@ select {
 }
 @media (max-width: 768px) {
     .about-gallery {
-        grid-template-columns: 1fr;
-        gap: 10px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
     }
     
     .about-gallery img {
-        height: 250px;
+        height: 150px;
         object-fit: cover;
     }
 }
