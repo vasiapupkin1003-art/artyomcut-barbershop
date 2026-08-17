@@ -373,25 +373,24 @@ function drawVisualizer() {
     
     analyser.getByteFrequencyData(dataArray);
     
-    // Очищаем canvas
     ctx.fillStyle = '#0a0c0d';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    const barWidth = (canvas.width / dataArray.length) * 2.5;
+    const barWidth = canvas.width / 64; // 64 бара
     let x = 0;
     
-    for (let i = 0; i < dataArray.length; i++) {
-        const barHeight = (dataArray[i] / 255) * canvas.height;
+    for (let i = 0; i < 64; i++) {
+        const value = dataArray[i] || 0;
+        const barHeight = (value / 255) * canvas.height;
         
-        // Градиент
-        const gradient = ctx.createLinearGradient(0, canvas.height - barHeight, 0, canvas.height);
-        gradient.addColorStop(0, '#e0262d');
-        gradient.addColorStop(1, '#c51f25');
+        const gradient = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - barHeight);
+        gradient.addColorStop(0, '#c51f25');
+        gradient.addColorStop(1, '#e0262d');
         
         ctx.fillStyle = gradient;
-        ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
         
-        x += barWidth + 1;
+        x += barWidth;
     }
 }
 
