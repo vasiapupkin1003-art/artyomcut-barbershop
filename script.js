@@ -394,23 +394,51 @@ function drawVisualizer() {
     }
 }
 
+// РАДИО
 if (radioPlayBtn) {
     radioPlayBtn.addEventListener('click', function() {
         if (!isRadioPlaying) {
             initRadioAudioContext();
             radioAudio.play().then(() => {
                 isRadioPlaying = true;
-                this.textContent = '⏸';
-                this.style.fontSize = '24px';
+                this.textContent = '⏸'; // ПАУЗА
                 drawVisualizer();
             }).catch(() => alert('Не удалось загрузить радио'));
         } else {
             radioAudio.pause();
             isRadioPlaying = false;
-            this.textContent = '▶';
-            this.style.fontSize = '24px';
+            this.textContent = '▶'; // PLAY
             if (ctx) { ctx.fillStyle = '#0a0c0d'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
         }
+    });
+}
+
+// ПЛЕЙЛИСТ
+function playTrack(index) {
+    currentTrackIndex = index;
+    trackAudio.src = playlist[index].src;
+    trackAudio.play().then(() => {
+        isTrackPlaying = true;
+        if (playTrackBtn) playTrackBtn.textContent = '⏸'; // ПАУЗА
+        if (currentTrackName) currentTrackName.textContent = `${playlist[index].artist} — ${playlist[index].title}`;
+        displayPlaylist();
+    }).catch(() => alert('Не удалось загрузить трек'));
+}
+
+if (playTrackBtn) {
+    playTrackBtn.addEventListener('click', function() {
+        if (currentTrackIndex === -1) { playTrack(0); return; }
+        if (!isTrackPlaying) { 
+            trackAudio.play(); 
+            isTrackPlaying = true; 
+            this.textContent = '⏸'; // ПАУЗА
+        }
+        else { 
+            trackAudio.pause(); 
+            isTrackPlaying = false; 
+            this.textContent = '▶'; // PLAY
+        }
+        displayPlaylist();
     });
 }
 
