@@ -495,12 +495,21 @@ function playTrack(index) {
 if (playTrackBtn) {
     playTrackBtn.addEventListener('click', function() {
         if (currentTrackIndex === -1) { playTrack(0); return; }
-        if (!isTrackPlaying) { trackAudio.play(); isTrackPlaying = true; this.textContent = '⏸'; }
-        else { trackAudio.pause(); isTrackPlaying = false; this.textContent = '▶'; }
+        if (!isTrackPlaying) { 
+            trackAudio.play(); 
+            isTrackPlaying = true; 
+            this.textContent = '⏸';
+            this.style.fontSize = '22px';
+        }
+        else { 
+            trackAudio.pause(); 
+            isTrackPlaying = false; 
+            this.textContent = '▶';
+            this.style.fontSize = '22px';
+        }
         displayPlaylist();
     });
 }
-
 if (prevTrackBtn) prevTrackBtn.addEventListener('click', function() {
     if (currentTrackIndex > 0) playTrack(currentTrackIndex - 1);
     else playTrack(playlist.length - 1);
