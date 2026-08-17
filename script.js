@@ -355,8 +355,8 @@ function initRadioAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
-        analyser.fftSize = 128; // Меньше для более крупных баров
-        analyser.smoothingTimeConstant = 0.8;
+        analyser.fftSize = 128;
+        analyser.smoothingTimeConstant = 0.7;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         
         source = audioContext.createMediaElementSource(radioAudio);
