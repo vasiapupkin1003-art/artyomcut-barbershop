@@ -2893,3 +2893,13 @@ select {
         margin-left: 0;
     }
 }
+.btn-back-gallery {
+    background: #c51f25;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: auto;
+}
