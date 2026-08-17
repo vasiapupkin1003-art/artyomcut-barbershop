@@ -2690,3 +2690,43 @@ select {
         min-width: 150px;
     }
 }
+@media (max-width: 768px) {
+    .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 0;
+    }
+    
+    .logo {
+        min-width: auto;
+        flex: 1;
+    }
+    
+    .logo img {
+        height: 50px;
+    }
+    
+    /* Бургер справа */
+    .burger-btn {
+        display: flex;
+        order: 3;
+        margin-left: 5px;
+    }
+    
+    /* Соцсети слева от бургера */
+    .socials {
+        order: 2;
+        gap: 8px;
+    }
+    
+    .socials .social-link {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .nav {
+        order: 4;
+    }
+}
