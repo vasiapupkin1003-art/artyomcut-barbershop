@@ -12,7 +12,6 @@ function selectService(serviceName) {
         const title = item.querySelector('h3');
         if (title) {
             const titleText = title.textContent.toUpperCase().trim();
-            // ТОЛЬКО ТОЧНОЕ СОВПАДЕНИЕ
             if (titleText === searchName) {
                 item.classList.add('selected');
                 selectedService = title.textContent;
@@ -157,9 +156,9 @@ function renderCalendar() {
         if (isSelected) classes += ' selected';
         
         if (isPast || !isWorking) {
-            daysHTML += `<div class="${classes}" data-date="${dateString}">${day}</div>`;
+            daysHTML += `<div class="${classes}">${day}</div>`;
         } else {
-            daysHTML += `<div class="${classes}" data-date="${dateString}" onclick="selectDate('${dateString}')">${day}</div>`;
+            daysHTML += `<div class="${classes}" onclick="selectDate('${dateString}')">${day}</div>`;
         }
     }
     
@@ -350,7 +349,6 @@ if (radioVolume) radioVolume.value = 50;
 const canvas = document.getElementById('visualizer');
 const ctx = canvas ? canvas.getContext('2d') : null;
 
-// В initRadioAudioContext добавьте:
 function initRadioAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -358,87 +356,47 @@ function initRadioAudioContext() {
         analyser.fftSize = 128;
         analyser.smoothingTimeConstant = 0.7;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
-        
         source = audioContext.createMediaElementSource(radioAudio);
         source.connect(analyser);
         analyser.connect(audioContext.destination);
     }
 }
-// Исправьте drawVisualizer — убедитесь что canvas видим
 
 function drawVisualizer() {
     if (!analyser || !ctx || !isRadioPlaying) return;
-    
     requestAnimationFrame(drawVisualizer);
-    
     analyser.getByteFrequencyData(dataArray);
-    
     ctx.fillStyle = '#0a0c0d';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    const barWidth = canvas.width / 64; // 64 бара
+    const barWidth = canvas.width / 64;
     let x = 0;
-    
     for (let i = 0; i < 64; i++) {
         const value = dataArray[i] || 0;
         const barHeight = (value / 255) * canvas.height;
-        
         const gradient = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - barHeight);
         gradient.addColorStop(0, '#c51f25');
         gradient.addColorStop(1, '#e0262d');
-        
         ctx.fillStyle = gradient;
         ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
-        
         x += barWidth;
     }
 }
 
-// РАДИО
 if (radioPlayBtn) {
     radioPlayBtn.addEventListener('click', function() {
         if (!isRadioPlaying) {
             initRadioAudioContext();
             radioAudio.play().then(() => {
                 isRadioPlaying = true;
-                this.textContent = '⏸'; // ПАУЗА
+                this.textContent = '⏸';
                 drawVisualizer();
             }).catch(() => alert('Не удалось загрузить радио'));
         } else {
             radioAudio.pause();
             isRadioPlaying = false;
-            this.textContent = '▶'; // PLAY
+            this.textContent = '▶';
             if (ctx) { ctx.fillStyle = '#0a0c0d'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
         }
-    });
-}
-
-// ПЛЕЙЛИСТ
-function playTrack(index) {
-    currentTrackIndex = index;
-    trackAudio.src = playlist[index].src;
-    trackAudio.play().then(() => {
-        isTrackPlaying = true;
-        if (playTrackBtn) playTrackBtn.textContent = '⏸'; // ПАУЗА
-        if (currentTrackName) currentTrackName.textContent = `${playlist[index].artist} — ${playlist[index].title}`;
-        displayPlaylist();
-    }).catch(() => alert('Не удалось загрузить трек'));
-}
-
-if (playTrackBtn) {
-    playTrackBtn.addEventListener('click', function() {
-        if (currentTrackIndex === -1) { playTrack(0); return; }
-        if (!isTrackPlaying) { 
-            trackAudio.play(); 
-            isTrackPlaying = true; 
-            this.textContent = '⏸'; // ПАУЗА
-        }
-        else { 
-            trackAudio.pause(); 
-            isTrackPlaying = false; 
-            this.textContent = '▶'; // PLAY
-        }
-        displayPlaylist();
     });
 }
 
@@ -513,10 +471,7 @@ function playTrack(index) {
     trackAudio.src = playlist[index].src;
     trackAudio.play().then(() => {
         isTrackPlaying = true;
-        if (playTrackBtn) {
-            playTrackBtn.textContent = '⏸';
-            playTrackBtn.style.fontSize = '22px';
-        }
+        if (playTrackBtn) playTrackBtn.textContent = '⏸';
         if (currentTrackName) currentTrackName.textContent = `${playlist[index].artist} — ${playlist[index].title}`;
         displayPlaylist();
     }).catch(() => alert('Не удалось загрузить трек'));
@@ -529,17 +484,16 @@ if (playTrackBtn) {
             trackAudio.play(); 
             isTrackPlaying = true; 
             this.textContent = '⏸';
-            this.style.fontSize = '22px';
         }
         else { 
             trackAudio.pause(); 
             isTrackPlaying = false; 
             this.textContent = '▶';
-            this.style.fontSize = '22px';
         }
         displayPlaylist();
     });
 }
+
 if (prevTrackBtn) prevTrackBtn.addEventListener('click', function() {
     if (currentTrackIndex > 0) playTrack(currentTrackIndex - 1);
     else playTrack(playlist.length - 1);
@@ -577,6 +531,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ========================================
+// МОБИЛЬНОЕ МЕНЮ
+// ========================================
+
+function toggleMobileMenu() {
+    const nav = document.getElementById('mobileNav');
+    if (nav) {
+        nav.classList.toggle('open');
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                nav.classList.remove('open');
+            });
+        });
+    }
+}
+
+// ========================================
 // ДОСТУП К АДМИНКЕ
 // ========================================
 
@@ -593,14 +563,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🚀 Сайт загружен');
-function toggleMobileMenu() {
-    const nav = document.getElementById('mobileNav');
-    nav.classList.toggle('open');
-    
-    // Закрыть меню при клике на ссылку
-    nav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            nav.classList.remove('open');
-        });
-    });
-}
