@@ -362,14 +362,26 @@ function initRadioAudioContext() {
     }
 }
 
+// Исправьте drawVisualizer — убедитесь что canvas видим
+
 function drawVisualizer() {
     if (!analyser || !ctx || !isRadioPlaying) return;
+    
     requestAnimationFrame(drawVisualizer);
+    
+    // Убедимся что canvas не скрыт
+    if (canvas) {
+        canvas.style.display = 'block';
+    }
+    
     analyser.getByteFrequencyData(dataArray);
+    
     ctx.fillStyle = '#0a0c0d';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
     const barWidth = canvas.width / dataArray.length;
     let x = 0;
+    
     for (let i = 0; i < dataArray.length; i++) {
         const barHeight = (dataArray[i] / 255) * canvas.height;
         const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
