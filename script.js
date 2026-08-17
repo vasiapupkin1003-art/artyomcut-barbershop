@@ -350,18 +350,20 @@ if (radioVolume) radioVolume.value = 50;
 const canvas = document.getElementById('visualizer');
 const ctx = canvas ? canvas.getContext('2d') : null;
 
+// В initRadioAudioContext добавьте:
 function initRadioAudioContext() {
     if (!audioContext) {
-        audioContext = new AudioContext();
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
-        analyser.fftSize = 256;
+        analyser.fftSize = 128; // Меньше для более крупных баров
+        analyser.smoothingTimeConstant = 0.8;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
+        
         source = audioContext.createMediaElementSource(radioAudio);
         source.connect(analyser);
         analyser.connect(audioContext.destination);
     }
 }
-
 // Исправьте drawVisualizer — убедитесь что canvas видим
 
 function drawVisualizer() {
