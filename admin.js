@@ -1,0 +1,649 @@
+// ========================================
+// АДМИН-ПАНЕЛЬ С БЛОКИРОВКОЙ ДНЕЙ И ВРЕМЕНИ
+// ========================================
+
+let blockMonth = new Date().getMonth();
+let blockYear = new Date().getFullYear();
+
+const monthNames = ['ЯНВАРЬ', 'ФЕВРАЛЬ', 'МАРТ', 'АПРЕЛЬ', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГУСТ', 'СЕНТЯБРЬ', 'ОКТЯБРЬ', 'НОЯБРЬ', 'ДЕКАБРЬ'];
+const dayNamesRu = ['ВОСКРЕСЕНЬЕ', 'ПОНЕДЕЛЬНИК', 'ВТОРНИК', 'СРЕДА', 'ЧЕТВЕРГ', 'ПЯТНИЦА', 'СУББОТА'];
+
+function getBlockedDays() {
+    return JSON.parse(localStorage.getItem('blockedDays') || '[]');
+}
+
+function getTimeSettings() {
+    const settings = JSON.parse(localStorage.getItem('timeSettings') || 'null');
+    if (!settings) {
+        return {
+            monday: { start: '10:00', end: '20:00' },
+            tuesday: { start: '10:00', end: '20:00' },
+            wednesday: { start: '10:00', end: '20:00' },
+            thursday: { start: '10:00', end: '20:00' },
+            friday: { start: '10:00', end: '20:00' },
+            saturday: { start: '10:00', end: '18:00' },
+            sunday: { start: '10:00', end: '20:00' }
+        };
+    }
+    return settings;
+}
+
+function getSpecialDates() {
+    return JSON.parse(localStorage.getItem('specialDates') || '{}');
+}
+
+function renderBlockCalendar() {
+    const blockDays = document.getElementById('blockDays');
+    const blockMonthEl = document.getElementById('blockMonth');
+    
+    if (!blockDays || !blockMonthEl) return;
+    
+    blockMonthEl.textContent = `${monthNames[blockMonth]} ${blockYear}`;
+    
+    const blockedDays = getBlockedDays();
+    const specialDates = getSpecialDates();
+    const firstDay = new Date(blockYear, blockMonth, 1);
+    const lastDay = new Date(blockYear, blockMonth + 1, 0);
+    const startDay = (firstDay.getDay() + 6) % 7;
+    
+    let html = '';
+    
+    for (let i = 0; i < startDay; i++) {
+        html += '<div class="block-day empty"></div>';
+    }
+    
+    for (let day = 1; day <= lastDay.getDate(); day++) {
+        const dateString = `${blockYear}-${String(blockMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const isBlocked = blockedDays.includes(dateString);
+        const hasSpecial = specialDates[dateString] !== undefined;
+        
+        let classes = 'block-day';
+        if (isBlocked) classes += ' blocked';
+        if (hasSpecial && !isBlocked) classes += ' special';
+        
+        html += `<div class="${classes}" data-date="${dateString}" onclick="openDaySettings('${dateString}')">${day}</div>`;
+    }
+    
+    blockDays.innerHTML = html;
+    renderBlockedDaysList();
+}
+
+function openDaySettings(dateString) {
+    const blockedDays = getBlockedDays();
+    const specialDates = getSpecialDates();
+    const isBlocked = blockedDays.includes(dateString);
+    
+    const date = new Date(dateString);
+    const dayName = dayNamesRu[date.getDay()];
+    const formattedDate = `${dayName}, ${date.getDate()} ${monthNames[date.getMonth()].toLowerCase()}`;
+    
+    const currentSetting = specialDates[dateString] || { start: '10:00', end: '20:00' };
+    
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: #0d1011;
+            border: 1px solid #343839;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+        ">
+            <button id="closeDaySettingsBtn" style="
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 28px;
+                cursor: pointer;
+                z-index: 10001;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            ">×</button>
+            
+            <h3 style="color: #fff; font-size: 22px; margin-bottom: 25px; font-weight: 900;">${formattedDate}</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <button id="blockDayBtn" style="
+                    width: 100%;
+                    height: 55px;
+                    background: ${isBlocked ? '#27ae60' : '#c51f25'};
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    font-weight: 700;
+                    cursor: pointer;
+                    transition: 0.3s;
+                ">
+                    ${isBlocked ? '✅ РАЗБЛОКИРОВАТЬ ДЕНЬ' : '🚫 ЗАБЛОКИРОВАТЬ ДЕНЬ'}
+                </button>
+            </div>
+            
+            ${!isBlocked ? `
+            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <label style="display: block; color: #aaa6a0; font-size: 11px; margin-bottom: 8px;">С:</label>
+                    <div style="position: relative;">
+                        <input type="time" id="special-start" value="${currentSetting.start}" style="
+                            width: 100%;
+                            height: 55px;
+                            background: #0a0c0d;
+                            border: 1px solid #343839;
+                            color: #fff;
+                            padding: 0 45px 0 15px;
+                            border-radius: 5px;
+                            font-size: 18px;
+                            cursor: pointer;
+                        ">
+                        <button id="startArrowBtn" style="
+                            position: absolute;
+                            right: 5px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: 35px;
+                            height: 35px;
+                            background: #15191a;
+                            border: 1px solid #343839;
+                            border-radius: 5px;
+                            color: #aaa6a0;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 14px;
+                            z-index: 2;
+                        ">▼</button>
+                    </div>
+                </div>
+                
+                <div style="flex: 1;">
+                    <label style="display: block; color: #aaa6a0; font-size: 11px; margin-bottom: 8px;">ДО:</label>
+                    <div style="position: relative;">
+                        <input type="time" id="special-end" value="${currentSetting.end}" style="
+                            width: 100%;
+                            height: 55px;
+                            background: #0a0c0d;
+                            border: 1px solid #343839;
+                            color: #fff;
+                            padding: 0 45px 0 15px;
+                            border-radius: 5px;
+                            font-size: 18px;
+                            cursor: pointer;
+                        ">
+                        <button id="endArrowBtn" style="
+                            position: absolute;
+                            right: 5px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: 35px;
+                            height: 35px;
+                            background: #15191a;
+                            border: 1px solid #343839;
+                            border-radius: 5px;
+                            color: #aaa6a0;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 14px;
+                            z-index: 2;
+                        ">▼</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="saveSpecialTimeBtn" style="
+                width: 100%;
+                height: 50px;
+                background: #c51f25;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: 0.3s;
+            ">💾 СОХРАНИТЬ ВРЕМЯ</button>
+            ` : ''}
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Закрытие
+    const closeBtn = modal.querySelector('#closeDaySettingsBtn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            modal.remove();
+        });
+    }
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    // Блокировка
+    const blockBtn = modal.querySelector('#blockDayBtn');
+    if (blockBtn) {
+        blockBtn.addEventListener('click', function() {
+            toggleBlockDay(dateString);
+            modal.remove();
+        });
+    }
+    
+    // Поля времени
+    const startInput = modal.querySelector('#special-start');
+    const endInput = modal.querySelector('#special-end');
+    const startArrowBtn = modal.querySelector('#startArrowBtn');
+    const endArrowBtn = modal.querySelector('#endArrowBtn');
+    
+    function openTimePicker(input) {
+        if (input) {
+            if (input.showPicker) {
+                input.showPicker();
+            } else {
+                input.focus();
+                input.click();
+            }
+        }
+    }
+    
+    if (startArrowBtn && startInput) {
+        startArrowBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openTimePicker(startInput);
+        });
+    }
+    
+    if (endArrowBtn && endInput) {
+        endArrowBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openTimePicker(endInput);
+        });
+    }
+    
+    // Закрытие выпадающего списка после выбора времени
+    function closeTimePicker(input) {
+        if (!input) return;
+        input.blur();
+        
+        const dummy = document.createElement('input');
+        dummy.type = 'text';
+        dummy.style.cssText = 'position: fixed; top: -100px; left: -100px; width: 1px; height: 1px; opacity: 0;';
+        document.body.appendChild(dummy);
+        dummy.focus();
+        dummy.remove();
+    }
+    
+    if (startInput) {
+        startInput.addEventListener('change', function() {
+            if (this.value) {
+                closeTimePicker(this);
+            }
+        });
+    }
+    
+    if (endInput) {
+        endInput.addEventListener('change', function() {
+            if (this.value) {
+                closeTimePicker(this);
+            }
+        });
+    }
+    
+    // Сохранение
+    const saveTimeBtn = modal.querySelector('#saveSpecialTimeBtn');
+    
+    if (saveTimeBtn) {
+        saveTimeBtn.addEventListener('click', function() {
+            const start = startInput ? startInput.value : '10:00';
+            const end = endInput ? endInput.value : '20:00';
+            
+            const specialDates = getSpecialDates();
+            specialDates[dateString] = { start, end };
+            localStorage.setItem('specialDates', JSON.stringify(specialDates));
+            
+            modal.remove();
+            renderBlockCalendar();
+            alert('✅ Время сохранено!');
+        });
+    }
+}
+
+function toggleBlockDay(dateString) {
+    let blockedDays = getBlockedDays();
+    
+    const index = blockedDays.indexOf(dateString);
+    if (index > -1) {
+        blockedDays.splice(index, 1);
+    } else {
+        blockedDays.push(dateString);
+        
+        const specialDates = getSpecialDates();
+        delete specialDates[dateString];
+        localStorage.setItem('specialDates', JSON.stringify(specialDates));
+    }
+    
+    localStorage.setItem('blockedDays', JSON.stringify(blockedDays));
+    renderBlockCalendar();
+}
+
+function renderBlockedDaysList() {
+    const list = document.getElementById('blockedDaysList');
+    if (!list) return;
+    
+    const blockedDays = getBlockedDays();
+    
+    if (blockedDays.length === 0) {
+        list.innerHTML = '<p style="color: #aaa6a0;">Нет заблокированных дней</p>';
+        return;
+    }
+    
+    list.innerHTML = blockedDays.map(date => `
+        <div class="blocked-day-tag">
+            ${date}
+            <span class="remove" onclick="event.stopPropagation(); toggleBlockDay('${date}')">×</span>
+        </div>
+    `).join('');
+}
+
+function changeBlockMonth(delta) {
+    blockMonth += delta;
+    
+    if (blockMonth < 0) {
+        blockMonth = 11;
+        blockYear--;
+    } else if (blockMonth > 11) {
+        blockMonth = 0;
+        blockYear++;
+    }
+    
+    renderBlockCalendar();
+}
+
+function loadBookings() {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const container = document.getElementById('bookingsList');
+    
+    if (!container) return;
+    
+    if (bookings.length === 0) {
+        container.innerHTML = '<p style="color: #aaa6a0;">Нет записей</p>';
+        return;
+    }
+    
+    bookings.sort((a, b) => new Date(`${a.date} ${a.time}`) - new Date(`${b.date} ${b.time}`));
+    
+    container.innerHTML = bookings.map((booking, index) => `
+        <div class="booking-item">
+            <div>
+                <p><strong>${booking.name}</strong> — ${booking.service}</p>
+                <p style="color: #aaa6a0;">📅 ${booking.date} | 🕐 ${booking.time}</p>
+                <p style="color: #aaa6a0;">✈️ ${booking.telegram || 'Не указан'}</p>
+            </div>
+            <button class="btn-delete" onclick="deleteBooking(${index})">❌ УДАЛИТЬ</button>
+        </div>
+    `).join('');
+}
+
+function deleteBooking(index) {
+    let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    bookings.splice(index, 1);
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+    loadBookings();
+}
+
+renderBlockCalendar();
+loadBookings();
+// ========================================
+// УПРАВЛЕНИЕ ГАЛЕРЕЕЙ
+// ========================================
+
+// Получение фотографий галереи
+function getGalleryPhotos() {
+    return JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+}
+
+// Сохранение фотографий галереи
+function saveGalleryPhotos(photos) {
+    localStorage.setItem('galleryPhotos', JSON.stringify(photos));
+}
+
+// Добавление фото в галерею
+function addPhotoToGallery() {
+    const fileInput = document.getElementById('galleryPhotoInput');
+    const categorySelect = document.getElementById('galleryCategory');
+    
+    if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Выберите фотографию');
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    const category = categorySelect.value;
+    
+    // Читаем файл как Data URL
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const photos = getGalleryPhotos();
+        
+        photos.push({
+            src: e.target.result,
+            alt: 'Работа ' + (photos.length + 1),
+            category: category
+        });
+        
+        saveGalleryPhotos(photos);
+        
+        // Очищаем input
+        fileInput.value = '';
+        
+        // Обновляем список
+        renderGalleryPhotosList();
+        
+        alert('✅ Фото добавлено в галерею!');
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+// Отображение списка фотографий
+function renderGalleryPhotosList() {
+    const container = document.getElementById('galleryPhotosList');
+    if (!container) return;
+    
+    const photos = getGalleryPhotos();
+    
+    if (photos.length === 0) {
+        container.innerHTML = '<p style="color: #aaa6a0;">Нет фотографий</p>';
+        return;
+    }
+    
+    container.innerHTML = photos.map((photo, index) => `
+        <div class="gallery-photo-item">
+            <img src="${photo.src}" alt="${photo.alt}">
+            <button class="remove-photo" onclick="removeGalleryPhoto(${index})">×</button>
+        </div>
+    `).join('');
+}
+
+// Удаление фото из галереи
+function removeGalleryPhoto(index) {
+    const photos = getGalleryPhotos();
+    photos.splice(index, 1);
+    saveGalleryPhotos(photos);
+    renderGalleryPhotosList();
+    alert('✅ Фото удалено');
+}
+
+// Инициализация списка фото
+renderGalleryPhotosList();
+// ========================================
+// УПРАВЛЕНИЕ МУЗЫКОЙ (БЕЗ localStorage ДЛЯ ФАЙЛОВ)
+// ========================================
+
+function getPlaylistTracks() {
+    return JSON.parse(localStorage.getItem('playlistTracks') || '[]');
+}
+
+function savePlaylistTracks(tracks) {
+    localStorage.setItem('playlistTracks', JSON.stringify(tracks));
+}
+
+function addTrackToPlaylist() {
+    const fileInput = document.getElementById('trackFileInput');
+    
+    if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Выберите MP3 файл');
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    
+    // Проверяем размер файла (максимум 4 МБ для localStorage)
+    if (file.size > 4 * 1024 * 1024) {
+        alert('❌ Файл слишком большой! Максимум 4 МБ для localStorage.\n\nДля больших файлов нужен сервер.');
+        return;
+    }
+    
+    // Показываем полоску загрузки
+    const progressContainer = document.getElementById('uploadProgress');
+    const progressBar = document.getElementById('uploadProgressBar');
+    const progressText = document.getElementById('uploadProgressText');
+    
+    if (progressContainer) progressContainer.style.display = 'block';
+    if (progressBar) progressBar.style.width = '0%';
+    if (progressText) progressText.textContent = '0%';
+    
+    const fileName = file.name.replace('.mp3', '').replace(/_/g, ' ').replace(/-/g, ' ');
+    
+    let artist = 'Unknown Artist';
+    let title = fileName;
+    
+    if (fileName.includes(' - ')) {
+        const parts = fileName.split(' - ');
+        artist = parts[0].trim();
+        title = parts[1].trim();
+    } else if (fileName.includes(' — ')) {
+        const parts = fileName.split(' — ');
+        artist = parts[0].trim();
+        title = parts[1].trim();
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onprogress = function(e) {
+        if (e.lengthComputable) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            if (progressBar) progressBar.style.width = percent + '%';
+            if (progressText) progressText.textContent = percent + '%';
+        }
+    };
+    
+    reader.onload = function(e) {
+        if (progressBar) progressBar.style.width = '100%';
+        if (progressText) progressText.textContent = '100%';
+        
+        try {
+            const tracks = getPlaylistTracks();
+            tracks.push({
+                title: title,
+                artist: artist,
+                src: e.target.result
+            });
+            
+            savePlaylistTracks(tracks);
+            
+            fileInput.value = '';
+            
+            setTimeout(() => {
+                if (progressContainer) progressContainer.style.display = 'none';
+            }, 1000);
+            
+            renderPlaylistTracksList();
+            alert('✅ Трек "' + title + '" загружен!');
+        } catch (error) {
+            if (progressContainer) progressContainer.style.display = 'none';
+            alert('❌ Ошибка: файл слишком большой для localStorage.\nПопробуйте файл меньше 4 МБ.');
+            console.error('Ошибка сохранения:', error);
+        }
+    };
+    
+    reader.onerror = function() {
+        if (progressContainer) progressContainer.style.display = 'none';
+        alert('❌ Ошибка чтения файла');
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+function renderPlaylistTracksList() {
+    const container = document.getElementById('playlistTracksList');
+    if (!container) return;
+    
+    const tracks = getPlaylistTracks();
+    
+    if (tracks.length === 0) {
+        container.innerHTML = '<p style="color: #aaa6a0;">Нет треков</p>';
+        return;
+    }
+    
+    container.innerHTML = tracks.map((track, index) => `
+        <div style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #15191a;
+            border: 1px solid #343839;
+            border-radius: 5px;
+            padding: 12px 15px;
+        ">
+            <div>
+                <p style="font-weight: 700; color: #fff;">${track.artist}</p>
+                <p style="color: #aaa6a0; font-size: 13px;">${track.title}</p>
+            </div>
+            <button onclick="removePlaylistTrack(${index})" style="
+                background: #c51f25;
+                color: #fff;
+                border: none;
+                border-radius: 3px;
+                padding: 8px 15px;
+                cursor: pointer;
+                font-size: 12px;
+            ">❌</button>
+        </div>
+    `).join('');
+}
+
+function removePlaylistTrack(index) {
+    const tracks = getPlaylistTracks();
+    tracks.splice(index, 1);
+    savePlaylistTracks(tracks);
+    renderPlaylistTracksList();
+}
+
+renderPlaylistTracksList();

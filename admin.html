@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtyomCut Admin - Управление</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #07090a;
+            color: #e8e5df;
+            font-family: Arial, sans-serif;
+            padding: 40px 20px;
+        }
+        
+        .admin-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            color: #c51f25;
+            font-size: 36px;
+            font-style: italic;
+        }
+        
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #15191a;
+            border: 1px solid #343839;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+        
+        .btn-back:hover {
+            background: #c51f25;
+            border-color: #c51f25;
+        }
+        
+        .admin-section {
+            background: #111516;
+            border: 1px solid #292d2e;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .block-calendar {
+            background: #111516;
+            border: 1px solid #292d2e;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .block-calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .block-calendar-header span {
+            font-size: 24px;
+            font-weight: 900;
+        }
+        
+        .block-calendar-nav {
+            width: 40px;
+            height: 40px;
+            background: #15191a;
+            border: 1px solid #343839;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .block-calendar-nav:hover {
+            background: #c51f25;
+        }
+        
+        .block-calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+        
+        .block-calendar-weekdays span {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #aaa6a0;
+            padding: 8px;
+        }
+        
+        .block-calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .block-day {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #15191a;
+            border: 1px solid #292d2e;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .block-day:hover {
+            background: #1a1f20;
+            border-color: #c51f25;
+        }
+        
+        .block-day.blocked {
+            background: #c51f25;
+            border-color: #c51f25;
+            color: #fff;
+            font-weight: 700;
+        }
+        
+        .block-day.special {
+            border-color: #f39c12;
+            color: #f39c12;
+        }
+        
+        .block-day.empty {
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
+        
+        #special-start,
+        #special-end {
+            width: 100%;
+            height: 55px;
+            background: #0a0c0d;
+            border: 1px solid #343839;
+            color: #fff;
+            padding: 0 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .blocked-days-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .blocked-day-tag {
+            background: #c51f25;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .blocked-day-tag .remove {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        /* ГАЛЕРЕЯ */
+        .gallery-photo-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .gallery-photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-photo-item .remove-photo {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #c51f25;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bookings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .booking-item {
+            background: #15191a;
+            border: 1px solid #343839;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .booking-item p {
+            margin: 3px 0;
+        }
+        
+        .btn-delete {
+            background: #c51f25;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        /* СТИЛИ ДЛЯ ГАЛЕРЕИ В АДМИНКЕ */
+        .gallery-photo-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .gallery-photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-photo-item .remove-photo {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #c51f25;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const password = prompt('Введите пароль администратора:');
+        if (password !== 'artyom2026') {
+            alert('❌ Неверный пароль!');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>💈 ARTYOMCUT ADMIN</h1>
+            <a href="index.html" class="btn-back">← НА САЙТ</a>
+        </div>
+        
+        <!-- УПРАВЛЕНИЕ ДНЯМИ -->
+        <div class="admin-section">
+            <h2>📅 УПРАВЛЕНИЕ ДНЯМИ</h2>
+            <p style="color: #aaa6a0; margin-bottom: 20px;">Нажмите на день, чтобы заблокировать его или изменить время работы.</p>
+            
+            <div class="block-calendar">
+                <div class="block-calendar-header">
+                    <button class="block-calendar-nav" onclick="changeBlockMonth(-1)">‹</button>
+                    <span id="blockMonth">АВГУСТ 2026</span>
+                    <button class="block-calendar-nav" onclick="changeBlockMonth(1)">›</button>
+                </div>
+                
+                <div class="block-calendar-weekdays">
+                    <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+                </div>
+                
+                <div class="block-calendar-days" id="blockDays"></div>
+            </div>
+            
+            <div class="blocked-days-list" id="blockedDaysList"></div>
+        </div>
+        
+        <!-- УПРАВЛЕНИЕ ГАЛЕРЕЕЙ -->
+        <div class="admin-section">
+            <h2>📸 УПРАВЛЕНИЕ ГАЛЕРЕЕЙ</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 8px;">ВЫБЕРИТЕ КАТЕГОРИЮ:</label>
+                <select id="galleryCategory" style="
+                    width: 100%;
+                    height: 45px;
+                    background: #15191a;
+                    border: 1px solid #343839;
+                    color: #fff;
+                    padding: 0 15px;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    margin-bottom: 15px;
+                ">
+                    <option value="fade">FADE</option>
+                    <option value="classic">CLASSIC</option>
+                    <option value="beard">BEARD</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 8px;">ЗАГРУЗИТЕ ФОТО:</label>
+                <input type="file" id="galleryPhotoInput" accept="image/*" style="
+                    width: 100%;
+                    height: 45px;
+                    background: #15191a;
+                    border: 1px solid #343839;
+                    color: #fff;
+                    padding: 10px;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    margin-bottom: 15px;
+                ">
+            </div>
+            
+            <button onclick="addPhotoToGallery()" style="
+                width: 100%;
+                height: 50px;
+                background: #c51f25;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: 0.3s;
+            ">📸 ДОБАВИТЬ ФОТО В ГАЛЕРЕЮ</button>
+            
+            <div id="galleryPhotosList" style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
+        </div>
+        <!-- УПРАВЛЕНИЕ МУЗЫКОЙ -->
+<div class="admin-section">
+    <!-- УПРАВЛЕНИЕ МУЗЫКОЙ -->
+<div class="admin-section">
+    <h2>🎵 УПРАВЛЕНИЕ МУЗЫКОЙ</h2>
+    
+    <div style="margin-bottom: 20px;">
+        <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 8px;">ЗАГРУЗИТЕ MP3 ФАЙЛ:</label>
+        <input type="file" id="trackFileInput" accept=".mp3,audio/*" style="
+            width: 100%;
+            height: 45px;
+            background: #15191a;
+            border: 1px solid #343839;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        ">
+    </div>
+    
+    <!-- ПОЛОСКА ЗАГРУЗКИ -->
+    <div id="uploadProgress" style="display: none; margin-bottom: 15px;">
+        <div style="
+            width: 100%;
+            height: 8px;
+            background: #15191a;
+            border-radius: 5px;
+            overflow: hidden;
+        ">
+            <div id="uploadProgressBar" style="
+                width: 0%;
+                height: 100%;
+                background: #c51f25;
+                border-radius: 5px;
+                transition: width 0.3s;
+            "></div>
+        </div>
+        <p id="uploadProgressText" style="color: #aaa6a0; font-size: 12px; margin-top: 5px; text-align: center;">0%</p>
+    </div>
+    
+    <button onclick="addTrackToPlaylist()" style="
+        width: 100%;
+        height: 50px;
+        background: #c51f25;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+    ">🎵 ЗАГРУЗИТЬ ТРЕК</button>
+    
+    <div id="playlistTracksList" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
+</div>
+        <!-- ЗАПИСИ -->
+        <div class="admin-section">
+            <h2>📋 ВСЕ ЗАПИСИ</h2>
+            <div class="bookings-list" id="bookingsList"></div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
