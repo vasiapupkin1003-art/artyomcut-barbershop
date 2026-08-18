@@ -343,31 +343,96 @@ function showSuccessMessage(bookingData) {
 }
  
 // ========================================
-// РАДИО ПЛЕЕР
+// РАДИО ПЛЕЕР — 7 СТАНЦИЙ С ПЕРЕКЛЮЧЕНИЕМ
 // ========================================
 
 const radioAudioElement = new Audio();
 radioAudioElement.crossOrigin = 'anonymous';
-radioAudioElement.src = 'https://stream.radioparadise.com/rock-128';
 radioAudioElement.preload = 'none';
 
+// Массив радиостанций (с 1 по 7 из вашего списка)
+const radioStations = [
+    { name: 'Radio Paradise Rock Mix', url: 'https://stream.radioparadise.com/rock-128' },
+    { name: 'SomaFM Metal Detector', url: 'https://ice1.somafm.com/metal-128-mp3' },
+    { name: 'SomaFM Underground 80s', url: 'https://ice1.somafm.com/u80s-128-mp3' },
+    { name: 'SomaFM The Trip', url: 'https://ice1.somafm.com/thetrip-128-mp3' },
+    { name: '181.FM The Eagle (Classic Rock)', url: 'http://listen.181fm.com/181-eagle_128k.mp3' },
+    { name: '181.FM Rock 40', url: 'http://listen.181fm.com/181-rock40_128k.mp3' },
+    { name: '1.FM Classic Rock', url: 'http://strm112.1.fm/crock_mobile_mp3' }
+];
+
+let currentStationIndex = 0;
 let isMusicPlaying = false;
 
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>';
 const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 
+// Установить станцию по индексу
+function setStation(index) {
+    if (index < 0) index = radioStations.length - 1;
+    if (index >= radioStations.length) index = 0;
+    currentStationIndex = index;
+    
+    const station = radioStations[currentStationIndex];
+    radioAudioElement.src = station.url;
+    
+    // Обновляем название станции на странице
+    const stationNameEl = document.getElementById('currentStationName');
+    if (stationNameEl) stationNameEl.textContent = station.name;
+    
+    // Обновляем статус
+    const radioStatus = document.getElementById('radioStatus');
+    if (radioStatus) {
+        radioStatus.textContent = isMusicPlaying ? `${station.name} • LIVE` : 'Радио остановлено';
+    }
+}
+
+// Переключить вперёд/назад
+function changeStation(delta) {
+    const wasPlaying = isMusicPlaying;
+    
+    // Останавливаем текущее воспроизведение
+    radioAudioElement.pause();
+    
+    // Меняем станцию
+    setStation(currentStationIndex + delta);
+    
+    // Если радио играло — запускаем новую станцию
+    if (wasPlaying) {
+        radioAudioElement.play()
+            .then(() => {
+                setPlayerPlayingState(true);
+            })
+            .catch(error => {
+                console.error('Ошибка воспроизведения:', error);
+                setPlayerPlayingState(false);
+                const radioStatus = document.getElementById('radioStatus');
+                if (radioStatus) radioStatus.textContent = 'Не удалось подключиться к радио';
+            });
+    } else {
+        setPlayerPlayingState(false);
+    }
+}
+
 function setPlayerPlayingState(playing) {
     isMusicPlaying = playing;
-
+    
     const playIcon = document.getElementById('playIcon');
     const radioStatus = document.getElementById('radioStatus');
     const radioPlayerDiv = document.getElementById('radioPlayer');
     const drummerVideo = document.getElementById('drummerVideo');
-
+    
     if (playIcon) playIcon.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
-    if (radioStatus) radioStatus.textContent = playing ? 'ARTYOMCUT RADIO • LIVE' : 'Радио остановлено';
+    if (radioStatus) {
+        if (playing) {
+            const station = radioStations[currentStationIndex];
+            radioStatus.textContent = `${station.name} • LIVE`;
+        } else {
+            radioStatus.textContent = 'Радио остановлено';
+        }
+    }
     if (radioPlayerDiv) radioPlayerDiv.classList.toggle('playing', playing);
-
+    
     if (drummerVideo) {
         if (playing) drummerVideo.play().catch(() => {});
         else drummerVideo.pause();
@@ -398,16 +463,24 @@ async function toggleMusic() {
     }
 }
 
+// Инициализация после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
+    // Устанавливаем первую станцию
+    setStation(0);
+    
     const playBtn = document.getElementById('playBtn');
     if (playBtn) playBtn.addEventListener('click', toggleMusic);
-
+    
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    if (prevBtn) prevBtn.addEventListener('click', () => changeStation(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => changeStation(1));
+    
     const volumeSlider = document.getElementById('volumeSlider');
     if (volumeSlider) {
         radioAudioElement.volume = volumeSlider.value;
         volumeSlider.addEventListener('input', () => {
             radioAudioElement.volume = volumeSlider.value;
-            // Если громкость выкручена в ноль — включаем mute
             if (volumeSlider.value == 0) {
                 radioAudioElement.muted = true;
             } else {
@@ -416,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateMuteIcon();
         });
     }
-
+    
     const muteBtn = document.getElementById('muteBtn');
     if (muteBtn) {
         muteBtn.addEventListener('click', () => {
@@ -424,14 +497,8 @@ document.addEventListener('DOMContentLoaded', function() {
             updateMuteIcon();
         });
     }
-
-    // Инициализация иконки mute
+    
     updateMuteIcon();
-
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    if (prevBtn) prevBtn.addEventListener('click', () => {});
-    if (nextBtn) nextBtn.addEventListener('click', () => {});
 });
  
 // ========================================
