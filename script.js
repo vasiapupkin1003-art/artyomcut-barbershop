@@ -1,9 +1,9 @@
 // ========================================
 // ВЫБОР УСЛУГИ
 // ========================================
-
+ 
 let selectedService = '';
-
+ 
 function selectService(serviceName) {
     const searchName = serviceName.toUpperCase().trim();
     
@@ -26,36 +26,36 @@ function selectService(serviceName) {
         window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     }
 }
-
+ 
 function selectServiceOption(serviceName, element) {
     selectedService = serviceName;
     document.querySelectorAll('.service-option-item').forEach(item => item.classList.remove('selected'));
     if (element) element.classList.add('selected');
 }
-
+ 
 // ========================================
 // АНИМАЦИИ
 // ========================================
-
+ 
 document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.1 });
-
+ 
     document.querySelectorAll('.service, .gallery-grid img, .about-text, .about-gallery img, .music-player, .booking-box').forEach(el => {
         observer.observe(el);
     });
 });
-
+ 
 // ========================================
 // ШАПКА
 // ========================================
-
+ 
 let lastScrollTop = 0;
 const header = document.querySelector('.header');
-
+ 
 window.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
@@ -75,7 +75,7 @@ window.addEventListener('scroll', function() {
     }
     lastScrollTop = scrollTop;
 });
-
+ 
 document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
     link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
@@ -90,17 +90,17 @@ document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
         }
     });
 });
-
+ 
 // ========================================
 // КАЛЕНДАРЬ
 // ========================================
-
+ 
 let bookingData = { service: '', date: '', time: '' };
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 let selectedDate = null;
 let selectedTime = null;
-
+ 
 function getSchedule() {
     const schedule = JSON.parse(localStorage.getItem('timeSettings') || 'null');
     if (!schedule) {
@@ -116,12 +116,12 @@ function getSchedule() {
     }
     return schedule;
 }
-
+ 
 function getDayKey(date) {
     const dayKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     return dayKeys[date.getDay()];
 }
-
+ 
 function renderCalendar() {
     const calendarDays = document.getElementById('calendarDays');
     const calendarMonth = document.getElementById('calendarMonth');
@@ -164,7 +164,7 @@ function renderCalendar() {
     
     calendarDays.innerHTML = daysHTML;
 }
-
+ 
 function selectDate(dateString) {
     const blockedDays = JSON.parse(localStorage.getItem('blockedDays') || '[]');
     if (blockedDays.includes(dateString)) {
@@ -179,14 +179,14 @@ function selectDate(dateString) {
     if (selectedElement) selectedElement.classList.add('selected');
     renderTimeSlots(dateString);
 }
-
+ 
 function changeMonth(delta) {
     currentMonth += delta;
     if (currentMonth < 0) { currentMonth = 11; currentYear--; }
     else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
     renderCalendar();
 }
-
+ 
 function renderTimeSlots(dateString) {
     const timeGroups = document.getElementById('timeGroups');
     if (!timeGroups) return;
@@ -238,7 +238,7 @@ function renderTimeSlots(dateString) {
     
     timeGroups.innerHTML = html || '<p class="time-placeholder">Нет доступного времени</p>';
 }
-
+ 
 function selectTime(time) {
     selectedTime = time;
     document.querySelectorAll('.time-btn').forEach(el => {
@@ -246,7 +246,7 @@ function selectTime(time) {
         if (el.textContent === time) el.classList.add('selected');
     });
 }
-
+ 
 function proceedToBooking() {
     if (!selectedService) { alert('Выберите услугу'); return; }
     if (!selectedDate) { alert('Выберите дату'); return; }
@@ -254,7 +254,7 @@ function proceedToBooking() {
     bookingData = { service: selectedService, date: selectedDate, time: selectedTime };
     showContactForm();
 }
-
+ 
 function refreshCalendar() {
     renderCalendar();
     selectedDate = null;
@@ -262,11 +262,11 @@ function refreshCalendar() {
     const timeGroups = document.getElementById('timeGroups');
     if (timeGroups) timeGroups.innerHTML = '<p class="time-placeholder">Сначала выберите дату</p>';
 }
-
+ 
 // ========================================
 // ФОРМА
 // ========================================
-
+ 
 function showContactForm() {
     const modal = document.createElement('div');
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;`;
@@ -289,7 +289,7 @@ function showContactForm() {
     if (closeBtn) closeBtn.addEventListener('click', function() { modal.remove(); });
     modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
 }
-
+ 
 function confirmBooking() {
     const name = document.querySelector('#client-name').value;
     const contact = document.querySelector('#client-contact').value;
@@ -302,13 +302,13 @@ function confirmBooking() {
     document.querySelector('div[style*="position: fixed"]').remove();
     refreshCalendar();
 }
-
+ 
 function saveToLocalStorage(bookingData) {
     let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
     bookings.push(bookingData);
     localStorage.setItem('bookings', JSON.stringify(bookings));
 }
-
+ 
 function showSuccessMessage(bookingData) {
     const modal = document.createElement('div');
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999;`;
@@ -325,43 +325,43 @@ function showSuccessMessage(bookingData) {
     document.body.appendChild(modal);
     setTimeout(() => modal.remove(), 5000);
 }
-
+ 
 // ========================================
 // РАДИО ПЛЕЕР
 // (единая логика — раньше было два конкурирующих обработчика,
 // из-за чего иконки/статус вели себя непредсказуемо)
 // ========================================
-
+ 
 const radioAudioElement = new Audio();
 radioAudioElement.crossOrigin = 'anonymous';
 radioAudioElement.src = 'https://stream.radioparadise.com/rock-128';
 radioAudioElement.preload = 'none';
-
+ 
 let isMusicPlaying = false;
-
+ 
 // Обычные векторные иконки вместо текстовых символов ("▶" / "❚❚"),
 // поэтому на телефоне они не превращаются в эмодзи-стикеры.
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>';
 const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
-
+ 
 function setPlayerPlayingState(playing) {
     isMusicPlaying = playing;
-
+ 
     const playIcon = document.getElementById('playIcon');
     const radioStatus = document.getElementById('radioStatus');
     const radioPlayerDiv = document.getElementById('radioPlayer');
     const drummerVideo = document.getElementById('drummerVideo');
-
+ 
     if (playIcon) playIcon.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
     if (radioStatus) radioStatus.textContent = playing ? 'ARTYOMCUT RADIO • LIVE' : 'Радио остановлено';
     if (radioPlayerDiv) radioPlayerDiv.classList.toggle('playing', playing);
-
+ 
     if (drummerVideo) {
         if (playing) drummerVideo.play().catch(() => {});
         else drummerVideo.pause();
     }
 }
-
+ 
 async function toggleMusic() {
     if (radioAudioElement.paused) {
         try {
@@ -376,11 +376,11 @@ async function toggleMusic() {
         setPlayerPlayingState(false);
     }
 }
-
+ 
 document.addEventListener('DOMContentLoaded', function() {
     const playBtn = document.getElementById('playBtn');
     if (playBtn) playBtn.addEventListener('click', toggleMusic);
-
+ 
     // На телефоне регулятора громкости нет в разметке — блок безопасно
     // ничего не делает, если элемент отсутствует.
     const volumeSlider = document.getElementById('volumeSlider');
@@ -390,19 +390,22 @@ document.addEventListener('DOMContentLoaded', function() {
             radioAudioElement.volume = volumeSlider.value;
         });
     }
-
+ 
     // Кнопки ⏮ ⏭ пока декоративные — сейчас только одна радиостанция.
     // Когда добавите несколько станций, логика переключения вешается сюда.
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     if (prevBtn) prevBtn.addEventListener('click', () => {});
     if (nextBtn) nextBtn.addEventListener('click', () => {});
+ 
+    const likeBtn = document.getElementById('likeBtn');
+    if (likeBtn) likeBtn.addEventListener('click', () => likeBtn.classList.toggle('liked'));
 });
-
+ 
 // ========================================
 // МОБИЛЬНОЕ МЕНЮ
 // ========================================
-
+ 
 function toggleMobileMenu() {
     const nav = document.getElementById('mobileNav');
     if (nav) {
@@ -414,21 +417,21 @@ function toggleMobileMenu() {
         });
     }
 }
-
+ 
 // ========================================
 // ДОСТУП К АДМИНКЕ
 // ========================================
-
+ 
 function adminAccess() {
     window.open('admin.html', '_self');
 }
-
+ 
 // ========================================
 // ИНИЦИАЛИЗАЦИЯ
 // ========================================
-
+ 
 document.addEventListener('DOMContentLoaded', function() {
     renderCalendar();
 });
-
+ 
 console.log('🚀 Сайт загружен');
