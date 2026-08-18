@@ -471,3 +471,57 @@ function updateMusicUI() {
     document.getElementById('miniCover').src = track.cover;
     document.getElementById('fullCover').src = track.cover;
 }
+// ========================================
+// ARTYOMCUT RADIO
+// ========================================
+
+const radioAudio = document.getElementById("radioAudio");
+const playBtn = document.getElementById("playBtn");
+const playIcon = document.getElementById("playIcon");
+const volumeSlider = document.getElementById("volumeSlider");
+const radioStatus = document.getElementById("radioStatus");
+const radioPlayer = document.getElementById("radioPlayer");
+
+if (radioAudio && playBtn) {
+    radioAudio.volume = 0.8;
+    
+    playBtn.addEventListener("click", async () => {
+        if (radioAudio.paused) {
+            try {
+                await radioAudio.play();
+                playIcon.textContent = "❚❚";
+                radioPlayer.classList.add("playing");
+                radioStatus.textContent = "ARTYOMCUT RADIO • LIVE";
+            } catch (error) {
+                radioStatus.textContent = "Не удалось подключиться к радио";
+                console.error(error);
+            }
+        } else {
+            radioAudio.pause();
+            playIcon.textContent = "▶";
+            radioPlayer.classList.remove("playing");
+            radioStatus.textContent = "Радио остановлено";
+        }
+    });
+    
+    if (volumeSlider) {
+        volumeSlider.addEventListener("input", () => {
+            radioAudio.volume = volumeSlider.value;
+        });
+    }
+    
+    radioAudio.addEventListener("error", () => {
+        radioStatus.textContent = "Радиостанция временно недоступна";
+    });
+    
+    radioAudio.addEventListener("playing", () => {
+        playIcon.textContent = "❚❚";
+        radioPlayer.classList.add("playing");
+        radioStatus.textContent = "ARTYOMCUT RADIO • LIVE";
+    });
+    
+    radioAudio.addEventListener("pause", () => {
+        playIcon.textContent = "▶";
+        radioPlayer.classList.remove("playing");
+    });
+}
