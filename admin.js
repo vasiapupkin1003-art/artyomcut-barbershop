@@ -383,7 +383,22 @@ function changeBlockMonth(delta) {
     
     renderBlockCalendar();
 }
-
+function loadBookings() {
+    cleanupExpiredBookings(); // <-- очищаем просроченные записи
+    
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const container = document.getElementById('bookingsList');
+    
+    if (!container) return;
+    
+    if (bookings.length === 0) {
+        container.innerHTML = '<p style="color: #aaa6a0;">Нет записей</p>';
+        return;
+    }
+    
+    // остальной код без изменений
+    // ...
+}
 function loadBookings() {
     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
     const container = document.getElementById('bookingsList');
