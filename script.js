@@ -412,3 +412,42 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🚀 Сайт загружен');
+// ========================================
+// РАДИО ПЛЕЕР - КНОПКИ
+// ========================================
+
+const playBtn = document.getElementById("playBtn");
+const playIcon = document.getElementById("playIcon");
+const volumeSlider = document.getElementById("volumeSlider");
+const radioStatus = document.getElementById("radioStatus");
+const radioPlayerDiv = document.getElementById("radioPlayer");
+
+if (playBtn && playIcon) {
+    playBtn.addEventListener("click", async () => {
+        if (radioAudioElement.paused) {
+            try {
+                await radioAudioElement.play();
+                playIcon.textContent = "❚❚";
+                radioPlayerDiv.classList.add("playing");
+                if (radioStatus) radioStatus.textContent = "ARTYOMCUT RADIO • LIVE";
+                const drummerVideo = document.getElementById("drummerVideo");
+                if (drummerVideo) drummerVideo.play();
+            } catch (error) {
+                if (radioStatus) radioStatus.textContent = "Не удалось подключиться к радио";
+            }
+        } else {
+            radioAudioElement.pause();
+            playIcon.textContent = "▶";
+            radioPlayerDiv.classList.remove("playing");
+            if (radioStatus) radioStatus.textContent = "Радио остановлено";
+            const drummerVideo = document.getElementById("drummerVideo");
+            if (drummerVideo) drummerVideo.pause();
+        }
+    });
+}
+
+if (volumeSlider) {
+    volumeSlider.addEventListener("input", () => {
+        radioAudioElement.volume = volumeSlider.value;
+    });
+}
