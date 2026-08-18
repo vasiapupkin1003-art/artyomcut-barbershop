@@ -327,34 +327,34 @@ function showSuccessMessage(bookingData) {
 }
 
 // ========================================
-// РАДИО
+// НОВЫЙ ПЛЕЕР С РАДИО
 // ========================================
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
 const radioAudio = new Audio();
 radioAudio.crossOrigin = 'anonymous';
 radioAudio.src = 'https://stream.radioparadise.com/rock-128';
 
-let isRadioPlaying = false;
+let isMusicPlaying = false;
 let audioContext = null;
 let analyser = null;
 let dataArray = null;
 let source = null;
 
-const radioPlayBtn = document.getElementById('radioPlayBtn');
-const radioVolume = document.getElementById('radioVolume');
-radioAudio.volume = 0.5;
-if (radioVolume) radioVolume.value = 50;
+function openMusicPlayer() {
+    document.getElementById('fullPlayer').classList.add('open');
+}
 
-const canvas = document.getElementById('visualizer');
-const ctx = canvas ? canvas.getContext('2d') : null;
+function closeMusicPlayer() {
+    document.getElementById('fullPlayer').classList.remove('open');
+}
 
-function initRadioAudioContext() {
+function initAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
-        analyser.fftSize = 128;
-        analyser.smoothingTimeConstant = 0.7;
+        analyser.fftSize = 256;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         source = audioContext.createMediaElementSource(radioAudio);
         source.connect(analyser);
@@ -362,154 +362,50 @@ function initRadioAudioContext() {
     }
 }
 
-function drawVisualizer() {
-    if (!analyser || !ctx || !isRadioPlaying) return;
-    requestAnimationFrame(drawVisualizer);
-    analyser.getByteFrequencyData(dataArray);
-    ctx.fillStyle = '#0a0c0d';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    const barWidth = canvas.width / 64;
-    let x = 0;
-    for (let i = 0; i < 64; i++) {
-        const value = dataArray[i] || 0;
-        const barHeight = (value / 255) * canvas.height;
-        const gradient = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - barHeight);
-        gradient.addColorStop(0, '#c51f25');
-        gradient.addColorStop(1, '#e0262d');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
-        x += barWidth;
+function toggleMusic() {
+    if (!isMusicPlaying) {
+        initAudioContext();
+        radioAudio.play().then(() => {
+            isMusicPlaying = true;
+            updatePlayIcons();
+        }).catch(() => alert('Не удалось загрузить радио'));
+    } else {
+        radioAudio.pause();
+        isMusicPlaying = false;
+        updatePlayIcons();
     }
 }
 
-if (radioPlayBtn) {
-    radioPlayBtn.addEventListener('click', function() {
-        if (!isRadioPlaying) {
-            initRadioAudioContext();
-            radioAudio.play().then(() => {
-                isRadioPlaying = true;
-                this.textContent = '⏸';
-                drawVisualizer();
-            }).catch(() => alert('Не удалось загрузить радио'));
-        } else {
-            radioAudio.pause();
-            isRadioPlaying = false;
-            this.textContent = '▶';
-            if (ctx) { ctx.fillStyle = '#0a0c0d'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
-        }
-    });
+function updatePlayIcons() {
+    const miniIcon = document.getElementById('miniPlayIcon');
+    const fullIcon = document.getElementById('fullPlayIcon');
+    
+    if (isMusicPlaying) {
+        miniIcon.className = 'fas fa-pause';
+        fullIcon.className = 'fas fa-pause';
+    } else {
+        miniIcon.className = 'fas fa-play';
+        fullIcon.className = 'fas fa-play';
+    }
 }
 
-let isMuted = false;
-let lastVolume = 70;
-if (radioVolume) {
-    radioVolume.addEventListener('input', function() {
-        radioAudio.volume = this.value / 100;
-        if (this.value > 0) isMuted = false;
-    });
+// Для радио можно использовать визуализацию
+function drawVisualizer() {
+    if (!analyser || !isMusicPlaying) return;
+    
+    requestAnimationFrame(drawVisualizer);
+    analyser.getByteFrequencyData(dataArray);
+    
+    // Здесь можно рисовать на canvas если добавить
+    const progressFill = document.getElementById('miniProgress');
+    if (progressFill && dataArray.length > 0) {
+        const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+        progressFill.style.width = (avg / 255) * 100 + '%';
+    }
 }
 
-const volumeIcon = document.querySelector('.volume-control span');
-if (volumeIcon) {
-    volumeIcon.style.cursor = 'pointer';
-    volumeIcon.addEventListener('click', function() {
-        if (!isMuted) {
-            lastVolume = radioVolume ? radioVolume.value : 70;
-            radioAudio.volume = 0;
-            if (radioVolume) radioVolume.value = 0;
-            this.textContent = '🔇';
-            isMuted = true;
-        } else {
-            radioAudio.volume = lastVolume / 100;
-            if (radioVolume) radioVolume.value = lastVolume;
-            this.textContent = '🔊';
-            isMuted = false;
-        }
-    });
-}
-
-// ========================================
-// ПЛЕЙЛИСТ
-// ========================================
-
-const defaultPlaylist = [
-    { title: 'Highway to Hell', artist: 'AC/DC', src: 'music/highway-to-hell.mp3' },
-    { title: 'Back in Black', artist: 'AC/DC', src: 'music/back-in-black.mp3' },
-    { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', src: 'music/sweet-child.mp3' },
-    { title: 'Livin\' on a Prayer', artist: 'Bon Jovi', src: 'music/livin-on-prayer.mp3' },
-    { title: 'Enter Sandman', artist: 'Metallica', src: 'music/enter-sandman.mp3' }
-];
-
-let playlist = JSON.parse(localStorage.getItem('playlistTracks') || 'null');
-if (!playlist || playlist.length === 0) playlist = defaultPlaylist;
-
-const trackAudio = new Audio();
-let currentTrackIndex = -1;
-let isTrackPlaying = false;
-
-const playlistTracks = document.getElementById('playlistTracks');
-const playTrackBtn = document.getElementById('playTrackBtn');
-const prevTrackBtn = document.getElementById('prevTrackBtn');
-const nextTrackBtn = document.getElementById('nextTrackBtn');
-const currentTrackName = document.getElementById('currentTrackName');
-
-function displayPlaylist() {
-    if (!playlistTracks) return;
-    playlistTracks.innerHTML = playlist.map((track, index) => `
-        <div class="track-item ${index === currentTrackIndex ? 'active' : ''}" data-index="${index}">
-            <span class="track-number">${String(index + 1).padStart(2, '0')}</span>
-            <div class="track-info"><h4>${track.artist}</h4><p>${track.title}</p></div>
-        </div>
-    `).join('');
-    document.querySelectorAll('.track-item').forEach(item => {
-        item.addEventListener('click', function() { playTrack(parseInt(this.dataset.index)); });
-    });
-}
-
-function playTrack(index) {
-    currentTrackIndex = index;
-    trackAudio.src = playlist[index].src;
-    trackAudio.play().then(() => {
-        isTrackPlaying = true;
-        if (playTrackBtn) playTrackBtn.textContent = '⏸';
-        if (currentTrackName) currentTrackName.textContent = `${playlist[index].artist} — ${playlist[index].title}`;
-        displayPlaylist();
-    }).catch(() => alert('Не удалось загрузить трек'));
-}
-
-if (playTrackBtn) {
-    playTrackBtn.addEventListener('click', function() {
-        if (currentTrackIndex === -1) { playTrack(0); return; }
-        if (!isTrackPlaying) { 
-            trackAudio.play(); 
-            isTrackPlaying = true; 
-            this.textContent = '⏸';
-        }
-        else { 
-            trackAudio.pause(); 
-            isTrackPlaying = false; 
-            this.textContent = '▶';
-        }
-        displayPlaylist();
-    });
-}
-
-if (prevTrackBtn) prevTrackBtn.addEventListener('click', function() {
-    if (currentTrackIndex > 0) playTrack(currentTrackIndex - 1);
-    else playTrack(playlist.length - 1);
-});
-
-if (nextTrackBtn) nextTrackBtn.addEventListener('click', function() {
-    if (currentTrackIndex < playlist.length - 1) playTrack(currentTrackIndex + 1);
-    else playTrack(0);
-});
-
-trackAudio.addEventListener('ended', function() {
-    if (currentTrackIndex < playlist.length - 1) playTrack(currentTrackIndex + 1);
-    else playTrack(0);
-});
-
-displayPlaylist();
+// Запускаем визуализацию
+setInterval(drawVisualizer, 100);
 
 // ========================================
 // ГАЛЕРЕЯ
