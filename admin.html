@@ -207,7 +207,6 @@
             font-size: 16px;
         }
         
-        /* ГАЛЕРЕЯ */
         .gallery-photo-item {
             position: relative;
             width: 100px;
@@ -269,38 +268,7 @@
             cursor: pointer;
             font-size: 12px;
         }
-        /* СТИЛИ ДЛЯ ГАЛЕРЕИ В АДМИНКЕ */
-        .gallery-photo-item {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            border-radius: 5px;
-            overflow: hidden;
-            cursor: pointer;
-        }
         
-        .gallery-photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .gallery-photo-item .remove-photo {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #c51f25;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
         @media (max-width: 768px) {
             .admin-header {
                 flex-direction: column;
@@ -400,61 +368,7 @@
             
             <div id="galleryPhotosList" style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
         </div>
-        <!-- УПРАВЛЕНИЕ МУЗЫКОЙ -->
-<div class="admin-section">
-    <!-- УПРАВЛЕНИЕ МУЗЫКОЙ -->
-<div class="admin-section">
-    <h2>🎵 УПРАВЛЕНИЕ МУЗЫКОЙ</h2>
-    
-    <div style="margin-bottom: 20px;">
-        <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 8px;">ЗАГРУЗИТЕ MP3 ФАЙЛ:</label>
-        <input type="file" id="trackFileInput" accept=".mp3,audio/*" style="
-            width: 100%;
-            height: 45px;
-            background: #15191a;
-            border: 1px solid #343839;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 14px;
-        ">
-    </div>
-    
-    <!-- ПОЛОСКА ЗАГРУЗКИ -->
-    <div id="uploadProgress" style="display: none; margin-bottom: 15px;">
-        <div style="
-            width: 100%;
-            height: 8px;
-            background: #15191a;
-            border-radius: 5px;
-            overflow: hidden;
-        ">
-            <div id="uploadProgressBar" style="
-                width: 0%;
-                height: 100%;
-                background: #c51f25;
-                border-radius: 5px;
-                transition: width 0.3s;
-            "></div>
-        </div>
-        <p id="uploadProgressText" style="color: #aaa6a0; font-size: 12px; margin-top: 5px; text-align: center;">0%</p>
-    </div>
-    
-    <button onclick="addTrackToPlaylist()" style="
-        width: 100%;
-        height: 50px;
-        background: #c51f25;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.3s;
-    ">🎵 ЗАГРУЗИТЬ ТРЕК</button>
-    
-    <div id="playlistTracksList" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;"></div>
-</div>
+
         <!-- ЗАПИСИ -->
         <div class="admin-section">
             <h2>📋 ВСЕ ЗАПИСИ</h2>
