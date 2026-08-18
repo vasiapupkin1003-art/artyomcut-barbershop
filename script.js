@@ -328,56 +328,76 @@ function showSuccessMessage(bookingData) {
 
 // ========================================
 // РАДИО ПЛЕЕР
+// (единая логика — раньше было два конкурирующих обработчика,
+// из-за чего иконки/статус вели себя непредсказуемо)
 // ========================================
-
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 const radioAudioElement = new Audio();
 radioAudioElement.crossOrigin = 'anonymous';
 radioAudioElement.src = 'https://stream.radioparadise.com/rock-128';
+radioAudioElement.preload = 'none';
 
 let isMusicPlaying = false;
-let audioContext = null;
-let analyser = null;
-let dataArray = null;
-let source = null;
 
-const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
-const ICON_PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+// Обычные векторные иконки вместо текстовых символов ("▶" / "❚❚"),
+// поэтому на телефоне они не превращаются в эмодзи-стикеры.
+const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 
-function initRadioAudioContext() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 256;
-        dataArray = new Uint8Array(analyser.frequencyBinCount);
-        source = audioContext.createMediaElementSource(radioAudioElement);
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
+function setPlayerPlayingState(playing) {
+    isMusicPlaying = playing;
+
+    const playIcon = document.getElementById('playIcon');
+    const radioStatus = document.getElementById('radioStatus');
+    const radioPlayerDiv = document.getElementById('radioPlayer');
+    const drummerVideo = document.getElementById('drummerVideo');
+
+    if (playIcon) playIcon.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+    if (radioStatus) radioStatus.textContent = playing ? 'ARTYOMCUT RADIO • LIVE' : 'Радио остановлено';
+    if (radioPlayerDiv) radioPlayerDiv.classList.toggle('playing', playing);
+
+    if (drummerVideo) {
+        if (playing) drummerVideo.play().catch(() => {});
+        else drummerVideo.pause();
     }
 }
 
-function toggleMusic() {
-    const miniPlayIcon = document.getElementById('miniPlayIcon');
-    const fullPlayIcon = document.getElementById('fullPlayIcon');
-    const drummerVideo = document.getElementById('drummerVideo');
-    
-    if (!isMusicPlaying) {
-        initRadioAudioContext();
-        radioAudioElement.play().then(() => {
-            isMusicPlaying = true;
-            if (miniPlayIcon) miniPlayIcon.innerHTML = ICON_PAUSE;
-            if (fullPlayIcon) fullPlayIcon.innerHTML = ICON_PAUSE;
-            if (drummerVideo) drummerVideo.play();
-        }).catch(() => alert('Не удалось загрузить радио'));
+async function toggleMusic() {
+    if (radioAudioElement.paused) {
+        try {
+            await radioAudioElement.play();
+            setPlayerPlayingState(true);
+        } catch (error) {
+            const radioStatus = document.getElementById('radioStatus');
+            if (radioStatus) radioStatus.textContent = 'Не удалось подключиться к радио';
+        }
     } else {
         radioAudioElement.pause();
-        isMusicPlaying = false;
-        if (miniPlayIcon) miniPlayIcon.innerHTML = ICON_PLAY;
-        if (fullPlayIcon) fullPlayIcon.innerHTML = ICON_PLAY;
-        if (drummerVideo) drummerVideo.pause();
+        setPlayerPlayingState(false);
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const playBtn = document.getElementById('playBtn');
+    if (playBtn) playBtn.addEventListener('click', toggleMusic);
+
+    // На телефоне регулятора громкости нет в разметке — блок безопасно
+    // ничего не делает, если элемент отсутствует.
+    const volumeSlider = document.getElementById('volumeSlider');
+    if (volumeSlider) {
+        radioAudioElement.volume = volumeSlider.value;
+        volumeSlider.addEventListener('input', () => {
+            radioAudioElement.volume = volumeSlider.value;
+        });
+    }
+
+    // Кнопки ⏮ ⏭ пока декоративные — сейчас только одна радиостанция.
+    // Когда добавите несколько станций, логика переключения вешается сюда.
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    if (prevBtn) prevBtn.addEventListener('click', () => {});
+    if (nextBtn) nextBtn.addEventListener('click', () => {});
+});
 
 // ========================================
 // МОБИЛЬНОЕ МЕНЮ
@@ -412,42 +432,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🚀 Сайт загружен');
-// ========================================
-// РАДИО ПЛЕЕР - КНОПКИ
-// ========================================
-
-const playBtn = document.getElementById("playBtn");
-const playIcon = document.getElementById("playIcon");
-const volumeSlider = document.getElementById("volumeSlider");
-const radioStatus = document.getElementById("radioStatus");
-const radioPlayerDiv = document.getElementById("radioPlayer");
-
-if (playBtn && playIcon) {
-    playBtn.addEventListener("click", async () => {
-        if (radioAudioElement.paused) {
-            try {
-                await radioAudioElement.play();
-                playIcon.textContent = "❚❚";
-                radioPlayerDiv.classList.add("playing");
-                if (radioStatus) radioStatus.textContent = "ARTYOMCUT RADIO • LIVE";
-                const drummerVideo = document.getElementById("drummerVideo");
-                if (drummerVideo) drummerVideo.play();
-            } catch (error) {
-                if (radioStatus) radioStatus.textContent = "Не удалось подключиться к радио";
-            }
-        } else {
-            radioAudioElement.pause();
-            playIcon.textContent = "▶";
-            radioPlayerDiv.classList.remove("playing");
-            if (radioStatus) radioStatus.textContent = "Радио остановлено";
-            const drummerVideo = document.getElementById("drummerVideo");
-            if (drummerVideo) drummerVideo.pause();
-        }
-    });
-}
-
-if (volumeSlider) {
-    volumeSlider.addEventListener("input", () => {
-        radioAudioElement.volume = volumeSlider.value;
-    });
-}
