@@ -1758,3 +1758,27 @@ button, input, select {
         display: none;
     }
 }
+/* ========== ФИКС КНОПКИ PLAY ========== */
+.music-player .player-btn-play {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    aspect-ratio: 1/1 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    background: #c51f25 !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    box-shadow: 0 5px 15px rgba(197,31,37,0.4) !important;
+}
+
+/* ========== СКРЫТИЕ ГРОМКОСТИ НА МОБИЛЬНЫХ ========== */
+@media (max-width: 768px) {
+    .music-player .player-volume {
+        display: none !important;
+    }
+}
