@@ -1473,3 +1473,23 @@ button, input, select {
         height: 180px !important; /* было 150px, стало чуть выше */
     }
 }
+/* Опускаем текст и кнопки на главном экране вниз */
+@media (max-width: 768px) {
+    .hero-inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;   /* контент прижимается к низу */
+        align-items: flex-start;
+        min-height: 500px;           /* высота совпадает с фото */
+    }
+
+    .hero-content {
+        padding-top: 0 !important;   /* убираем верхний отступ */
+        padding-bottom: 30px !important;
+        margin-top: auto !important; /* прижимаем к нижнему краю */
+    }
+
+    .hero-image {
+        height: 500px !important;
+    }
+}
