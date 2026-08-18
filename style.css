@@ -1568,3 +1568,17 @@ button, input, select {
         font-size: 14px !important;
     }
 }
+/* Финальный сдвиг hero-фото: правее и вверх */
+@media (max-width: 768px) {
+    .hero-image {
+        left: 50px !important;    /* ещё правее (было 30px) */
+        top: 35px !important;     /* поднимаем выше (было 70px) */
+    }
+}
+/* Равномерное затемнение главного фото на телефоне */
+@media (max-width: 768px) {
+    .hero-image::after {
+        background: rgba(7, 9, 10, 0.5) !important;  /* равномерная полупрозрачная чернота */
+        display: block !important;
+    }
+}
