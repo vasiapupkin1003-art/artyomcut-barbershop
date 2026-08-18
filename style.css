@@ -1298,3 +1298,28 @@ button, input, select {
         right: 15px;
     }
 }
+/* ==================================================
+   ИСПРАВЛЕНИЕ ЦЕН В ОНЛАЙН-ЗАПИСИ (ПК и мобильные)
+   ================================================== */
+.service-option-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 80px 15px 15px; /* правый отступ для цены */
+}
+
+/* Текстовый блок сжимается и не налезает на цену */
+.service-option-item > div:last-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.service-option-item .service-price {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    font-size: 16px;
+}
