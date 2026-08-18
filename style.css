@@ -1782,3 +1782,42 @@ button, input, select {
         display: none !important;
     }
 }
+/* ========== ЦЕНТРИРОВАНИЕ ИКОНКИ В КНОПКЕ PLAY ========== */
+.music-player .player-btn-play {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    aspect-ratio: 1/1 !important;
+    overflow: hidden !important;
+    transform: none !important; /* убираем возможные смещения */
+}
+
+.music-player .player-btn-play:hover,
+.music-player .player-btn-play:active,
+.music-player .player-btn-play:focus {
+    transform: none !important; /* иконка не будет сдвигаться */
+}
+
+.music-player #playIcon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    line-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.music-player #playIcon svg {
+    width: 32px !important;
+    height: 32px !important;
+}
+
+/* ========== СКРЫТИЕ ГРОМКОСТИ НА МОБИЛЬНЫХ ========== */
+@media (max-width: 768px) {
+    .music-player .player-volume {
+        display: none !important;
+    }
+}
