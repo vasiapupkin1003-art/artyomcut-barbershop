@@ -286,7 +286,6 @@ function openDaySettings(dateString) {
         });
     }
     
-    // Закрытие выпадающего списка после выбора времени
     function closeTimePicker(input) {
         if (!input) return;
         input.blur();
@@ -417,23 +416,18 @@ function deleteBooking(index) {
     loadBookings();
 }
 
-renderBlockCalendar();
-loadBookings();
 // ========================================
 // УПРАВЛЕНИЕ ГАЛЕРЕЕЙ
 // ========================================
 
-// Получение фотографий галереи
 function getGalleryPhotos() {
     return JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
 }
 
-// Сохранение фотографий галереи
 function saveGalleryPhotos(photos) {
     localStorage.setItem('galleryPhotos', JSON.stringify(photos));
 }
 
-// Добавление фото в галерею
 function addPhotoToGallery() {
     const fileInput = document.getElementById('galleryPhotoInput');
     const categorySelect = document.getElementById('galleryCategory');
@@ -446,7 +440,6 @@ function addPhotoToGallery() {
     const file = fileInput.files[0];
     const category = categorySelect.value;
     
-    // Читаем файл как Data URL
     const reader = new FileReader();
     reader.onload = function(e) {
         const photos = getGalleryPhotos();
@@ -458,20 +451,14 @@ function addPhotoToGallery() {
         });
         
         saveGalleryPhotos(photos);
-        
-        // Очищаем input
         fileInput.value = '';
-        
-        // Обновляем список
         renderGalleryPhotosList();
-        
         alert('✅ Фото добавлено в галерею!');
     };
     
     reader.readAsDataURL(file);
 }
 
-// Отображение списка фотографий
 function renderGalleryPhotosList() {
     const container = document.getElementById('galleryPhotosList');
     if (!container) return;
@@ -491,7 +478,6 @@ function renderGalleryPhotosList() {
     `).join('');
 }
 
-// Удаление фото из галереи
 function removeGalleryPhoto(index) {
     const photos = getGalleryPhotos();
     photos.splice(index, 1);
@@ -500,150 +486,10 @@ function removeGalleryPhoto(index) {
     alert('✅ Фото удалено');
 }
 
-// Инициализация списка фото
+// ========================================
+// ИНИЦИАЛИЗАЦИЯ
+// ========================================
+
+renderBlockCalendar();
+loadBookings();
 renderGalleryPhotosList();
-// ========================================
-// УПРАВЛЕНИЕ МУЗЫКОЙ (БЕЗ localStorage ДЛЯ ФАЙЛОВ)
-// ========================================
-
-function getPlaylistTracks() {
-    return JSON.parse(localStorage.getItem('playlistTracks') || '[]');
-}
-
-function savePlaylistTracks(tracks) {
-    localStorage.setItem('playlistTracks', JSON.stringify(tracks));
-}
-
-function addTrackToPlaylist() {
-    const fileInput = document.getElementById('trackFileInput');
-    
-    if (!fileInput.files || fileInput.files.length === 0) {
-        alert('Выберите MP3 файл');
-        return;
-    }
-    
-    const file = fileInput.files[0];
-    
-    // Проверяем размер файла (максимум 4 МБ для localStorage)
-    if (file.size > 4 * 1024 * 1024) {
-        alert('❌ Файл слишком большой! Максимум 4 МБ для localStorage.\n\nДля больших файлов нужен сервер.');
-        return;
-    }
-    
-    // Показываем полоску загрузки
-    const progressContainer = document.getElementById('uploadProgress');
-    const progressBar = document.getElementById('uploadProgressBar');
-    const progressText = document.getElementById('uploadProgressText');
-    
-    if (progressContainer) progressContainer.style.display = 'block';
-    if (progressBar) progressBar.style.width = '0%';
-    if (progressText) progressText.textContent = '0%';
-    
-    const fileName = file.name.replace('.mp3', '').replace(/_/g, ' ').replace(/-/g, ' ');
-    
-    let artist = 'Unknown Artist';
-    let title = fileName;
-    
-    if (fileName.includes(' - ')) {
-        const parts = fileName.split(' - ');
-        artist = parts[0].trim();
-        title = parts[1].trim();
-    } else if (fileName.includes(' — ')) {
-        const parts = fileName.split(' — ');
-        artist = parts[0].trim();
-        title = parts[1].trim();
-    }
-    
-    const reader = new FileReader();
-    
-    reader.onprogress = function(e) {
-        if (e.lengthComputable) {
-            const percent = Math.round((e.loaded / e.total) * 100);
-            if (progressBar) progressBar.style.width = percent + '%';
-            if (progressText) progressText.textContent = percent + '%';
-        }
-    };
-    
-    reader.onload = function(e) {
-        if (progressBar) progressBar.style.width = '100%';
-        if (progressText) progressText.textContent = '100%';
-        
-        try {
-            const tracks = getPlaylistTracks();
-            tracks.push({
-                title: title,
-                artist: artist,
-                src: e.target.result
-            });
-            
-            savePlaylistTracks(tracks);
-            
-            fileInput.value = '';
-            
-            setTimeout(() => {
-                if (progressContainer) progressContainer.style.display = 'none';
-            }, 1000);
-            
-            renderPlaylistTracksList();
-            alert('✅ Трек "' + title + '" загружен!');
-        } catch (error) {
-            if (progressContainer) progressContainer.style.display = 'none';
-            alert('❌ Ошибка: файл слишком большой для localStorage.\nПопробуйте файл меньше 4 МБ.');
-            console.error('Ошибка сохранения:', error);
-        }
-    };
-    
-    reader.onerror = function() {
-        if (progressContainer) progressContainer.style.display = 'none';
-        alert('❌ Ошибка чтения файла');
-    };
-    
-    reader.readAsDataURL(file);
-}
-
-function renderPlaylistTracksList() {
-    const container = document.getElementById('playlistTracksList');
-    if (!container) return;
-    
-    const tracks = getPlaylistTracks();
-    
-    if (tracks.length === 0) {
-        container.innerHTML = '<p style="color: #aaa6a0;">Нет треков</p>';
-        return;
-    }
-    
-    container.innerHTML = tracks.map((track, index) => `
-        <div style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #15191a;
-            border: 1px solid #343839;
-            border-radius: 5px;
-            padding: 12px 15px;
-        ">
-            <div>
-                <p style="font-weight: 700; color: #fff;">${track.artist}</p>
-                <p style="color: #aaa6a0; font-size: 13px;">${track.title}</p>
-            </div>
-            <button onclick="removePlaylistTrack(${index})" style="
-                background: #c51f25;
-                color: #fff;
-                border: none;
-                border-radius: 3px;
-                padding: 8px 15px;
-                cursor: pointer;
-                font-size: 12px;
-            ">❌</button>
-        </div>
-    `).join('');
-}
-
-function removePlaylistTrack(index) {
-    const tracks = getPlaylistTracks();
-    tracks.splice(index, 1);
-    savePlaylistTracks(tracks);
-    renderPlaylistTracksList();
-}
-
-renderPlaylistTracksList();
