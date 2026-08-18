@@ -4135,3 +4135,36 @@ select {
         max-width: 120px;
     }
 }
+.drummer-video {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+}
+
+.drummer-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.radio-player.playing .drummer-video {
+    opacity: 1;
+    animation: drummerPulse 0.5s infinite alternate;
+}
+
+@keyframes drummerPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
+.radio-title-inside {
+    font-size: 14px;
+    font-weight: 800;
+    color: #FD4848;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    margin-top: 5px;
+}
