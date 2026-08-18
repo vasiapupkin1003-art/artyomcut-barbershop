@@ -465,5 +465,17 @@ function adminAccess() {
 document.addEventListener('DOMContentLoaded', function() {
     renderCalendar();
 });
- 
+ // ========================================
+// АВТООЧИСТКА ПРОСРОЧЕННЫХ ЗАПИСЕЙ
+// ========================================
+function cleanupExpiredBookings() {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const now = new Date();
+    const filtered = bookings.filter(b => {
+        const bookingDateTime = new Date(`${b.date}T${b.time}:00`);
+        bookingDateTime.setHours(bookingDateTime.getHours() + 2); // +2 часа после начала записи
+        return bookingDateTime > now;
+    });
+    localStorage.setItem('bookings', JSON.stringify(filtered));
+}
 console.log('🚀 Сайт загружен');
