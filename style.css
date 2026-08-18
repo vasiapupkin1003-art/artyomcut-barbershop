@@ -1187,3 +1187,46 @@ button, input, select {
     .gallery-page-grid { grid-template-columns: 1fr; }
     .gallery-item img { height: 280px; }
 }
+.radio-play {
+    width: 65px !important;
+    height: 65px !important;
+    border-radius: 50% !important;
+    background: #FD4848 !important;
+    border: none !important;
+    color: #fff !important;
+    font-size: 26px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    z-index: 100 !important;
+    box-shadow: 0 10px 24px -6px rgba(253, 72, 72, 0.55) !important;
+}
+
+.radio-play span {
+    display: block !important;
+    font-size: 26px !important;
+    color: #fff !important;
+}
+
+.radio-btn {
+    background: none !important;
+    border: none !important;
+    color: #999 !important;
+    font-size: 22px !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+.radio-controls {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 25px !important;
+    position: relative !important;
+    z-index: 100 !important;
+    margin: 15px 0 !important;
+}
