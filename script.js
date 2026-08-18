@@ -412,17 +412,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🚀 Сайт загружен');
-const playBtn = document.getElementById("playBtn");
-const playIcon = document.getElementById("playIcon");
-
-if (playBtn) {
-    playBtn.addEventListener("click", async () => {
-        if (radioAudio.paused) {
-            await radioAudio.play();
-            playIcon.textContent = "❚❚";
-        } else {
-            radioAudio.pause();
-            playIcon.textContent = "▶";
-        }
-    });
-}
