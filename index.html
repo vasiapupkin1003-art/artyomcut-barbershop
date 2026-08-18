@@ -144,54 +144,51 @@
         </section>
 
         <!-- МУЗЫКА -->
-        <section id="music" class="music">
-            <div class="container">
-                <h2>МУЗЫКА <span>⚡</span></h2>
-                
-                <!-- МИНИ-ПЛЕЕР -->
-                <div class="mini-player" id="miniPlayer" onclick="openMusicPlayer()">
-                    <div class="mini-cover">
-                        <img id="miniCover" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Cover">
-                    </div>
-                    <div class="mini-info">
-                        <div class="mini-title" id="miniTitle">ARTYOMCUT RADIO</div>
-                        <div class="mini-artist" id="miniArtist">ROCK • 80s • CLASSIC</div>
-                    </div>
-                    <button class="mini-play-btn" id="miniPlayBtn" onclick="event.stopPropagation(); toggleMusic()">
-                        <i class="fas fa-play" id="miniPlayIcon"></i>
-                    </button>
-                    <div class="mini-progress">
-                        <div class="mini-progress-fill" id="miniProgress" style="width: 0%;"></div>
-                    </div>
-                </div>
-                
-                <!-- ПОЛНОЭКРАННЫЙ ПЛЕЕР -->
-                <div class="full-player" id="fullPlayer">
-                    <div class="full-player-header">
-                        <button class="full-close-btn" onclick="closeMusicPlayer()">
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <span>ARTYOMCUT RADIO</span>
-                        <div style="width: 40px;"></div>
-                    </div>
-                    
-                    <div class="full-cover">
-                        <img id="fullCover" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Cover">
-                    </div>
-                    
-                    <div class="full-info">
-                        <div class="full-title" id="fullTitle">ARTYOMCUT RADIO</div>
-                        <div class="full-artist" id="fullArtist">ROCK • 80s • CLASSIC</div>
-                    </div>
-                    
-                    <div class="full-controls">
-                        <button class="full-play-btn" onclick="toggleMusic()">
-                            <i class="fas fa-play" id="fullPlayIcon"></i>
-                        </button>
-                    </div>
-                </div>
+<section id="music" class="music">
+    <div class="container">
+        <h2>МУЗЫКА <span>⚡</span></h2>
+        
+        <!-- МИНИ-ПЛЕЕР -->
+        <div class="mini-player" id="miniPlayer" onclick="openMusicPlayer()">
+            <div class="mini-cover-wrap">
+                <img id="miniCover" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Cover" class="mini-cover-img">
             </div>
-        </section>
+            <div class="mini-info">
+                <div class="mini-title" id="miniTitle">ARTYOMCUT RADIO</div>
+                <div class="mini-artist" id="miniArtist">ROCK • 80s • CLASSIC</div>
+            </div>
+            <button class="mini-play-btn" id="miniPlayBtn" onclick="event.stopPropagation(); toggleMusic()">
+                <svg id="miniPlayIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+        </div>
+        
+        <!-- ПОЛНОЭКРАННЫЙ ПЛЕЕР -->
+        <div class="full-player" id="fullPlayer">
+            <div class="full-player-top">
+                <button class="full-close-btn" onclick="closeMusicPlayer()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                </button>
+                <span class="full-label">ARTYOMCUT RADIO</span>
+                <div style="width: 38px;"></div>
+            </div>
+            
+            <div class="full-cover">
+                <img id="fullCover" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Cover">
+            </div>
+            
+            <div class="full-info">
+                <div class="full-title" id="fullTitle">ARTYOMCUT RADIO</div>
+                <div class="full-artist" id="fullArtist">ROCK • 80s • CLASSIC</div>
+            </div>
+            
+            <div class="full-controls">
+                <button class="full-play-btn" onclick="toggleMusic()">
+                    <svg id="fullPlayIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- ЗАПИСЬ -->
         <section id="booking" class="booking">
