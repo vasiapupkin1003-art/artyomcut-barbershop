@@ -327,14 +327,14 @@ function showSuccessMessage(bookingData) {
 }
 
 // ========================================
-// ПЛЕЕР С РАДИО
+// РАДИО ПЛЕЕР
 // ========================================
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-const radioAudio = new Audio();
-radioAudio.crossOrigin = 'anonymous';
-radioAudio.src = 'https://stream.radioparadise.com/rock-128';
+const radioAudioElement = new Audio();
+radioAudioElement.crossOrigin = 'anonymous';
+radioAudioElement.src = 'https://stream.radioparadise.com/rock-128';
 
 let isMusicPlaying = false;
 let audioContext = null;
@@ -345,21 +345,13 @@ let source = null;
 const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
 const ICON_PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
 
-function openMusicPlayer() {
-    document.getElementById('fullPlayer').classList.add('open');
-}
-
-function closeMusicPlayer() {
-    document.getElementById('fullPlayer').classList.remove('open');
-}
-
 function initRadioAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
         analyser.fftSize = 256;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
-        source = audioContext.createMediaElementSource(radioAudio);
+        source = audioContext.createMediaElementSource(radioAudioElement);
         source.connect(analyser);
         analyser.connect(audioContext.destination);
     }
@@ -368,19 +360,22 @@ function initRadioAudioContext() {
 function toggleMusic() {
     const miniPlayIcon = document.getElementById('miniPlayIcon');
     const fullPlayIcon = document.getElementById('fullPlayIcon');
+    const drummerVideo = document.getElementById('drummerVideo');
     
     if (!isMusicPlaying) {
         initRadioAudioContext();
-        radioAudio.play().then(() => {
+        radioAudioElement.play().then(() => {
             isMusicPlaying = true;
-            miniPlayIcon.innerHTML = ICON_PAUSE;
-            fullPlayIcon.innerHTML = ICON_PAUSE;
+            if (miniPlayIcon) miniPlayIcon.innerHTML = ICON_PAUSE;
+            if (fullPlayIcon) fullPlayIcon.innerHTML = ICON_PAUSE;
+            if (drummerVideo) drummerVideo.play();
         }).catch(() => alert('Не удалось загрузить радио'));
     } else {
-        radioAudio.pause();
+        radioAudioElement.pause();
         isMusicPlaying = false;
-        miniPlayIcon.innerHTML = ICON_PLAY;
-        fullPlayIcon.innerHTML = ICON_PLAY;
+        if (miniPlayIcon) miniPlayIcon.innerHTML = ICON_PLAY;
+        if (fullPlayIcon) fullPlayIcon.innerHTML = ICON_PLAY;
+        if (drummerVideo) drummerVideo.pause();
     }
 }
 
@@ -417,118 +412,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🚀 Сайт загружен');
-// ========================================
-// НОВЫЙ МУЗЫКАЛЬНЫЙ ПЛЕЕР
-// ========================================
-
-const musicPlaylist = [
-    { title: 'Midnight Static', artist: 'Coral Drift', cover: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80', src: '' },
-    { title: 'Amber Light', artist: 'Coral Drift', cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=80', src: '' },
-    { title: 'Glass Horizon', artist: 'Vela Rowe', cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80', src: '' }
-];
-
-let currentMusicIndex = 0;
-let isMusicPlaying = false;
-
-function openMusicPlayer() {
-    document.getElementById('fullPlayer').classList.add('open');
-}
-
-function closeMusicPlayer() {
-    document.getElementById('fullPlayer').classList.remove('open');
-}
-
-function toggleMusic() {
-    isMusicPlaying = !isMusicPlaying;
-    const playIcon = document.getElementById('miniPlayIcon');
-    const fullPlayIcon = document.getElementById('fullPlayIcon');
-    
-    if (isMusicPlaying) {
-        playIcon.className = 'fas fa-pause';
-        fullPlayIcon.className = 'fas fa-pause';
-    } else {
-        playIcon.className = 'fas fa-play';
-        fullPlayIcon.className = 'fas fa-play';
-    }
-}
-
-function nextMusic() {
-    currentMusicIndex = (currentMusicIndex + 1) % musicPlaylist.length;
-    updateMusicUI();
-}
-
-function prevMusic() {
-    currentMusicIndex = (currentMusicIndex - 1 + musicPlaylist.length) % musicPlaylist.length;
-    updateMusicUI();
-}
-
-function updateMusicUI() {
-    const track = musicPlaylist[currentMusicIndex];
-    document.getElementById('miniTitle').textContent = track.title;
-    document.getElementById('miniArtist').textContent = track.artist;
-    document.getElementById('fullTitle').textContent = track.title;
-    document.getElementById('fullArtist').textContent = track.artist;
-    document.getElementById('miniCover').src = track.cover;
-    document.getElementById('fullCover').src = track.cover;
-}
-// ========================================
-// ARTYOMCUT RADIO
-// ========================================
-
-const radioAudio = document.getElementById("radioAudio");
-const playBtn = document.getElementById("playBtn");
-const playIcon = document.getElementById("playIcon");
-const volumeSlider = document.getElementById("volumeSlider");
-const radioStatus = document.getElementById("radioStatus");
-const radioPlayer = document.getElementById("radioPlayer");
-
-if (radioAudio && playBtn) {
-    radioAudio.volume = 0.8;
-    
-    playBtn.addEventListener("click", async () => {
-        if (radioAudio.paused) {
-            try {
-                await radioAudio.play();
-                playIcon.textContent = "❚❚";
-                radioPlayer.classList.add("playing");
-                radioStatus.textContent = "ARTYOMCUT RADIO • LIVE";
-            } catch (error) {
-                radioStatus.textContent = "Не удалось подключиться к радио";
-                console.error(error);
-            }
-        } else {
-            radioAudio.pause();
-            playIcon.textContent = "▶";
-            radioPlayer.classList.remove("playing");
-            radioStatus.textContent = "Радио остановлено";
-        }
-    });
-    
-    if (volumeSlider) {
-        volumeSlider.addEventListener("input", () => {
-            radioAudio.volume = volumeSlider.value;
-        });
-    }
-    
-    radioAudio.addEventListener("error", () => {
-        radioStatus.textContent = "Радиостанция временно недоступна";
-    });
-    
-    radioAudio.addEventListener("playing", () => {
-        playIcon.textContent = "❚❚";
-        radioPlayer.classList.add("playing");
-        radioStatus.textContent = "ARTYOMCUT RADIO • LIVE";
-    });
-    
-    radioAudio.addEventListener("pause", () => {
-        playIcon.textContent = "▶";
-        radioPlayer.classList.remove("playing");
-    });
-}
-const drummerVideo = document.getElementById("drummerVideo");
-
-// При play:
-if (drummerVideo) drummerVideo.play();
-
-// При pause:
-if (drummerVideo) drummerVideo.pause();
