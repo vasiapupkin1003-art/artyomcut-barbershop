@@ -158,7 +158,7 @@ function renderCalendar() {
         if (isPast || !isWorking) {
             daysHTML += `<div class="${classes}">${day}</div>`;
         } else {
-            daysHTML += `<div class="${classes}" onclick="selectDate('${dateString}')">${day}</div>`;
+            daysHTML += `<div class="${classes}" data-date="${dateString}" onclick="selectDate('${dateString}')">${day}</div>`;
         }
     }
     
