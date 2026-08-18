@@ -563,3 +563,57 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('🚀 Сайт загружен');
+// ========================================
+// НОВЫЙ МУЗЫКАЛЬНЫЙ ПЛЕЕР
+// ========================================
+
+const musicPlaylist = [
+    { title: 'Midnight Static', artist: 'Coral Drift', cover: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80', src: '' },
+    { title: 'Amber Light', artist: 'Coral Drift', cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=80', src: '' },
+    { title: 'Glass Horizon', artist: 'Vela Rowe', cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80', src: '' }
+];
+
+let currentMusicIndex = 0;
+let isMusicPlaying = false;
+
+function openMusicPlayer() {
+    document.getElementById('fullPlayer').classList.add('open');
+}
+
+function closeMusicPlayer() {
+    document.getElementById('fullPlayer').classList.remove('open');
+}
+
+function toggleMusic() {
+    isMusicPlaying = !isMusicPlaying;
+    const playIcon = document.getElementById('miniPlayIcon');
+    const fullPlayIcon = document.getElementById('fullPlayIcon');
+    
+    if (isMusicPlaying) {
+        playIcon.className = 'fas fa-pause';
+        fullPlayIcon.className = 'fas fa-pause';
+    } else {
+        playIcon.className = 'fas fa-play';
+        fullPlayIcon.className = 'fas fa-play';
+    }
+}
+
+function nextMusic() {
+    currentMusicIndex = (currentMusicIndex + 1) % musicPlaylist.length;
+    updateMusicUI();
+}
+
+function prevMusic() {
+    currentMusicIndex = (currentMusicIndex - 1 + musicPlaylist.length) % musicPlaylist.length;
+    updateMusicUI();
+}
+
+function updateMusicUI() {
+    const track = musicPlaylist[currentMusicIndex];
+    document.getElementById('miniTitle').textContent = track.title;
+    document.getElementById('miniArtist').textContent = track.artist;
+    document.getElementById('fullTitle').textContent = track.title;
+    document.getElementById('fullArtist').textContent = track.artist;
+    document.getElementById('miniCover').src = track.cover;
+    document.getElementById('fullCover').src = track.cover;
+}
