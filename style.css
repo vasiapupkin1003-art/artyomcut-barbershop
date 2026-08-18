@@ -4230,3 +4230,65 @@ select {
     position: relative;
     z-index: 10;
 }
+/* ========================================
+   ИСПРАВЛЕНИЕ ПОЗИЦИОНИРОВАНИЯ
+======================================== */
+
+.radio-player {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Визуальный диск - отдельно */
+.radio-visual {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 20px;
+    flex-shrink: 0;
+}
+
+/* Информация - под диском */
+.radio-info {
+    margin-top: 10px;
+    position: relative;
+    z-index: 5;
+}
+
+/* Кнопки - под информацией */
+.radio-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 25px;
+    position: relative;
+    z-index: 10;
+    order: 3;
+}
+
+/* Нижняя панель - в самом низу */
+.radio-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 10;
+    order: 4;
+    width: 100%;
+}
+
+/* Статус - в самом низу */
+.radio-status {
+    order: 5;
+}
