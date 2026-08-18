@@ -1853,3 +1853,74 @@ button, input, select {
         display: none !important;
     }
 }
+/* ========== ПОСЛЕДНИЕ ОТЗЫВЫ ========== */
+.reviews-preview {
+    padding: 60px 0;
+    background: #0d1011;
+}
+
+.reviews-preview .section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.reviews-preview .section-heading a {
+    color: #c51f25;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.reviews-preview .section-heading a:hover {
+    color: #fff;
+}
+
+.reviews-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.review-preview-item {
+    background: #111516;
+    border: 1px solid #292d2e;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.review-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-preview-name {
+    font-weight: 700;
+    color: #fff;
+    font-size: 18px;
+}
+
+.review-preview-stars {
+    color: #f39c12;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.review-preview-message {
+    color: #aaa6a0;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .reviews-preview .section-heading {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
