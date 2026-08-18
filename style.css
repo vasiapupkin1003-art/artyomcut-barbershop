@@ -1924,3 +1924,69 @@ button, input, select {
         text-align: center;
     }
 }
+/* ==================================================
+   МОБИЛЬНЫЕ ПРАВКИ (только для экранов ≤ 768px)
+   ================================================== */
+@media (max-width: 768px) {
+
+    /* 1. Логотип в шапке — на 30% больше */
+    .header .logo img {
+        width: 130% !important;
+        max-width: 130% !important;
+    }
+
+    /* 2. Главное первое фото — чуть больше и светлее */
+    .hero-image img {
+        transform: scale(1.05);      /* лёгкое увеличение */
+        filter: brightness(1.1);     /* светлее на 10% */
+    }
+
+    /* 3. Уменьшить отступы между секциями */
+    .services,
+    .about,
+    .gallery,
+    .music,
+    .booking,
+    .contacts {
+        padding: 40px 0 !important;   /* было, например, 80px — уменьшаем */
+        margin: 0 !important;
+    }
+
+    /* 4. Цена в услугах не вылезает за рамку */
+    .service-option-item {
+        position: relative;
+        padding-right: 80px !important; /* резервируем место для цены */
+    }
+    .service-option-item .service-price {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        white-space: nowrap;           /* цена не переносится */
+        font-size: 16px;               /* можно подстроить */
+    }
+
+    /* Если цена всё ещё вылезает, попробуйте альтернативный вариант:
+       раскомментируйте следующие строки и закомментируйте предыдущие */
+    /*
+    .service-option-item {
+        flex-wrap: wrap;
+    }
+    .service-option-item .service-price {
+        position: static;
+        display: block;
+        margin-top: 5px;
+        transform: none;
+        text-align: left;
+    }
+    */
+
+    /* 5. Кнопка "Записаться" — по центру */
+    .booking-btn-row {
+        text-align: center !important;
+    }
+    .booking-btn-row .btn-red {
+        display: block;
+        margin: 0 auto;
+    }
+}
