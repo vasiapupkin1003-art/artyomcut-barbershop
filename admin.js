@@ -383,6 +383,16 @@ function changeBlockMonth(delta) {
     
     renderBlockCalendar();
 }
+function cleanupExpiredBookings() {
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const now = new Date();
+    const filtered = bookings.filter(b => {
+        const bookingDateTime = new Date(`${b.date}T${b.time}:00`);
+        bookingDateTime.setHours(bookingDateTime.getHours() + 2);
+        return bookingDateTime > now;
+    });
+    localStorage.setItem('bookings', JSON.stringify(filtered));
+}
 function loadBookings() {
     cleanupExpiredBookings(); // <-- очищаем просроченные записи
     
