@@ -1457,3 +1457,19 @@ button, input, select {
         background: linear-gradient(180deg, rgba(7,9,10,0.1) 0%, rgba(7,9,10,0.8) 100%) !important;
     }
 }
+/* Поднимаем фото "О мастере" ближе к тексту на телефоне */
+@media (max-width: 768px) {
+    .about-inner {
+        gap: 20px !important;   /* было 80px, стало меньше */
+    }
+
+    .about-gallery {
+        margin-top: 0 !important;
+    }
+
+    /* Если нужно, чтобы фотографии полностью помещались по высоте,
+       можно слегка увеличить их высоту */
+    .about-gallery img {
+        height: 180px !important; /* было 150px, стало чуть выше */
+    }
+}
