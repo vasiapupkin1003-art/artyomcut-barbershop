@@ -574,4 +574,57 @@ function loadRecentReviews() {
         </div>
     `).join('');
 }
+// ========================================
+// ЛАЙТБОКС ДЛЯ ФОТОГРАФИЙ "О МАСТЕРЕ"
+// ========================================
+function initMasterGalleryLightbox() {
+    const photos = document.querySelectorAll('.about-gallery img');
+    if (!photos.length) return;
+
+    photos.forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function() {
+            openLightbox(img.src, img.alt);
+        });
+    });
+}
+
+function openLightbox(src, alt) {
+    // Убираем существующий лайтбокс, если есть
+    const existing = document.querySelector('.lightbox-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'lightbox-close';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.setAttribute('aria-label', 'Закрыть');
+
+    const image = document.createElement('img');
+    image.src = src;
+    image.alt = alt || 'Фото мастера';
+
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(image);
+    document.body.appendChild(overlay);
+
+    // Закрытие по клику на фон или кнопку
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay || e.target === closeBtn) {
+            overlay.remove();
+        }
+    });
+
+    // Закрытие по клавише Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            overlay.remove();
+        }
+    }, { once: true });
+}
+
+// Инициализация при загрузке DOM
+document.addEventListener('DOMContentLoaded', initMasterGalleryLightbox);
 console.log('🚀 Сайт загружен');
