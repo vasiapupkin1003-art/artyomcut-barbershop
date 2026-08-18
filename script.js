@@ -525,3 +525,10 @@ if (radioAudio && playBtn) {
         radioPlayer.classList.remove("playing");
     });
 }
+const drummerVideo = document.getElementById("drummerVideo");
+
+// При play:
+if (drummerVideo) drummerVideo.play();
+
+// При pause:
+if (drummerVideo) drummerVideo.pause();
