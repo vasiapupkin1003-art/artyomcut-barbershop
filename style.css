@@ -1406,3 +1406,54 @@ button, input, select {
         display: none !important;
     }
 }
+/* ==================================================
+   МОБИЛЬНЫЕ ПРАВКИ: текст поверх фото + меньший шрифт
+   ================================================== */
+@media (max-width: 768px) {
+
+    /* Уменьшаем шрифт первых слов на hero */
+    .small-title {
+        font-size: 16px !important;
+        letter-spacing: 2px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .hero h1 {
+        font-size: 34px !important;   /* было 40px */
+        letter-spacing: -2px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .hero-subtitle {
+        font-size: 18px !important;
+        letter-spacing: 2px !important;
+    }
+
+    /* Фото уходит под текст */
+    .hero {
+        padding-top: 70px;
+        min-height: 500px;              /* чтобы весь блок был достаточно высоким */
+    }
+
+    .hero-image {
+        position: absolute !important;
+        top: 70px !important;           /* сразу под шапкой */
+        left: 0 !important;
+        width: 100% !important;
+        height: 400px !important;       /* высота фото */
+        margin-top: 0 !important;
+        z-index: 1 !important;
+    }
+
+    .hero-content {
+        position: relative !important;
+        z-index: 2 !important;
+        padding: 100px 10px 20px !important;  /* верхний отступ, чтобы текст начинался поверх фото */
+    }
+
+    /* Лёгкое затемнение для читаемости (можно убрать, если не нужно) */
+    .hero-image::after {
+        display: block !important;
+        background: linear-gradient(180deg, rgba(7,9,10,0.1) 0%, rgba(7,9,10,0.8) 100%) !important;
+    }
+}
