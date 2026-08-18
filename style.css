@@ -1990,3 +1990,60 @@ button, input, select {
         margin: 0 auto;
     }
 }
+/* ==================================================
+   МОБИЛЬНЫЕ ПРАВКИ (только для экранов ≤ 768px)
+   ================================================== */
+@media (max-width: 768px) {
+
+    /* 1. Логотип в шапке — увеличиваем на 30% от исходного размера */
+    .header .logo img {
+        width: auto !important;          /* сбрасываем возможные ограничения */
+        max-width: 100% !important;
+        transform: scale(1.3);           /* увеличение в 1.3 раза */
+        transform-origin: left center;   /* чтобы не уезжало вправо */
+        display: block;
+    }
+
+    /* 2. Главное первое фото (hero) — чуть больше и светлее */
+    .hero-image img {
+        transform: scale(1.05) !important;  /* лёгкое увеличение */
+        filter: brightness(1.1) !important; /* светлее на 10% */
+        transform-origin: center center;
+    }
+
+    /* 3. Уменьшаем отступы между секциями */
+    .services,
+    .about,
+    .gallery,
+    .music,
+    .booking,
+    .contacts {
+        padding: 30px 0 !important;   /* уменьшаем вертикальные отступы */
+        margin: 0 !important;
+    }
+
+    /* 4. Цена в услугах не вылезает за рамку */
+    .service-option-item {
+        position: relative !important;
+        padding-right: 70px !important; /* резерв места для цены */
+    }
+    .service-option-item .service-price {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        white-space: nowrap;
+        font-size: 15px;
+    }
+
+    /* 5. Кнопка "Записаться" — по центру */
+    .booking-btn-row {
+        text-align: center !important;
+    }
+    .booking-btn-row .btn-red {
+        display: block;
+        margin: 0 auto;
+        width: auto;
+        max-width: 300px;
+    }
+}
