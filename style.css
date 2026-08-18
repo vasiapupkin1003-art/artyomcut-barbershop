@@ -1526,3 +1526,45 @@ button, input, select {
         gap: 10px;                    /* кнопки ближе друг к другу */
     }
 }
+/* ==================================================
+   ФИНАЛЬНЫЕ МОБИЛЬНЫЕ ПРАВКИ ГЛАВНОГО ЭКРАНА
+   ================================================== */
+@media (max-width: 768px) {
+
+    /* Фото: сдвигаем правее и увеличиваем */
+    .hero-image {
+        left: 30px !important;          /* сдвиг вправо */
+        width: 110% !important;         /* шире, чем экран */
+        height: 550px !important;       /* немного выше */
+        transform: none !important;     /* убираем предыдущий сдвиг */
+    }
+
+    /* Текст и кнопки опускаем ниже */
+    .hero-inner {
+        display: block !important;      /* отменяем flex-позиционирование */
+    }
+
+    .hero-content {
+        padding-top: 220px !important;  /* текст начинается ниже (подберите под себя) */
+        padding-bottom: 30px !important;
+    }
+
+    /* Кнопки уменьшаем примерно в 2 раза */
+    .hero-buttons .btn {
+        min-height: 35px !important;
+        padding: 0 20px !important;
+        font-size: 12px !important;
+        letter-spacing: 1px !important;
+    }
+
+    /* Дополнительно уменьшаем отступы в текстовом блоке */
+    .hero h1 {
+        font-size: 32px !important;
+    }
+    .hero-subtitle {
+        font-size: 16px !important;
+    }
+    .small-title {
+        font-size: 14px !important;
+    }
+}
