@@ -1493,3 +1493,36 @@ button, input, select {
         height: 500px !important;
     }
 }
+/* ==================================================
+   МОБИЛЬНЫЕ ПРАВКИ: текст ниже и плотнее, фото правее
+   ================================================== */
+@media (max-width: 768px) {
+
+    /* Сдвигаем фото немного вправо */
+    .hero-image {
+        transform: translateX(20px);
+    }
+
+    /* Текст ниже (увеличиваем нижний отступ) */
+    .hero-content {
+        padding-bottom: 60px !important;
+    }
+
+    /* Плотнее друг к другу: уменьшаем отступы между элементами */
+    .hero .small-title {
+        margin-bottom: 5px !important;
+    }
+    .hero h1 {
+        margin-bottom: 8px !important;
+        line-height: 1.05;            /* строки заголовка ближе */
+    }
+    .hero-subtitle {
+        margin-bottom: 5px !important;
+    }
+    .hero-line {
+        margin: 12px 0 18px !important; /* линия чуть компактнее */
+    }
+    .hero-buttons {
+        gap: 10px;                    /* кнопки ближе друг к другу */
+    }
+}
