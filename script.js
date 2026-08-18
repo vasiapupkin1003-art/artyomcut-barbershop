@@ -528,13 +528,11 @@ function adminAccess() {
 // ========================================
 // ИНИЦИАЛИЗАЦИЯ
 // ========================================
- 
+
 document.addEventListener('DOMContentLoaded', function() {
- document.addEventListener('DOMContentLoaded', function() {
-    cleanupExpiredBookings(); // <- очистка старых записей
-    renderCalendar();
-});
-    renderCalendar();
+    cleanupExpiredBookings(); // очистка старых записей
+    renderCalendar();          // календарь записи
+    loadRecentReviews();       // последние отзывы на главной
 });
  // ========================================
 // АВТООЧИСТКА ПРОСРОЧЕННЫХ ЗАПИСЕЙ
