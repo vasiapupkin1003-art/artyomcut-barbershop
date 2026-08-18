@@ -1821,3 +1821,35 @@ button, input, select {
         display: none !important;
     }
 }
+/* ========== КНОПКА MUTE (ДИНАМИК) ========== */
+.mute-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+}
+
+.mute-btn:hover {
+    color: #fff;
+}
+
+.mute-btn svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+/* ========== СКРЫТИЕ ГРОМКОСТИ НА МОБИЛЬНЫХ ========== */
+@media (max-width: 768px) {
+    .music-player .player-volume {
+        display: none !important;
+    }
+}
