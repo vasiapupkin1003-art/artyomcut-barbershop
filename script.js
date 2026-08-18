@@ -328,40 +328,45 @@ function showSuccessMessage(bookingData) {
  
 // ========================================
 // РАДИО ПЛЕЕР
-// (единая логика — раньше было два конкурирующих обработчика,
-// из-за чего иконки/статус вели себя непредсказуемо)
 // ========================================
- 
+
 const radioAudioElement = new Audio();
 radioAudioElement.crossOrigin = 'anonymous';
 radioAudioElement.src = 'https://stream.radioparadise.com/rock-128';
 radioAudioElement.preload = 'none';
- 
+
 let isMusicPlaying = false;
- 
-// Обычные векторные иконки вместо текстовых символов ("▶" / "❚❚"),
-// поэтому на телефоне они не превращаются в эмодзи-стикеры.
+
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>';
 const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
- 
+
 function setPlayerPlayingState(playing) {
     isMusicPlaying = playing;
- 
+
     const playIcon = document.getElementById('playIcon');
     const radioStatus = document.getElementById('radioStatus');
     const radioPlayerDiv = document.getElementById('radioPlayer');
     const drummerVideo = document.getElementById('drummerVideo');
- 
+
     if (playIcon) playIcon.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
     if (radioStatus) radioStatus.textContent = playing ? 'ARTYOMCUT RADIO • LIVE' : 'Радио остановлено';
     if (radioPlayerDiv) radioPlayerDiv.classList.toggle('playing', playing);
- 
+
     if (drummerVideo) {
         if (playing) drummerVideo.play().catch(() => {});
         else drummerVideo.pause();
     }
 }
- 
+
+function updateMuteIcon() {
+    const volumeOnIcon = document.getElementById('volumeOnIcon');
+    const volumeOffIcon = document.getElementById('volumeOffIcon');
+    const isMuted = radioAudioElement.muted || radioAudioElement.volume === 0;
+
+    if (volumeOnIcon) volumeOnIcon.style.display = isMuted ? 'none' : 'block';
+    if (volumeOffIcon) volumeOffIcon.style.display = isMuted ? 'block' : 'none';
+}
+
 async function toggleMusic() {
     if (radioAudioElement.paused) {
         try {
@@ -376,30 +381,41 @@ async function toggleMusic() {
         setPlayerPlayingState(false);
     }
 }
- 
+
 document.addEventListener('DOMContentLoaded', function() {
     const playBtn = document.getElementById('playBtn');
     if (playBtn) playBtn.addEventListener('click', toggleMusic);
- 
-    // На телефоне регулятора громкости нет в разметке — блок безопасно
-    // ничего не делает, если элемент отсутствует.
+
     const volumeSlider = document.getElementById('volumeSlider');
     if (volumeSlider) {
         radioAudioElement.volume = volumeSlider.value;
         volumeSlider.addEventListener('input', () => {
             radioAudioElement.volume = volumeSlider.value;
+            // Если громкость выкручена в ноль — включаем mute
+            if (volumeSlider.value == 0) {
+                radioAudioElement.muted = true;
+            } else {
+                radioAudioElement.muted = false;
+            }
+            updateMuteIcon();
         });
     }
- 
-    // Кнопки ⏮ ⏭ пока декоративные — сейчас только одна радиостанция.
-    // Когда добавите несколько станций, логика переключения вешается сюда.
+
+    const muteBtn = document.getElementById('muteBtn');
+    if (muteBtn) {
+        muteBtn.addEventListener('click', () => {
+            radioAudioElement.muted = !radioAudioElement.muted;
+            updateMuteIcon();
+        });
+    }
+
+    // Инициализация иконки mute
+    updateMuteIcon();
+
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     if (prevBtn) prevBtn.addEventListener('click', () => {});
     if (nextBtn) nextBtn.addEventListener('click', () => {});
- 
-    const likeBtn = document.getElementById('likeBtn');
-    if (likeBtn) likeBtn.addEventListener('click', () => likeBtn.classList.toggle('liked'));
 });
  
 // ========================================
