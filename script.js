@@ -463,6 +463,10 @@ function adminAccess() {
 // ========================================
  
 document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function() {
+    cleanupExpiredBookings(); // <- очистка старых записей
+    renderCalendar();
+});
     renderCalendar();
 });
  // ========================================
