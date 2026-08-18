@@ -485,24 +485,29 @@ button, input, select {
 }
 
 /* ========================================
-   РАДИО ПЛЕЕР - КОМПАКТНЫЙ
+   РАДИО ПЛЕЕР - УЗКИЙ И ВЫСОКИЙ
 ======================================== */
 
 .radio-player {
-    max-width: 400px;
+    max-width: 350px;
     margin: 0 auto;
     background: #1a1a1a;
     border: 1px solid #2e2e2e;
     border-radius: 16px;
-    padding: 20px;
+    padding: 25px 15px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 .radio-visual {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     margin: 0 auto;
+    flex-shrink: 0;
 }
 
 .equalizer {
@@ -510,8 +515,8 @@ button, input, select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 190px;
-    height: 190px;
+    width: 170px;
+    height: 170px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -541,8 +546,8 @@ button, input, select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     background: #0d0d0d;
     border-radius: 50%;
     border: 2px solid #333;
@@ -572,26 +577,22 @@ button, input, select {
 .radio-title-inside {
     position: relative;
     z-index: 3;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     color: #FD4848;
     letter-spacing: 1px;
-    margin-top: 40px;
-}
-
-.radio-info {
-    margin-top: 15px;
+    margin-top: 35px;
 }
 
 .radio-info h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     color: #fff;
     letter-spacing: 1px;
 }
 
 .radio-info p {
-    font-size: 11px;
+    font-size: 10px;
     color: #999;
     letter-spacing: 1px;
 }
@@ -600,26 +601,25 @@ button, input, select {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    margin-top: 15px;
+    gap: 15px;
 }
 
 .radio-btn {
     background: none;
     border: none;
     color: #999;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .radio-play {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #FD4848;
     border: none;
     color: #fff;
-    font-size: 22px;
+    font-size: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -631,31 +631,28 @@ button, input, select {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 15px;
     width: 100%;
-    max-width: 250px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 200px;
 }
 
 .radio-heart, .radio-menu {
     background: none;
     border: none;
     color: #999;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .volume-control {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     flex: 1;
-    max-width: 120px;
+    max-width: 100px;
 }
 
 .volume-control span {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .volume-control input[type="range"] {
@@ -670,8 +667,8 @@ button, input, select {
 
 .volume-control input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: #FD4848;
     border-radius: 50%;
     cursor: pointer;
@@ -679,38 +676,8 @@ button, input, select {
 
 .radio-status {
     text-align: center;
-    margin-top: 10px;
     color: #666;
-    font-size: 11px;
-}
-
-/* МОБИЛЬНАЯ */
-@media (max-width: 768px) {
-    .radio-visual {
-        width: 160px;
-        height: 160px;
-    }
-    
-    .equalizer {
-        width: 150px;
-        height: 150px;
-    }
-    
-    .radio-disc {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .radio-title-inside {
-        font-size: 10px;
-        margin-top: 35px;
-    }
-    
-    .radio-play {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
+    font-size: 10px;
 }
 /* ========================================
    ЗАПИСЬ
