@@ -485,7 +485,7 @@ button, input, select {
 }
 
 /* ========================================
-   РАДИО ПЛЕЕР - ФИНАЛЬНАЯ ВЕРСИЯ
+   РАДИО ПЛЕЕР - ПРОСТОЕ РЕШЕНИЕ
 ======================================== */
 
 .radio-player {
@@ -494,20 +494,16 @@ button, input, select {
     background: #1a1a1a;
     border: 1px solid #2e2e2e;
     border-radius: 20px;
-    padding: 40px 30px 30px;
+    padding: 40px 30px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 700px;
 }
 
 .radio-visual {
     position: relative;
-    width: 350px;
-    height: 350px;
-    margin: 0 auto;
-    flex-shrink: 0;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 30px;
+    display: block;
 }
 
 .equalizer {
@@ -515,20 +511,20 @@ button, input, select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 340px;
-    height: 340px;
+    width: 290px;
+    height: 290px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 5px;
     z-index: 1;
 }
 
 .eq-bar {
-    width: 7px;
-    height: 15px;
+    width: 6px;
+    height: 12px;
     background: #FD4848;
-    border-radius: 4px;
+    border-radius: 3px;
     animation: eqAnimation 0.8s ease-in-out infinite;
     opacity: 0.6;
 }
@@ -537,8 +533,8 @@ button, input, select {
 .eq-bar:nth-child(3n) { animation-delay: 0.4s; }
 
 @keyframes eqAnimation {
-    0%, 100% { height: 15px; }
-    50% { height: 110px; }
+    0%, 100% { height: 12px; }
+    50% { height: 80px; }
 }
 
 .radio-disc {
@@ -546,11 +542,11 @@ button, input, select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
     background: #0d0d0d;
     border-radius: 50%;
-    border: 3px solid #333;
+    border: 2px solid #333;
     overflow: hidden;
     z-index: 2;
 }
@@ -577,54 +573,63 @@ button, input, select {
 .radio-title-inside {
     position: relative;
     z-index: 3;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 800;
     color: #FD4848;
     letter-spacing: 2px;
-    margin-top: 80px;
+    margin-top: 65px;
+}
+
+/* ВСЁ ЧТО ПОСЛЕ ДИСКА - ОБЫЧНЫЙ ПОТОК */
+.radio-info,
+.radio-controls,
+.radio-bottom,
+.radio-status {
+    position: static;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .radio-info {
     margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .radio-info h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 800;
     color: #fff;
 }
 
 .radio-info p {
-    font-size: 13px;
+    font-size: 12px;
     color: #999;
-    letter-spacing: 1px;
 }
 
 .radio-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
-    margin-top: auto;
-    padding-top: 20px;
+    gap: 25px;
+    margin-bottom: 20px;
 }
 
 .radio-btn {
     background: none;
     border: none;
     color: #999;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
 }
 
 .radio-play {
-    width: 80px;
-    height: 80px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     background: #FD4848;
     border: none;
     color: #fff;
-    font-size: 32px;
+    font-size: 26px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -637,35 +642,34 @@ button, input, select {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 300px;
-    margin-top: 20px;
+    max-width: 280px;
 }
 
 .radio-heart, .radio-menu {
     background: none;
     border: none;
     color: #999;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
 }
 
 .volume-control {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex: 1;
-    max-width: 150px;
+    max-width: 130px;
 }
 
 .volume-control span {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .volume-control input[type="range"] {
     flex: 1;
-    height: 5px;
+    height: 4px;
     background: #333;
-    border-radius: 5px;
+    border-radius: 4px;
     outline: none;
     -webkit-appearance: none;
     cursor: pointer;
@@ -673,17 +677,17 @@ button, input, select {
 
 .volume-control input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     background: #FD4848;
     border-radius: 50%;
     cursor: pointer;
 }
 
 .radio-status {
-    text-align: center;
+    margin-top: 15px;
     color: #666;
-    font-size: 13px;
+    font-size: 12px;
 }
 /* ========================================
    ЗАПИСЬ
