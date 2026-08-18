@@ -327,7 +327,7 @@ function showSuccessMessage(bookingData) {
 }
 
 // ========================================
-// НОВЫЙ ПЛЕЕР С РАДИО
+// ПЛЕЕР С РАДИО
 // ========================================
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -342,6 +342,9 @@ let analyser = null;
 let dataArray = null;
 let source = null;
 
+const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
+const ICON_PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+
 function openMusicPlayer() {
     document.getElementById('fullPlayer').classList.add('open');
 }
@@ -350,7 +353,7 @@ function closeMusicPlayer() {
     document.getElementById('fullPlayer').classList.remove('open');
 }
 
-function initAudioContext() {
+function initRadioAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
@@ -363,68 +366,23 @@ function initAudioContext() {
 }
 
 function toggleMusic() {
+    const miniPlayIcon = document.getElementById('miniPlayIcon');
+    const fullPlayIcon = document.getElementById('fullPlayIcon');
+    
     if (!isMusicPlaying) {
-        initAudioContext();
+        initRadioAudioContext();
         radioAudio.play().then(() => {
             isMusicPlaying = true;
-            updatePlayIcons();
+            miniPlayIcon.innerHTML = ICON_PAUSE;
+            fullPlayIcon.innerHTML = ICON_PAUSE;
         }).catch(() => alert('Не удалось загрузить радио'));
     } else {
         radioAudio.pause();
         isMusicPlaying = false;
-        updatePlayIcons();
+        miniPlayIcon.innerHTML = ICON_PLAY;
+        fullPlayIcon.innerHTML = ICON_PLAY;
     }
 }
-
-function updatePlayIcons() {
-    const miniIcon = document.getElementById('miniPlayIcon');
-    const fullIcon = document.getElementById('fullPlayIcon');
-    
-    if (isMusicPlaying) {
-        miniIcon.className = 'fas fa-pause';
-        fullIcon.className = 'fas fa-pause';
-    } else {
-        miniIcon.className = 'fas fa-play';
-        fullIcon.className = 'fas fa-play';
-    }
-}
-
-// Для радио можно использовать визуализацию
-function drawVisualizer() {
-    if (!analyser || !isMusicPlaying) return;
-    
-    requestAnimationFrame(drawVisualizer);
-    analyser.getByteFrequencyData(dataArray);
-    
-    // Здесь можно рисовать на canvas если добавить
-    const progressFill = document.getElementById('miniProgress');
-    if (progressFill && dataArray.length > 0) {
-        const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-        progressFill.style.width = (avg / 255) * 100 + '%';
-    }
-}
-
-// Запускаем визуализацию
-setInterval(drawVisualizer, 100);
-
-// ========================================
-// ГАЛЕРЕЯ
-// ========================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.gallery-grid img').forEach(img => {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', function() {
-            const src = this.getAttribute('src');
-            const lightbox = document.createElement('div');
-            lightbox.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 9999; cursor: pointer;`;
-            lightbox.innerHTML = `<img src="${src}" style="max-width: 90%; max-height: 90%; object-fit: contain;"><button style="position: absolute; top: 20px; right: 20px; background: #c51f25; color: #fff; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 30px; cursor: pointer;">×</button>`;
-            document.body.appendChild(lightbox);
-            lightbox.addEventListener('click', function(e) { if (e.target === lightbox) lightbox.remove(); });
-            lightbox.querySelector('button').addEventListener('click', function() { lightbox.remove(); });
-        });
-    });
-});
 
 // ========================================
 // МОБИЛЬНОЕ МЕНЮ
