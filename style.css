@@ -1400,3 +1400,9 @@ button, input, select {
 .lightbox-close:hover {
     color: #c51f25;
 }
+/* Убираем градиентное затемнение на главном фото на телефоне */
+@media (max-width: 768px) {
+    .hero-image::after {
+        display: none !important;
+    }
+}
