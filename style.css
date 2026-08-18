@@ -1330,7 +1330,7 @@ button, input, select {
 
     /* 1. Уменьшаем hero-фото и слегка отодвигаем текст от левого края */
     .hero-image {
-        height: 600px !important;      
+        height: 550px !important;      
     }
     .hero-content {
         padding-left: 10px !important;  /* слова чуть отодвигаются от края */
