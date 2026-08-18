@@ -143,61 +143,42 @@
             </div>
         </section>
 
-        <!-- МУЗЫКА -->
-<section id="music" class="music">
-    <div class="container">
-        <h2>МУЗЫКА <span>⚡</span></h2>
-        
-        <!-- ARTYOMCUT RADIO PLAYER -->
-        <div class="radio-player" id="radioPlayer">
-            
-            <!-- ВИЗУАЛЬНЫЙ ДИСК С ЭКВАЛАЙЗЕРОМ -->
-            <div class="radio-visual">
-                <div class="equalizer">
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                    <div class="eq-bar"></div>
-                </div>
-                
-                <div class="radio-disc">
-    <div class="drummer-video">
-        <video autoplay muted loop playsinline id="drummerVideo">
-            <source src="images/drummer.mp4" type="video/mp4">
+        <div class="music-player" id="radioPlayer">
+    <p class="player-title">МУЗЫКА ⚡</p>
+    <p class="player-station">ARTYOMCUT</p>
+    <p class="player-station-accent">RADIO</p>
+
+    <div class="player-art">
+        <video id="drummerVideo" autoplay muted loop playsinline>
+            <source src="drummer-loop.mp4" type="video/mp4">
         </video>
     </div>
-    <div class="radio-title-inside">ARTYOMCUT<br>RADIO</div>
+
+    <p class="player-status" id="radioStatus">Радио остановлено</p>
+
+    <div class="player-controls">
+        <button class="player-btn" id="prevBtn" aria-label="Назад" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 6h2v12H6zM20 6L10 12l10 6z"/></svg>
+        </button>
+
+        <button class="player-btn-play" id="playBtn" aria-label="Воспроизвести" type="button">
+            <span id="playIcon">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+        </button>
+
+        <button class="player-btn" id="nextBtn" aria-label="Вперед" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M16 6h2v12h-2zM4 6l10 6-10 6z"/></svg>
+        </button>
+    </div>
+
+    <!-- Громкость только для десктопа, на телефоне блок скрыт через CSS -->
+    <div class="player-volume">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+        </svg>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+    </div>
 </div>
             
             <!-- ИНФОРМАЦИЯ -->
