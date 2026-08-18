@@ -1253,3 +1253,48 @@ button, input, select {
         max-width: 300px;
     }
 }
+/* ==================================================
+   ПК-ПРАВКИ (экраны шире 768px)
+   ================================================== */
+@media (min-width: 769px) {
+
+    /* 1. Логотип чуть левее */
+    .header .container {
+        padding-left: 30px !important;  /* было 60px, теперь левее */
+        padding-right: 60px !important; /* справа оставляем как было */
+    }
+
+    /* 2. Кнопка выключения звука (mute) — нормальный цвет и вид */
+    .mute-btn {
+        background: none;
+        border: none;
+        color: #aaa6a0;                /* серый, как остальные иконки */
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+        flex-shrink: 0;
+        width: 26px;
+        height: 26px;
+    }
+    .mute-btn:hover {
+        color: #fff;
+    }
+    .mute-btn svg {
+        width: 22px;
+        height: 22px;
+        display: block;
+    }
+
+    /* 3. Цена в услугах не вылезает за рамку */
+    .service-option-item {
+        padding-right: 75px !important;  /* резерв для цены */
+    }
+    .service-option-item .service-price {
+        white-space: nowrap;
+        font-size: 18px;               /* можно чуть уменьшить */
+        right: 15px;
+    }
+}
