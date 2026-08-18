@@ -3645,3 +3645,215 @@ select {
         height: min(60vw, 250px);
     }
 }
+/* ========================================
+   НОВЫЙ ПЛЕЕР
+======================================== */
+
+.mini-player {
+    position: relative;
+    background: #262626;
+    border-radius: 20px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px -8px rgba(0,0,0,0.55);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.mini-player:active {
+    transform: scale(0.985);
+}
+
+.mini-cover-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.mini-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.mini-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mini-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #E2E8EE;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-artist {
+    font-size: 11.5px;
+    color: #9B8187;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-play-btn {
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: none;
+    color: #E2E8EE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.mini-play-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ПОЛНОЭКРАННЫЙ */
+.full-player {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #232224 0%, #18171A 60%);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 26px 26px 40px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(14px);
+    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.full-player.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.full-player-top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.full-close-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.12);
+    color: #E2E8EE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.full-close-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.full-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9B8187;
+    font-weight: 700;
+}
+
+.full-cover {
+    width: min(72vw, 300px);
+    height: min(72vw, 300px);
+    border-radius: 28px;
+    overflow: hidden;
+    margin-top: 26px;
+    box-shadow: 0 14px 40px -10px rgba(0,0,0,0.6);
+}
+
+.full-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.full-info {
+    text-align: center;
+    margin-top: 34px;
+}
+
+.full-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #E2E8EE;
+}
+
+.full-artist {
+    font-size: 13.5px;
+    color: #9B8187;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.full-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    margin-top: 30px;
+}
+
+.full-play-btn {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: #FD4848;
+    box-shadow: 0 10px 24px -6px rgba(253,72,72,0.55);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s;
+}
+
+.full-play-btn:hover {
+    transform: scale(1.06);
+}
+
+.full-play-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* МОБИЛЬНАЯ */
+@media (max-width: 768px) {
+    .mini-player {
+        max-width: 100%;
+    }
+    
+    .full-cover {
+        width: min(60vw, 250px);
+        height: min(60vw, 250px);
+    }
+}
