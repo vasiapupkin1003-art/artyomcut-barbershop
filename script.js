@@ -214,6 +214,12 @@ function renderTimeSlots(dateString) {
         return;
     }
     
+    // === НОВОЕ: фильтр прошедших слотов для сегодняшнего дня ===
+    const now = new Date();
+    const todayString = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const isToday = (dateString === todayString);
+    const currentTimeMs = now.getTime();
+    
     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
     const startTime = daySchedule.start.split(':');
     const endTime = daySchedule.end.split(':');
@@ -225,6 +231,16 @@ function renderTimeSlots(dateString) {
     
     while (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
         const timeString = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
+        
+        // Пропускаем слот, если он уже прошёл (только для сегодняшней даты)
+        if (isToday) {
+            const slotDateTime = new Date(`${dateString}T${timeString}:00`);
+            if (slotDateTime.getTime() < currentTimeMs) {
+                currentHour += 1;
+                continue;
+            }
+        }
+        
         const isBooked = bookings.some(b => b.date === dateString && b.time === timeString);
         slots.push({ time: timeString, booked: isBooked });
         currentHour += 1;
