@@ -147,26 +147,63 @@
 <section id="music" class="music">
     <div class="container">
         <h2>МУЗЫКА <span>⚡</span></h2>
-        <div class="music-players">
-            <!-- РАДИО -->
-            <div class="radio-player">
-                <div class="player-header">
-                    <span class="radio-icon">📻</span>
-                    <h3>ARTYOMCUT RADIO</h3>
-                    <span class="live-badge">🔴 LIVE</span>
+        
+        <!-- МИНИ-ПЛЕЕР -->
+        <div class="mini-player" id="miniPlayer" onclick="openMusicPlayer()">
+            <div class="mini-cover">
+                <img id="miniCover" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Cover">
+            </div>
+            <div class="mini-info">
+                <div class="mini-title" id="miniTitle">Midnight Static</div>
+                <div class="mini-artist" id="miniArtist">Coral Drift</div>
+            </div>
+            <button class="mini-play-btn" id="miniPlayBtn" onclick="event.stopPropagation(); toggleMusic()">
+                <i class="fas fa-play" id="miniPlayIcon"></i>
+            </button>
+            <div class="mini-progress">
+                <div class="mini-progress-fill" id="miniProgress" style="width: 0%;"></div>
+            </div>
+        </div>
+        
+        <!-- ПОЛНОЭКРАННЫЙ ПЛЕЕР -->
+        <div class="full-player" id="fullPlayer">
+            <div class="full-player-header">
+                <button class="full-close-btn" onclick="closeMusicPlayer()">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <span>Сейчас играет</span>
+                <div style="width: 40px;"></div>
+            </div>
+            
+            <div class="full-cover">
+                <img id="fullCover" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Cover">
+            </div>
+            
+            <div class="full-info">
+                <div class="full-title" id="fullTitle">Midnight Static</div>
+                <div class="full-artist" id="fullArtist">Coral Drift</div>
+            </div>
+            
+            <div class="full-progress">
+                <div class="full-progress-bar">
+                    <div class="full-progress-fill" id="fullProgress" style="width: 0%;"></div>
                 </div>
-                <div class="radio-info">
-                    <p class="radio-status">ROCK • 80s • CLASSIC</p>
-                </div>
-                <canvas id="visualizer" width="600" height="100"></canvas>
-                <div class="radio-controls">
-                    <button class="radio-play-btn" id="radioPlayBtn"></button>
-                    <div class="volume-control">
-                        <span>🔊</span>
-                        <input type="range" id="radioVolume" min="0" max="100" value="70">
-                    </div>
+                <div class="full-times">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">3:41</span>
                 </div>
             </div>
+            
+            <div class="full-controls">
+                <button onclick="prevMusic()"><i class="fas fa-backward"></i></button>
+                <button class="full-play-btn" onclick="toggleMusic()">
+                    <i class="fas fa-play" id="fullPlayIcon"></i>
+                </button>
+                <button onclick="nextMusic()"><i class="fas fa-forward"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
             
             <!-- ПЛЕЙЛИСТ -->
             <div class="playlist-player">
