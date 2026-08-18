@@ -549,4 +549,31 @@ function cleanupExpiredBookings() {
     });
     localStorage.setItem('bookings', JSON.stringify(filtered));
 }
+// ========================================
+// ПОСЛЕДНИЕ ОТЗЫВЫ НА ГЛАВНОЙ
+// ========================================
+function loadRecentReviews() {
+    const container = document.getElementById('reviewsPreviewGrid');
+    if (!container) return;
+
+    const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+    if (reviews.length === 0) {
+        container.innerHTML = '<p style="color: #aaa6a0; text-align: center; grid-column: 1/-1;">Пока нет отзывов. Оставьте первый!</p>';
+        return;
+    }
+
+    // Сортируем по дате (новые сверху)
+    reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const recent = reviews.slice(0, 3);
+
+    container.innerHTML = recent.map(review => `
+        <div class="review-preview-item">
+            <div class="review-preview-header">
+                <span class="review-preview-name">${review.name}</span>
+                <span class="review-preview-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+            </div>
+            <p class="review-preview-message">${review.message}</p>
+        </div>
+    `).join('');
+}
 console.log('🚀 Сайт загружен');
