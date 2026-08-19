@@ -222,26 +222,32 @@
             color: #686c6d;
             font-size: 14px;
         }
-        .grid {
-    grid-template-columns: 1.5fr 1fr !important;  /* карта станет шире */
-    width: 1400px !important;
-    max-width: 1400px !important;
-}
-.map-card, .info-card {
-    width: 100% !important;
+        .wrap {
+    max-width: 1400px;          /* ширина на десктопе */
+    margin: 0 auto;
+    padding: 100px 20px 60px;   /* подняли выше (было 180px) */
 }
 
-        @media (max-width: 820px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .wrap {
-                padding-top: 140px;
-            }
-        }
-    </style>
-</head>
-<body>
+.grid {
+    grid-template-columns: 1.5fr 1fr;  /* карта чуть шире информации */
+    gap: 25px;
+}
+
+.map-card,
+.info-card {
+    width: 100%;
+}
+
+/* Мобильные */
+@media (max-width: 820px) {
+    .wrap {
+        max-width: 100%;          /* на телефоне — во всю ширину экрана */
+        padding: 90px 15px 30px;  /* поднять */
+    }
+    .grid {
+        grid-template-columns: 1fr;  /* одна колонка */
+    }
+}
 
     <!-- ШАПКА -->
     <header class="header">
