@@ -1693,3 +1693,20 @@ button, input, select {
         height: 22px !important;
     }
 }
+/* Прижимаем подвал к низу на всех страницах */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main,
+.wrap,
+.gallery-page,
+.reviews-page {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+}
