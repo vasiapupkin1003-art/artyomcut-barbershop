@@ -4,101 +4,252 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Как нас найти — ArtyomCut</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #07090a; color: #e8e5df; font-family: 'Manrope', Arial, sans-serif; line-height: 1.5; }
-        a { color: inherit; text-decoration: none; }
-        img { max-width: 100%; display: block; }
+        /* Уникальные стили только для этой страницы */
+        body {
+            background: #07090a;
+            color: #e8e5df;
+            font-family: 'Manrope', Arial, sans-serif;
+            line-height: 1.5;
+        }
 
-        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: #000; border-bottom: 1px solid rgba(255,255,255,0.06); }
-        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 10px 20px; }
-        .logo img { height: 80px; }
-        .btn-back { background: #15191a; border: 1px solid #343839; color: #fff; padding: 6px 10px; border-radius: 5px; font-weight: 700; font-size: 13px; letter-spacing: 1px; transition: all 0.3s; white-space: nowrap; }
-        .btn-back:hover { background: #c51f25; border-color: #c51f25; }
-        .socials { display: flex; gap: 10px; }
-        .social-link { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; transition: all 0.3s; }
-        .social-link:hover { background: #c51f25; border-color: #c51f25; }
-        .social-link svg { width: 20px; height: 20px; fill: currentColor; }
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
 
-        .burger-btn { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 7px; background: none; border: none; cursor: pointer; width: 52px; height: 52px; z-index: 1100; }
-        .burger-btn span { width: 34px; height: 3px; background: #fff; border-radius: 3px; }
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .eyebrow span {
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 12px;
+            font-weight: 800;
+            color: #c51f25;
+        }
+        h1 {
+            font-size: clamp(36px, 6vw, 54px);
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .sub {
+            color: #aaa6a0;
+            max-width: 540px;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
 
-        .nav { display: flex; gap: 20px; }
-        .nav a { color: #dedbd5; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; }
-        .nav a:hover, .nav a.active { color: #fff; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 25px;
+            align-items: stretch;
+        }
 
-        .wrap { max-width: 1100px; margin: 0 auto; padding: 120px 20px 60px; }
-        .eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .eyebrow span { text-transform: uppercase; letter-spacing: 0.2em; font-size: 12px; font-weight: 800; color: #c51f25; }
-        h1 { font-size: clamp(36px, 6vw, 54px); font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 10px; }
-        .sub { color: #aaa6a0; max-width: 540px; font-size: 16px; margin-bottom: 40px; }
+        .map-card {
+            background: #111516;
+            border: 1px solid #292d2e;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px -20px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+        }
+        .map-frame {
+            position: relative;
+            flex: 1;
+            min-height: 320px;
+        }
+        .map-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(0.6) contrast(1.1) brightness(0.85);
+        }
+        .map-toolbar {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 2;
+        }
+        .map-toolbar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(12,11,13,0.8);
+            backdrop-filter: blur(6px);
+            border: 1px solid #343839;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 12.5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .map-toolbar a:hover {
+            background: #c51f25;
+            border-color: #c51f25;
+        }
+        .route-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px 20px;
+            margin: 15px;
+            border-radius: 10px;
+            background: #c51f25;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .route-btn:hover {
+            background: #e0262d;
+        }
+        .route-btn svg {
+            width: 17px;
+            height: 17px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
 
-        .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px; align-items: stretch; }
-        .map-card { background: #111516; border: 1px solid #292d2e; border-radius: 15px; overflow: hidden; box-shadow: 0 20px 50px -20px rgba(0,0,0,0.7); display: flex; flex-direction: column; }
-        .map-frame { position: relative; flex: 1; min-height: 320px; }
-        .map-frame iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.6) contrast(1.1) brightness(0.85); }
-        .map-toolbar { position: absolute; top: 15px; left: 15px; z-index: 2; }
-        .map-toolbar a { display: inline-flex; align-items: center; gap: 6px; background: rgba(12,11,13,0.8); backdrop-filter: blur(6px); border: 1px solid #343839; color: #fff; padding: 8px 14px; border-radius: 30px; font-size: 12.5px; font-weight: 600; transition: all 0.3s; }
-        .map-toolbar a:hover { background: #c51f25; border-color: #c51f25; }
-        .route-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 18px 20px; margin: 15px; border-radius: 10px; background: #c51f25; color: #fff; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 14px; transition: background 0.2s; }
-        .route-btn:hover { background: #e0262d; }
-        .route-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; }
+        .info-card {
+            background: #111516;
+            border: 1px solid #292d2e;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #292d2e;
+        }
+        .row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .icon-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(197,31,37,0.12);
+            border: 1px solid rgba(197,31,37,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .icon-badge svg {
+            width: 20px;
+            height: 20px;
+            stroke: #c51f25;
+            fill: none;
+            stroke-width: 1.8;
+        }
+        .row-text {
+            flex: 1;
+        }
+        .row-label {
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 10px;
+            font-weight: 800;
+            color: #c51f25;
+            margin-bottom: 3px;
+        }
+        .row-value {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .row-value.small {
+            font-size: 13px;
+            color: #aaa6a0;
+        }
 
-        .info-card { background: #111516; border: 1px solid #292d2e; border-radius: 15px; padding: 25px; display: flex; flex-direction: column; gap: 20px; }
-        .row { display: flex; align-items: center; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid #292d2e; }
-        .row:last-child { border-bottom: none; padding-bottom: 0; }
-        .icon-badge { width: 44px; height: 44px; border-radius: 10px; background: rgba(197,31,37,0.12); border: 1px solid rgba(197,31,37,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .icon-badge svg { width: 20px; height: 20px; stroke: #c51f25; fill: none; stroke-width: 1.8; }
-        .row-text { flex: 1; }
-        .row-label { text-transform: uppercase; letter-spacing: 0.15em; font-size: 10px; font-weight: 800; color: #c51f25; margin-bottom: 3px; }
-        .row-value { font-size: 17px; font-weight: 700; color: #fff; }
-        .row-value.small { font-size: 13px; color: #aaa6a0; }
+        .hours {
+            margin-top: auto;
+            background: #0d1011;
+            border-radius: 10px;
+            padding: 18px 20px;
+        }
+        .hours-title {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #c51f25;
+            margin-bottom: 12px;
+        }
+        .hour-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 14px;
+            color: #aaa6a0;
+            border-bottom: 1px dashed #292d2e;
+        }
+        .hour-row:last-child {
+            border-bottom: none;
+        }
+        .hour-row.today {
+            color: #fff;
+            font-weight: 700;
+        }
+        .hour-row.today .day::after {
+            content: " • Сегодня";
+            color: #c51f25;
+        }
 
-        .hours { margin-top: auto; background: #0d1011; border-radius: 10px; padding: 18px 20px; }
-        .hours-title { font-size: 12px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #c51f25; margin-bottom: 12px; }
-        .hour-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; color: #aaa6a0; border-bottom: 1px dashed #292d2e; }
-        .hour-row:last-child { border-bottom: none; }
-        .hour-row.today { color: #fff; font-weight: 700; }
-        .hour-row.today .day::after { content: " • Сегодня"; color: #c51f25; }
-
-        .footer { background: #050708; padding: 30px 20px; text-align: center; color: #686c6d; font-size: 14px; }
+        .footer {
+            background: #050708;
+            padding: 30px 20px;
+            text-align: center;
+            color: #686c6d;
+            font-size: 14px;
+        }
 
         @media (max-width: 820px) {
-            .grid { grid-template-columns: 1fr; }
-            .header-inner { flex-wrap: wrap; gap: 10px; }
-            .logo { order: 0; flex: 1; }
-            .btn-back { order: 1; }
-            .socials { order: 2; }
-            .burger-btn { display: flex; order: 3; }
-            .nav { position: fixed; top: 0; right: 0; left: auto; width: 60%; height: 100vh; background: #0d1011; flex-direction: column; padding: 80px 30px; transition: transform 0.3s ease; gap: 20px; align-items: flex-start; z-index: 1000; transform: translateX(100%); visibility: hidden; }
-            .nav.open { transform: translateX(0); visibility: visible; }
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+
     <!-- ШАПКА -->
     <header class="header">
-        <div class="header-inner">
-            <a href="index.html" class="logo"><img src="images/logo/logo.png" alt="ArtyomCut"></a>
-            <a href="index.html" class="btn-back">← НА САЙТ</a>
-            <div class="socials">
-    <a href="https://www.instagram.com/artembarbercat/" target="_blank" aria-label="Instagram" class="social-link">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-        </svg>
-    </a>
-    <a href="https://t.me/artyomcut" target="_blank" aria-label="Telegram" class="social-link">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-        </svg>
-    </a>
-</div>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo/logo.png" alt="ArtyomCut Barbershop">
+            </a>
+
+            <a href="index.html" class="btn-back-gallery">← НА САЙТ</a>
+
             <button class="burger-btn" id="burgerBtn" onclick="toggleMobileMenu()">
                 <span></span><span></span><span></span>
             </button>
+
             <nav class="nav" id="mobileNav">
                 <a href="index.html">ГЛАВНАЯ</a>
                 <a href="index.html#services">УСЛУГИ</a>
@@ -107,13 +258,28 @@
                 <a href="reviews.html">ОТЗЫВЫ</a>
                 <a href="location.html" class="active">КАК НАС НАЙТИ</a>
             </nav>
+
+            <div class="socials">
+                <a href="https://www.instagram.com/artembarbercat/" target="_blank" aria-label="Instagram" class="social-link">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="currentColor"/>
+                    </svg>
+                </a>
+                <a href="https://t.me/artyomcut" target="_blank" aria-label="Telegram" class="social-link">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" fill="currentColor"/>
+                    </svg>
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- КОНТЕНТ -->
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <div class="wrap">
         <div class="eyebrow"><span>Локация</span></div>
         <h1>Как нас найти</h1>
+        <p class="sub">Barbershop в самом центре Хихона — рядом с Calle de San Manuel. Пять минут пешком от площади, сложно промахнуться.</p>
+
         <div class="grid">
             <div class="map-card">
                 <div class="map-frame">
