@@ -1159,19 +1159,20 @@ button, input, select {
 
     /* Навигация (бургер) */
     .nav {
-        position: fixed;
-        top: 0;
-        right: -45%;
-        width: 45%;
-        height: 100vh;
-        background: #0d1011;
-        flex-direction: column;
-        padding: 80px 30px;
-        transition: right 0.3s ease;
-        gap: 20px;
-        align-items: flex-start;
-        z-index: 999;
-    }
+    position: fixed;
+    top: 0;
+    right: -45%;
+    width: 45%;
+    height: 100vh;
+    background: #0d1011;
+    flex-direction: column;
+    padding: 80px 30px;
+    transition: right 0.3s ease;
+    gap: 20px;
+    align-items: flex-start;
+    z-index: 999;
+}
+.nav.open { right: 0; }
     .nav.open { right: 0; }
     .nav a { font-size: 18px; }
     body.no-scroll { overflow: hidden; }
