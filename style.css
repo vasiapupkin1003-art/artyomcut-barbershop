@@ -1745,3 +1745,19 @@ main,
     width: 100% !important;
     min-width: 0 !important;
 }
+/* Принудительно расширяем рамку до всей ширины экрана */
+.wrap {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 180px 20px 60px !important;
+}
+
+.grid {
+    grid-template-columns: 1fr 1fr !important; /* карта и информация занимают по половине */
+    gap: 25px !important;
+}
+
+.map-card,
+.info-card {
+    width: 100% !important;
+}
