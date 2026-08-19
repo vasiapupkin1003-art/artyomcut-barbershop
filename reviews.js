@@ -10,11 +10,6 @@ async function getReviews() {
   return await res.json();
 }
 
-// Сохранить отзывы в localStorage
-function saveReviews(reviews) {
-    localStorage.setItem('reviews', JSON.stringify(reviews));
-}
-
 // Отобразить список отзывов
 function renderReviews() {
     const container = document.getElementById('reviewsList');
