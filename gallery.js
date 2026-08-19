@@ -239,3 +239,18 @@ document.addEventListener('DOMContentLoaded', async function() {
   await fetchGalleryPhotos();
   displayPhotos('all');
 });
+function toggleMobileMenu() {
+    const nav = document.getElementById('mobileNav');
+    if (nav) {
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+}
+document.addEventListener('click', function(e) {
+    const nav = document.getElementById('mobileNav');
+    const burger = document.getElementById('burgerBtn');
+    if (nav && nav.classList.contains('open') && !nav.contains(e.target) && !burger.contains(e.target)) {
+        nav.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+});
