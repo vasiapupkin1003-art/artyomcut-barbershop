@@ -412,8 +412,7 @@
 
                     const dayName = translations[lang][dayNamesKeys[date.getDay()]];
                     const dateLabel = `${dayName}, ${date.getDate()} ${date.toLocaleString(lang === 'uk' ? 'uk-UA' : lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-GB' : 'ru-RU', { month: 'short' })}`;
-                    const todaySuffix = isToday ? translations[lang]['hours_today_suffix'] : '';
-                    html += `<div class="hour-row ${isToday ? 'today' : ''}"><span class="day">${dateLabel}${todaySuffix}</span><span>${timeStr}</span></div>`;
+                    html += `<div class="hour-row ${isToday ? 'today' : ''}"><span class="day">${dateLabel}</span><span>${timeStr}</span></div>`;
                 }
 
                 hoursContainer.innerHTML = html;
