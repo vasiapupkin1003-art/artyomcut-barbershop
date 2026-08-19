@@ -66,20 +66,53 @@ const currentYear = todayStart.getFullYear();
 const monthNames = ['ЯНВАРЬ', 'ФЕВРАЛЬ', 'МАРТ', 'АПРЕЛЬ', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГУСТ', 'СЕНТЯБРЬ', 'ОКТЯБРЬ', 'НОЯБРЬ', 'ДЕКАБРЬ'];
 const dayNamesRu = ['ВОСКРЕСЕНЬЕ', 'ПОНЕДЕЛЬНИК', 'ВТОРНИК', 'СРЕДА', 'ЧЕТВЕРГ', 'ПЯТНИЦА', 'СУББОТА'];
 
-function getBlockedDays() { return JSON.parse(localStorage.getItem('blockedDays') || '[]'); }
-function getTimeSettings() {
-    const settings = JSON.parse(localStorage.getItem('timeSettings') || 'null');
-    if (!settings) {
-        return {
-            monday: { start: '10:00', end: '20:00' },
-            tuesday: { start: '10:00', end: '20:00' },
-            wednesday: { start: '10:00', end: '20:00' },
-            thursday: { start: '10:00', end: '20:00' },
-            friday: { start: '10:00', end: '20:00' },
-            saturday: { start: '10:00', end: '18:00' },
-            sunday: { start: '10:00', end: '20:00' }
-        };
+let scheduleData = {
+    timeSettings: {
+        monday: { start: '10:00', end: '20:00' },
+        tuesday: { start: '10:00', end: '20:00' },
+        wednesday: { start: '10:00', end: '20:00' },
+        thursday: { start: '10:00', end: '20:00' },
+        friday: { start: '10:00', end: '20:00' },
+        saturday: { start: '10:00', end: '18:00' },
+        sunday: { start: '10:00', end: '20:00' }
+    },
+    specialDates: {},
+    blockedDays: []
+};
+
+async function loadSchedule() {
+    try {
+        const res = await fetch(`${API_BASE}/api/schedule`);
+        if (res.ok) scheduleData = await res.json();
+    } catch (e) {
+        console.error('Не удалось загрузить расписание', e);
     }
+}
+
+function getBlockedDays() {
+    return scheduleData.blockedDays || [];
+}
+function getTimeSettings() {
+    return scheduleData.timeSettings || { /* дефолт */ };
+}
+function getSpecialDates() {
+    return scheduleData.specialDates || {};
+}
+
+async function saveSchedule() {
+    try {
+        await fetch(`${API_BASE}/api/schedule`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify(scheduleData)
+        });
+    } catch (e) {
+        console.error('Ошибка сохранения расписания', e);
+    }
+}
     return settings;
 }
 function getSpecialDates() { return JSON.parse(localStorage.getItem('specialDates') || '{}'); }
