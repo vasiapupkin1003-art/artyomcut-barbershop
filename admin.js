@@ -239,15 +239,15 @@ function openDaySettings(dateString) {
     });
 }
 
-async function toggleBlockDay(dateString) {
-    let blockedDays = scheduleData.blockedDays;
-    const index = blockedDays.indexOf(dateString);
-    if (index > -1) {
-        blockedDays.splice(index, 1);
-    } else {
-        blockedDays.push(dateString);
-        delete scheduleData.specialDates[dateString];
-    }
+if (saveTimeBtn) saveTimeBtn.addEventListener('click', async () => {
+    const start = startInput ? startInput.value : '10:00';
+    const end = endInput ? endInput.value : '20:00';
+    scheduleData.specialDates[dateString] = { start, end };
+    await saveSchedule();
+    modal.remove();
+    renderBlockCalendar();
+    alert('✅ Время сохранено!');
+});
     await saveSchedule();
     renderBlockCalendar();
 }
