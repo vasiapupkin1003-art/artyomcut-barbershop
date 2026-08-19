@@ -1,7 +1,7 @@
 // ========================================
 // ОТЗЫВЫ — ЛОГИКА
 // ========================================
-
+const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
 let selectedRating = 0;
 
 // Получить отзывы из localStorage
