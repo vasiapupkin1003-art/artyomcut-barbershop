@@ -1578,3 +1578,16 @@ button, input, select {
         height: 3px;
     }
 }
+/* Выравнивание бургера и соцсетей на мобильной шапке */
+@media (max-width: 768px) {
+    .header-inner {
+        align-items: center !important;      /* все элементы по центру вертикали */
+    }
+    .burger-btn {
+        align-self: center !important;       /* бургер точно по центру */
+        margin-top: 0 !important;
+    }
+    .socials {
+        align-self: center !important;       /* соцсети тоже по центру */
+    }
+}
