@@ -1571,8 +1571,8 @@ button, input, select {
 /* Финальный сдвиг hero-фото: правее и вверх */
 @media (max-width: 768px) {
     .hero-image {
-        left: 35px !important;    /* ещё правее (было 30px) */
-        top: 35px !important;     /* поднимаем выше (было 70px) */
+        left: 25px !important;    /* ещё правее (было 30px) */
+        top: 30px !important;     /* поднимаем выше (было 70px) */
     }
 }
 /* Равномерное затемнение главного фото на телефоне */
