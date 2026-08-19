@@ -9,6 +9,7 @@ let blockYear = new Date().getFullYear();
 const monthNames = ['ЯНВАРЬ', 'ФЕВРАЛЬ', 'МАРТ', 'АПРЕЛЬ', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГУСТ', 'СЕНТЯБРЬ', 'ОКТЯБРЬ', 'НОЯБРЬ', 'ДЕКАБРЬ'];
 const dayNamesRu = ['ВОСКРЕСЕНЬЕ', 'ПОНЕДЕЛЬНИК', 'ВТОРНИК', 'СРЕДА', 'ЧЕТВЕРГ', 'ПЯТНИЦА', 'СУББОТА'];
 
+// ================== ЛОКАЛЬНЫЕ НАСТРОЙКИ (блокировка дней и время) ==================
 function getBlockedDays() {
     return JSON.parse(localStorage.getItem('blockedDays') || '[]');
 }
@@ -385,172 +386,149 @@ function changeBlockMonth(delta) {
     renderBlockCalendar();
 }
 
-// ========================================
-// АВТООЧИСТКА ПРОСРОЧЕННЫХ ЗАПИСЕЙ
-// ========================================
-function cleanupExpiredBookings() {
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    const now = new Date();
-    const filtered = bookings.filter(b => {
-        const bookingDateTime = new Date(`${b.date}T${b.time}:00`);
-        bookingDateTime.setHours(bookingDateTime.getHours() + 2); // +2 часа после начала записи
-        return bookingDateTime > now;
-    });
-    localStorage.setItem('bookings', JSON.stringify(filtered));
-}
-
-// ========================================
-// ЗАГРУЗКА ЗАПИСЕЙ
-// ========================================
+// ================== СЕРВЕРНЫЕ ЗАПИСИ ==================
 async function loadBookings() {
-  const container = document.getElementById('bookingsList');
-  if (!container) return;
+    const container = document.getElementById('bookingsList');
+    if (!container) return;
 
-  try {
-    const res = await fetch(`${API_BASE}/api/bookings`, {
-      headers: { 'X-Admin-Password': ADMIN_PASSWORD }
-    });
-    if (!res.ok) {
-      container.innerHTML = '<p style="color: #aaa6a0;">Ошибка загрузки. Проверьте пароль.</p>';
-      return;
-    }
-    const bookings = await res.json();
-    if (bookings.length === 0) {
-      container.innerHTML = '<p style="color: #aaa6a0;">Нет записей</p>';
-      return;
-    }
-    bookings.sort((a, b) => new Date(`${a.date} ${a.time}`) - new Date(`${b.date} ${b.time}`));
-    container.innerHTML = bookings.map(booking => `
-      <div class="booking-item">
-        <div>
-          <p><strong>${booking.name}</strong> — ${booking.service}</p>
-          <p style="color: #aaa6a0;">📅 ${booking.date} | 🕐 ${booking.time}</p>
-          <p style="color: #aaa6a0;">✈️ ${booking.telegram || 'Не указан'}</p>
-        </div>
-        <button class="btn-delete" onclick="deleteBooking('${booking.id}')">❌ УДАЛИТЬ</button>
-      </div>
-    `).join('');
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-// ========================================
-// УПРАВЛЕНИЕ ГАЛЕРЕЕЙ
-// ========================================
-
-function getGalleryPhotos() {
-    return JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
-}
-
-function saveGalleryPhotos(photos) {
-    localStorage.setItem('galleryPhotos', JSON.stringify(photos));
-}
-
-async function addPhotoToGallery() {
-  const fileInput = document.getElementById('galleryPhotoInput');
-  const categorySelect = document.getElementById('galleryCategory');
-
-  if (!fileInput.files || fileInput.files.length === 0) {
-    alert('Выберите фотографию');
-    return;
-  }
-
-  const file = fileInput.files[0];
-  if (file.size > 2 * 1024 * 1024) {
-    alert('Файл слишком большой. Максимум 2 МБ.');
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = async function(e) {
-    const src = e.target.result;
     try {
-      const res = await fetch(`${API_BASE}/api/gallery`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Admin-Password': ADMIN_PASSWORD
-        },
-        body: JSON.stringify({
-          src,
-          alt: 'Работа',
-          category: categorySelect.value
-        })
-      });
-      if (res.ok) {
-        fileInput.value = '';
-        renderGalleryPhotosList();
-        alert('✅ Фото добавлено!');
-      } else {
-        alert('Ошибка при добавлении фото');
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  reader.readAsDataURL(file);
-}
-    
-    const file = fileInput.files[0];
-    const category = categorySelect.value;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const photos = getGalleryPhotos();
-        
-        photos.push({
-            src: e.target.result,
-            alt: 'Работа ' + (photos.length + 1),
-            category: category
+        const res = await fetch(`${API_BASE}/api/bookings`, {
+            headers: { 'X-Admin-Password': ADMIN_PASSWORD }
         });
-        
-        saveGalleryPhotos(photos);
-        fileInput.value = '';
-        renderGalleryPhotosList();
-        alert('✅ Фото добавлено в галерею!');
-    };
-    
-    reader.readAsDataURL(file);
+        if (!res.ok) {
+            container.innerHTML = '<p style="color: #aaa6a0;">Ошибка загрузки. Проверьте пароль.</p>';
+            return;
+        }
+        const bookings = await res.json();
+        if (bookings.length === 0) {
+            container.innerHTML = '<p style="color: #aaa6a0;">Нет записей</p>';
+            return;
+        }
+        bookings.sort((a, b) => new Date(`${a.date} ${a.time}`) - new Date(`${b.date} ${b.time}`));
+        container.innerHTML = bookings.map(booking => `
+            <div class="booking-item">
+                <div>
+                    <p><strong>${booking.name}</strong> — ${booking.service}</p>
+                    <p style="color: #aaa6a0;">📅 ${booking.date} | 🕐 ${booking.time}</p>
+                    <p style="color: #aaa6a0;">✈️ ${booking.telegram || 'Не указан'}</p>
+                </div>
+                <button class="btn-delete" onclick="deleteBooking('${booking.id}')">❌ УДАЛИТЬ</button>
+            </div>
+        `).join('');
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+async function deleteBooking(id) {
+    if (!confirm('Удалить запись?')) return;
+    try {
+        const res = await fetch(`${API_BASE}/api/bookings?id=${id}`, {
+            method: 'DELETE',
+            headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+        });
+        if (res.ok) {
+            loadBookings();
+        } else {
+            alert('Ошибка при удалении');
+        }
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// ================== ГАЛЕРЕЯ (СЕРВЕР) ==================
+async function getGalleryPhotos() {
+    const res = await fetch(`${API_BASE}/api/gallery`);
+    if (!res.ok) throw new Error('Ошибка загрузки галереи');
+    return await res.json();
 }
 
 async function renderGalleryPhotosList() {
-  const container = document.getElementById('galleryPhotosList');
-  if (!container) return;
+    const container = document.getElementById('galleryPhotosList');
+    if (!container) return;
 
-  const photos = await getGalleryPhotos();
-  if (photos.length === 0) {
-    container.innerHTML = '<p style="color: #aaa6a0;">Нет фотографий</p>';
-    return;
-  }
-  container.innerHTML = photos.map(photo => `
-    <div class="gallery-photo-item">
-      <img src="${photo.src}" alt="${photo.alt}">
-      <button class="remove-photo" onclick="removeGalleryPhoto('${photo.id}')">×</button>
-    </div>
-  `).join('');
+    try {
+        const photos = await getGalleryPhotos();
+        if (photos.length === 0) {
+            container.innerHTML = '<p style="color: #aaa6a0;">Нет фотографий</p>';
+            return;
+        }
+        container.innerHTML = photos.map(photo => `
+            <div class="gallery-photo-item">
+                <img src="${photo.src}" alt="${photo.alt}">
+                <button class="remove-photo" onclick="removeGalleryPhoto('${photo.id}')">×</button>
+            </div>
+        `).join('');
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+async function addPhotoToGallery() {
+    const fileInput = document.getElementById('galleryPhotoInput');
+    const categorySelect = document.getElementById('galleryCategory');
+
+    if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Выберите фотографию');
+        return;
+    }
+
+    const file = fileInput.files[0];
+    if (file.size > 2 * 1024 * 1024) {
+        alert('Файл слишком большой. Максимум 2 МБ.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const src = e.target.result;
+        try {
+            const res = await fetch(`${API_BASE}/api/gallery`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Password': ADMIN_PASSWORD
+                },
+                body: JSON.stringify({
+                    src,
+                    alt: 'Работа',
+                    category: categorySelect.value
+                })
+            });
+            if (res.ok) {
+                fileInput.value = '';
+                renderGalleryPhotosList();
+                alert('✅ Фото добавлено!');
+            } else {
+                alert('Ошибка при добавлении фото');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    reader.readAsDataURL(file);
 }
 
 async function removeGalleryPhoto(id) {
-  if (!confirm('Удалить фото?')) return;
-  try {
-    const res = await fetch(`${API_BASE}/api/gallery?id=${id}`, {
-      method: 'DELETE',
-      headers: { 'X-Admin-Password': ADMIN_PASSWORD }
-    });
-    if (res.ok) {
-      renderGalleryPhotosList();
-      alert('✅ Фото удалено');
+    if (!confirm('Удалить фото?')) return;
+    try {
+        const res = await fetch(`${API_BASE}/api/gallery?id=${id}`, {
+            method: 'DELETE',
+            headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+        });
+        if (res.ok) {
+            renderGalleryPhotosList();
+            alert('✅ Фото удалено');
+        } else {
+            alert('Ошибка при удалении');
+        }
+    } catch (err) {
+        console.error(err);
     }
-  } catch (err) {
-    console.error(err);
-  }
 }
 
-// ========================================
-// ИНИЦИАЛИЗАЦИЯ
-// ========================================
-
+// ================== ИНИЦИАЛИЗАЦИЯ ==================
 renderBlockCalendar();
 loadBookings();
 renderGalleryPhotosList();
