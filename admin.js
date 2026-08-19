@@ -3,21 +3,23 @@
 // ========================================
 const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
 let authToken = localStorage.getItem('authToken') || '';
-const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
-let authToken = localStorage.getItem('authToken') || '';
 
 // ================== АВТОРИЗАЦИЯ ==================
 document.addEventListener('DOMContentLoaded', async () => {
     if (authToken) {
-        const res = await fetch(`${API_BASE}/api/auth/check`, {
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        if (res.ok) {
-            showAdmin();
-            return;
-        } else {
-            localStorage.removeItem('authToken');
-            authToken = '';
+        try {
+            const res = await fetch(`${API_BASE}/api/auth/check`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            if (res.ok) {
+                showAdmin();
+                return;
+            } else {
+                localStorage.removeItem('authToken');
+                authToken = '';
+            }
+        } catch (e) {
+            console.error('Ошибка проверки токена', e);
         }
     }
     document.getElementById('loginScreen').style.display = 'flex';
@@ -26,18 +28,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 document.getElementById('loginBtn').addEventListener('click', async () => {
     const password = document.getElementById('adminPassword').value;
-    const res = await fetch(`${API_BASE}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
-    });
-    if (res.ok) {
-        const data = await res.json();
-        authToken = data.token;
-        localStorage.setItem('authToken', authToken);
-        showAdmin();
-    } else {
-        document.getElementById('loginError').style.display = 'block';
+    try {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
+        if (res.ok) {
+            const data = await res.json();
+            authToken = data.token;
+            localStorage.setItem('authToken', authToken);
+            showAdmin();
+        } else {
+            document.getElementById('loginError').style.display = 'block';
+        }
+    } catch (e) {
+        console.error('Ошибка входа', e);
+        alert('Ошибка сети');
     }
 });
 
@@ -57,13 +64,15 @@ function logout() {
     document.getElementById('loginScreen').style.display = 'flex';
 }
 
-// ================== УПРАВЛЕНИЕ ДНЯМИ (локально) ==================
+// ================== РАСПИСАНИЕ И ДАННЫЕ ==================
 let blockMonth = new Date().getMonth();
 let blockYear = new Date().getFullYear();
+
 const todayStart = new Date();
 todayStart.setHours(0, 0, 0, 0);
 const currentMonth = todayStart.getMonth();
 const currentYear = todayStart.getFullYear();
+
 const monthNames = ['ЯНВАРЬ', 'ФЕВРАЛЬ', 'МАРТ', 'АПРЕЛЬ', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГУСТ', 'СЕНТЯБРЬ', 'ОКТЯБРЬ', 'НОЯБРЬ', 'ДЕКАБРЬ'];
 const dayNamesRu = ['ВОСКРЕСЕНЬЕ', 'ПОНЕДЕЛЬНИК', 'ВТОРНИК', 'СРЕДА', 'ЧЕТВЕРГ', 'ПЯТНИЦА', 'СУББОТА'];
 
@@ -75,7 +84,7 @@ let scheduleData = {
         thursday: { start: '10:00', end: '20:00' },
         friday: { start: '10:00', end: '20:00' },
         saturday: { start: '10:00', end: '18:00' },
-        sunday: { start: '10:00', end: '20:00' }
+        sunday: { start: null, end: null } // выходной
     },
     specialDates: {},
     blockedDays: []
@@ -94,7 +103,7 @@ function getBlockedDays() {
     return scheduleData.blockedDays || [];
 }
 function getTimeSettings() {
-    return scheduleData.timeSettings || { /* дефолт */ };
+    return scheduleData.timeSettings || {};
 }
 function getSpecialDates() {
     return scheduleData.specialDates || {};
@@ -114,10 +123,8 @@ async function saveSchedule() {
         console.error('Ошибка сохранения расписания', e);
     }
 }
-    return settings;
-}
-function getSpecialDates() { return JSON.parse(localStorage.getItem('specialDates') || '{}'); }
 
+// ================== КАЛЕНДАРЬ ==================
 function renderBlockCalendar() {
     const blockDays = document.getElementById('blockDays');
     const blockMonthEl = document.getElementById('blockMonth');
@@ -132,25 +139,25 @@ function renderBlockCalendar() {
 
     let html = '';
     for (let i = 0; i < startDay; i++) html += '<div class="block-day empty"></div>';
+
     for (let day = 1; day <= lastDay.getDate(); day++) {
-    const date = new Date(blockYear, blockMonth, day);
-    const dateString = `${blockYear}-${String(blockMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const isPast = date < todayStart;
-    const isBlocked = blockedDays.includes(dateString);
-    const hasSpecial = specialDates[dateString] !== undefined;
-    
-    let classes = 'block-day';
-    if (isPast) {
-        classes += ' past';                 // прошедшие дни неактивны
-    } else {
-        if (isBlocked) classes += ' blocked';
-        if (hasSpecial && !isBlocked) classes += ' special';
+        const date = new Date(blockYear, blockMonth, day);
+        const dateString = `${blockYear}-${String(blockMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const isPast = date < todayStart;
+        const isBlocked = blockedDays.includes(dateString);
+        const hasSpecial = specialDates[dateString] !== undefined;
+
+        let classes = 'block-day';
+        if (isPast) {
+            classes += ' past';
+        } else {
+            if (isBlocked) classes += ' blocked';
+            if (hasSpecial && !isBlocked) classes += ' special';
+        }
+
+        const onclickAttr = isPast ? '' : `onclick="openDaySettings('${dateString}')"`;
+        html += `<div class="${classes}" data-date="${dateString}" ${onclickAttr}>${day}</div>`;
     }
-    
-    // Для прошедших дней не добавляем onclick
-    const onclickAttr = isPast ? '' : `onclick="openDaySettings('${dateString}')"`;
-    html += `<div class="${classes}" data-date="${dateString}" ${onclickAttr}>${day}</div>`;
-}
     blockDays.innerHTML = html;
     renderBlockedDaysList();
 }
@@ -228,31 +235,29 @@ function openDaySettings(dateString) {
     if (endInput) endInput.addEventListener('change', function() { if (this.value) closeTimePicker(this); });
 
     const saveTimeBtn = modal.querySelector('#saveSpecialTimeBtn');
-    if (saveTimeBtn) saveTimeBtn.addEventListener('click', () => {
-        const start = startInput ? startInput.value : '10:00';
-        const end = endInput ? endInput.value : '20:00';
-        const specialDates = getSpecialDates();
-        specialDates[dateString] = { start, end };
-        localStorage.setItem('specialDates', JSON.stringify(specialDates));
-        modal.remove();
-        renderBlockCalendar();
-        alert('✅ Время сохранено!');
-    });
+    if (saveTimeBtn) {
+        saveTimeBtn.addEventListener('click', async () => {
+            const start = startInput ? startInput.value : '10:00';
+            const end = endInput ? endInput.value : '20:00';
+            scheduleData.specialDates[dateString] = { start, end };
+            await saveSchedule();
+            modal.remove();
+            renderBlockCalendar();
+            alert('✅ Время сохранено!');
+        });
+    }
 }
 
-if (saveTimeBtn) saveTimeBtn.addEventListener('click', async () => {
-    const start = startInput ? startInput.value : '10:00';
-    const end = endInput ? endInput.value : '20:00';
-    scheduleData.specialDates[dateString] = { start, end };
+async function toggleBlockDay(dateString) {
+    let blockedDays = scheduleData.blockedDays;
+    const index = blockedDays.indexOf(dateString);
+    if (index > -1) {
+        blockedDays.splice(index, 1);
+    } else {
+        blockedDays.push(dateString);
+        delete scheduleData.specialDates[dateString];
+    }
     await saveSchedule();
-    modal.remove();
-    renderBlockCalendar();
-    alert('✅ Время сохранено!');
-});
-    await saveSchedule();
-    renderBlockCalendar();
-}
-    localStorage.setItem('blockedDays', JSON.stringify(blockedDays));
     renderBlockCalendar();
 }
 
