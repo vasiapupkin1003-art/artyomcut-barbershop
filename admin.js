@@ -57,7 +57,10 @@ function logout() {
 // ================== УПРАВЛЕНИЕ ДНЯМИ (локально) ==================
 let blockMonth = new Date().getMonth();
 let blockYear = new Date().getFullYear();
-
+const todayStart = new Date();
+todayStart.setHours(0, 0, 0, 0);
+const currentMonth = todayStart.getMonth();
+const currentYear = todayStart.getFullYear();
 const monthNames = ['ЯНВАРЬ', 'ФЕВРАЛЬ', 'МАРТ', 'АПРЕЛЬ', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГУСТ', 'СЕНТЯБРЬ', 'ОКТЯБРЬ', 'НОЯБРЬ', 'ДЕКАБРЬ'];
 const dayNamesRu = ['ВОСКРЕСЕНЬЕ', 'ПОНЕДЕЛЬНИК', 'ВТОРНИК', 'СРЕДА', 'ЧЕТВЕРГ', 'ПЯТНИЦА', 'СУББОТА'];
 
