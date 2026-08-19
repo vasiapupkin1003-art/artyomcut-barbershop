@@ -263,3 +263,18 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 
 // Инициализация галереи
 displayPhotos('all');
+const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
+
+async function loadGallery() {
+  const grid = document.getElementById('galleryGrid');
+  if (!grid) return;
+  const res = await fetch(`${API_BASE}/api/gallery`);
+  const photos = await res.json();
+  grid.innerHTML = photos.map(photo => `
+    <div class="gallery-item">
+      <img src="${photo.src}" alt="${photo.alt}">
+    </div>
+  `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', loadGallery);
