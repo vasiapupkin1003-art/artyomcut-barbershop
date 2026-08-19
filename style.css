@@ -1496,3 +1496,58 @@ button, input, select {
         z-index: 2 !important;
     }
 }
+/* ========== ФИНАЛЬНЫЕ МОБИЛЬНЫЕ ПРАВКИ ========== */
+@media (max-width: 768px) {
+
+    /* Бургер-меню: шире (60%) и всегда прижато к правому краю */
+    .nav {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: auto !important;
+        width: 60% !important;
+        height: 100vh !important;
+        background: #0d1011 !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.3s ease !important;
+        z-index: 1000 !important;
+        margin: 0 !important;
+        padding: 80px 30px !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        align-items: flex-start !important;
+        visibility: hidden;
+    }
+    .nav.open {
+        transform: translateX(0) !important;
+        visibility: visible;
+    }
+
+    /* Главное фото: растягиваем на всю высоту hero, градиент покрывает всё */
+    .hero-image {
+        position: absolute !important;
+        top: 0 !important;
+        left: 20px !important;
+        right: auto !important;
+        bottom: 0 !important;
+        width: 110% !important;
+        height: 100% !important;
+        transform: none !important;
+    }
+    .hero-image::after {
+        content: "" !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: -20px !important;   /* покрывает левый край */
+        right: 0 !important;
+        bottom: 0 !important;
+        background: linear-gradient(
+            180deg,
+            rgba(7, 9, 10, 0.05) 0%,
+            rgba(7, 9, 10, 0.5) 50%,
+            rgba(7, 9, 10, 0.95) 100%
+        ) !important;
+        display: block !important;
+        z-index: 2 !important;
+    }
+}
