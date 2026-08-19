@@ -1,12 +1,12 @@
 // ========================================
 // ВЫБОР УСЛУГИ
 // ========================================
-const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev'; 
+const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
 let selectedService = '';
- 
+
 function selectService(serviceName) {
     const searchName = serviceName.toUpperCase().trim();
-    
+
     document.querySelectorAll('.service-option-item').forEach(item => {
         item.classList.remove('selected');
         const title = item.querySelector('h3');
@@ -18,7 +18,7 @@ function selectService(serviceName) {
             }
         }
     });
-    
+
     const bookingSection = document.querySelector('#booking');
     if (bookingSection) {
         const headerHeight = document.querySelector('.header').offsetHeight;
@@ -26,39 +26,37 @@ function selectService(serviceName) {
         window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     }
 }
- 
+
 function selectServiceOption(serviceName, element) {
     selectedService = serviceName;
     document.querySelectorAll('.service-option-item').forEach(item => item.classList.remove('selected'));
     if (element) element.classList.add('selected');
 }
- 
+
 // ========================================
 // АНИМАЦИИ
 // ========================================
- 
 document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.1 });
- 
+
     document.querySelectorAll('.service, .gallery-grid img, .about-text, .about-gallery img, .music-player, .booking-box').forEach(el => {
         observer.observe(el);
     });
 });
- 
+
 // ========================================
 // ШАПКА
 // ========================================
- 
 let lastScrollTop = 0;
 const header = document.querySelector('.header');
- 
+
 window.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     if (scrollTop > lastScrollTop && scrollTop > 200) {
         header.style.transform = 'translateY(-100%)';
     } else {
@@ -75,7 +73,7 @@ window.addEventListener('scroll', function() {
     }
     lastScrollTop = scrollTop;
 });
- 
+
 document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
     link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
@@ -90,18 +88,18 @@ document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
         }
     });
 });
- 
+
 // ========================================
 // КАЛЕНДАРЬ
 // ========================================
- 
 let bookingData = { service: '', date: '', time: '' };
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 let selectedDate = null;
 let selectedTime = null;
- 
+
 function getSchedule() {
+    // Расписание можно хранить в localStorage админки, пока оставим как есть
     const schedule = JSON.parse(localStorage.getItem('timeSettings') || 'null');
     if (!schedule) {
         return {
@@ -116,31 +114,31 @@ function getSchedule() {
     }
     return schedule;
 }
- 
+
 function getDayKey(date) {
     const dayKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     return dayKeys[date.getDay()];
 }
- 
+
 function renderCalendar() {
     const calendarDays = document.getElementById('calendarDays');
     const calendarMonth = document.getElementById('calendarMonth');
     if (!calendarDays || !calendarMonth) return;
-    
+
     const blockedDays = JSON.parse(localStorage.getItem('blockedDays') || '[]');
     const monthNames = ['ЯНВАРЬ', 'ФЕВРАЛЬ', 'МАРТ', 'АПРЕЛЬ', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГУСТ', 'СЕНТЯБРЬ', 'ОКТЯБРЬ', 'НОЯБРЬ', 'ДЕКАБРЬ'];
     calendarMonth.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-    
+
     const firstDay = new Date(currentYear, currentMonth, 1);
     const lastDay = new Date(currentYear, currentMonth + 1, 0);
     const startDay = (firstDay.getDay() + 6) % 7;
     const schedule = getSchedule();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     let daysHTML = '';
     for (let i = 0; i < startDay; i++) daysHTML += '<div class="calendar-day empty"></div>';
-    
+
     for (let day = 1; day <= lastDay.getDate(); day++) {
         const date = new Date(currentYear, currentMonth, day);
         const dayKey = getDayKey(date);
@@ -150,28 +148,28 @@ function renderCalendar() {
         const isBlocked = blockedDays.includes(dateString);
         const isWorking = daySchedule.working && !isBlocked;
         const isSelected = selectedDate === dateString;
-        
+
         let classes = 'calendar-day';
         if (isPast || !isWorking) classes += ' disabled';
         if (isSelected) classes += ' selected';
-        
+
         if (isPast || !isWorking) {
             daysHTML += `<div class="${classes}">${day}</div>`;
         } else {
             daysHTML += `<div class="${classes}" data-date="${dateString}" onclick="selectDate('${dateString}')">${day}</div>`;
         }
     }
-    
+
     calendarDays.innerHTML = daysHTML;
 }
- 
+
 function selectDate(dateString) {
     const blockedDays = JSON.parse(localStorage.getItem('blockedDays') || '[]');
     if (blockedDays.includes(dateString)) {
         alert('В этот день барбершоп не работает');
         return;
     }
-    
+
     selectedDate = dateString;
     selectedTime = null;
     document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
@@ -179,48 +177,60 @@ function selectDate(dateString) {
     if (selectedElement) selectedElement.classList.add('selected');
     renderTimeSlots(dateString);
 }
- 
+
 function changeMonth(delta) {
     currentMonth += delta;
     if (currentMonth < 0) { currentMonth = 11; currentYear--; }
     else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
     renderCalendar();
 }
- 
-function renderTimeSlots(dateString) {
+
+// ========================================
+// ЗАГРУЗКА ЗАНЯТЫХ СЛОТОВ С СЕРВЕРА
+// ========================================
+async function fetchBookedSlots(dateString) {
+    const res = await fetch(`${API_BASE}/api/booked?date=${dateString}`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data; // массив занятых времён, например ["10:00", "11:00"]
+}
+
+async function renderTimeSlots(dateString) {
     const timeGroups = document.getElementById('timeGroups');
     if (!timeGroups) return;
-    
+
     const blockedDays = JSON.parse(localStorage.getItem('blockedDays') || '[]');
     if (blockedDays.includes(dateString)) {
         timeGroups.innerHTML = '<p class="time-placeholder">🔴 В этот день барбершоп не работает</p>';
         return;
     }
-    
+
     const schedule = getSchedule();
     const specialDates = JSON.parse(localStorage.getItem('specialDates') || '{}');
     const date = new Date(dateString);
     const dayKey = getDayKey(date);
-    
+
     let daySchedule;
     if (specialDates[dateString]) {
         daySchedule = { working: true, start: specialDates[dateString].start, end: specialDates[dateString].end };
     } else {
         daySchedule = schedule[dayKey];
     }
-    
+
     if (!daySchedule.working) {
         timeGroups.innerHTML = '<p class="time-placeholder">В этот день выходной</p>';
         return;
     }
-    
-    // === НОВОЕ: фильтр прошедших слотов для сегодняшнего дня ===
+
+    // Получаем занятые слоты с сервера
+    const bookedSlots = await fetchBookedSlots(dateString);
+
+    // Отфильтруем прошедшие слоты (для сегодня)
     const now = new Date();
     const todayString = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     const isToday = (dateString === todayString);
     const currentTimeMs = now.getTime();
-    
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+
     const startTime = daySchedule.start.split(':');
     const endTime = daySchedule.end.split(':');
     let currentHour = parseInt(startTime[0]);
@@ -228,11 +238,10 @@ function renderTimeSlots(dateString) {
     const endHour = parseInt(endTime[0]);
     const endMinute = parseInt(endTime[1]);
     const slots = [];
-    
+
     while (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
         const timeString = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
-        
-        // Пропускаем слот, если он уже прошёл (только для сегодняшней даты)
+
         if (isToday) {
             const slotDateTime = new Date(`${dateString}T${timeString}:00`);
             if (slotDateTime.getTime() < currentTimeMs) {
@@ -240,21 +249,21 @@ function renderTimeSlots(dateString) {
                 continue;
             }
         }
-        
-        const isBooked = bookings.some(b => b.date === dateString && b.time === timeString);
+
+        const isBooked = bookedSlots.includes(timeString);
         slots.push({ time: timeString, booked: isBooked });
         currentHour += 1;
     }
-    
+
     let html = '';
     slots.forEach(s => {
         html += `<button class="time-btn ${s.booked ? 'booked' : ''} ${selectedTime === s.time ? 'selected' : ''}" 
             ${s.booked ? 'disabled' : ''} onclick="selectTime('${s.time}')">${s.time}</button>`;
     });
-    
+
     timeGroups.innerHTML = html || '<p class="time-placeholder">Нет доступного времени</p>';
 }
- 
+
 function selectTime(time) {
     selectedTime = time;
     document.querySelectorAll('.time-btn').forEach(el => {
@@ -262,7 +271,7 @@ function selectTime(time) {
         if (el.textContent === time) el.classList.add('selected');
     });
 }
- 
+
 function proceedToBooking() {
     if (!selectedService) { alert('Выберите услугу'); return; }
     if (!selectedDate) { alert('Выберите дату'); return; }
@@ -270,7 +279,7 @@ function proceedToBooking() {
     bookingData = { service: selectedService, date: selectedDate, time: selectedTime };
     showContactForm();
 }
- 
+
 function refreshCalendar() {
     renderCalendar();
     selectedDate = null;
@@ -278,11 +287,10 @@ function refreshCalendar() {
     const timeGroups = document.getElementById('timeGroups');
     if (timeGroups) timeGroups.innerHTML = '<p class="time-placeholder">Сначала выберите дату</p>';
 }
- 
+
 // ========================================
 // ФОРМА
 // ========================================
- 
 function showContactForm() {
     const modal = document.createElement('div');
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;`;
@@ -305,32 +313,36 @@ function showContactForm() {
     if (closeBtn) closeBtn.addEventListener('click', function() { modal.remove(); });
     modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
 }
- 
-function confirmBooking() {
+
+async function confirmBooking() {
     const name = document.querySelector('#client-name').value;
     const contact = document.querySelector('#client-contact').value;
     if (!name || !contact) { alert('Заполните все поля'); return; }
     bookingData.name = name;
     bookingData.contact = contact;
-    bookingData.status = 'pending';
-    saveToLocalStorage(bookingData);
-    showSuccessMessage(bookingData);
-    document.querySelector('div[style*="position: fixed"]').remove();
-    refreshCalendar();
+
+    try {
+        await saveToLocalStorage(bookingData);
+        showSuccessMessage(bookingData);
+        document.querySelector('div[style*="position: fixed"]').remove();
+        refreshCalendar();
+    } catch (error) {
+        alert(error.message || 'Ошибка записи. Попробуйте позже.');
+    }
 }
- 
+
 async function saveToLocalStorage(bookingData) {
-  const response = await fetch(`${API_BASE}/api/bookings`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(bookingData)
-  });
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'Ошибка записи');
-  }
+    const response = await fetch(`${API_BASE}/api/bookings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingData)
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Ошибка записи');
+    }
 }
- 
+
 function showSuccessMessage(bookingData) {
     const modal = document.createElement('div');
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999;`;
@@ -347,16 +359,14 @@ function showSuccessMessage(bookingData) {
     document.body.appendChild(modal);
     setTimeout(() => modal.remove(), 5000);
 }
- 
+
 // ========================================
 // РАДИО ПЛЕЕР — 7 СТАНЦИЙ С ПЕРЕКЛЮЧЕНИЕМ
 // ========================================
-
 const radioAudioElement = new Audio();
 radioAudioElement.crossOrigin = 'anonymous';
 radioAudioElement.preload = 'none';
 
-// Массив радиостанций (с 1 по 7 из вашего списка)
 const radioStations = [
     { name: 'Radio Paradise Rock Mix', url: 'https://stream.radioparadise.com/rock-128' },
     { name: 'SomaFM Metal Detector', url: 'https://ice1.somafm.com/metal-128-mp3' },
@@ -373,42 +383,33 @@ let isMusicPlaying = false;
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>';
 const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 
-// Установить станцию по индексу
 function setStation(index) {
     if (index < 0) index = radioStations.length - 1;
     if (index >= radioStations.length) index = 0;
     currentStationIndex = index;
-    
+
     const station = radioStations[currentStationIndex];
     radioAudioElement.src = station.url;
-    
-    // Обновляем название станции на странице
+
     const stationNameEl = document.getElementById('currentStationName');
     if (stationNameEl) stationNameEl.textContent = station.name;
-    
-    // Обновляем статус
+
     const radioStatus = document.getElementById('radioStatus');
     if (radioStatus) {
         radioStatus.textContent = isMusicPlaying ? `${station.name} • LIVE` : 'Радио остановлено';
     }
 }
 
-// Переключить вперёд/назад
 function changeStation(delta) {
     const wasPlaying = isMusicPlaying;
-    
-    // Останавливаем текущее воспроизведение
+
     radioAudioElement.pause();
-    
-    // Меняем станцию
+
     setStation(currentStationIndex + delta);
-    
-    // Если радио играло — запускаем новую станцию
+
     if (wasPlaying) {
         radioAudioElement.play()
-            .then(() => {
-                setPlayerPlayingState(true);
-            })
+            .then(() => setPlayerPlayingState(true))
             .catch(error => {
                 console.error('Ошибка воспроизведения:', error);
                 setPlayerPlayingState(false);
@@ -422,23 +423,22 @@ function changeStation(delta) {
 
 function setPlayerPlayingState(playing) {
     isMusicPlaying = playing;
-    
+
     const playIcon = document.getElementById('playIcon');
     const radioStatus = document.getElementById('radioStatus');
     const radioPlayerDiv = document.getElementById('radioPlayer');
     const drummerVideo = document.getElementById('drummerVideo');
-    
+
     if (playIcon) playIcon.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
     if (radioStatus) {
         if (playing) {
-            const station = radioStations[currentStationIndex];
-            radioStatus.textContent = `${station.name} • LIVE`;
+            radioStatus.textContent = `${radioStations[currentStationIndex].name} • LIVE`;
         } else {
             radioStatus.textContent = 'Радио остановлено';
         }
     }
     if (radioPlayerDiv) radioPlayerDiv.classList.toggle('playing', playing);
-    
+
     if (drummerVideo) {
         if (playing) drummerVideo.play().catch(() => {});
         else drummerVideo.pause();
@@ -469,33 +469,27 @@ async function toggleMusic() {
     }
 }
 
-// Инициализация после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Устанавливаем первую станцию
     setStation(0);
-    
+
     const playBtn = document.getElementById('playBtn');
     if (playBtn) playBtn.addEventListener('click', toggleMusic);
-    
+
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     if (prevBtn) prevBtn.addEventListener('click', () => changeStation(-1));
     if (nextBtn) nextBtn.addEventListener('click', () => changeStation(1));
-    
+
     const volumeSlider = document.getElementById('volumeSlider');
     if (volumeSlider) {
         radioAudioElement.volume = volumeSlider.value;
         volumeSlider.addEventListener('input', () => {
             radioAudioElement.volume = volumeSlider.value;
-            if (volumeSlider.value == 0) {
-                radioAudioElement.muted = true;
-            } else {
-                radioAudioElement.muted = false;
-            }
+            radioAudioElement.muted = (volumeSlider.value == 0);
             updateMuteIcon();
         });
     }
-    
+
     const muteBtn = document.getElementById('muteBtn');
     if (muteBtn) {
         muteBtn.addEventListener('click', () => {
@@ -503,14 +497,13 @@ document.addEventListener('DOMContentLoaded', function() {
             updateMuteIcon();
         });
     }
-    
+
     updateMuteIcon();
 });
- 
+
 // ========================================
 // МОБИЛЬНОЕ МЕНЮ
 // ========================================
- 
 function toggleMobileMenu() {
     const nav = document.getElementById('mobileNav');
     if (nav) {
@@ -522,81 +515,52 @@ function toggleMobileMenu() {
         });
     }
 }
- 
+
 // ========================================
 // ДОСТУП К АДМИНКЕ
 // ========================================
- 
 function adminAccess() {
     window.open('admin.html', '_self');
 }
- 
+
 // ========================================
 // ИНИЦИАЛИЗАЦИЯ
 // ========================================
-
 document.addEventListener('DOMContentLoaded', function() {
-    cleanupExpiredBookings(); // очистка старых записей
-    renderCalendar();          // календарь записи
-    loadRecentReviews();       // последние отзывы на главной
+    renderCalendar();
+    loadRecentReviews();
 });
- // ========================================
-// АВТООЧИСТКА ПРОСРОЧЕННЫХ ЗАПИСЕЙ
-// ========================================
-function cleanupExpiredBookings() {
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    const now = new Date();
-    const filtered = bookings.filter(b => {
-        const bookingDateTime = new Date(`${b.date}T${b.time}:00`);
-        bookingDateTime.setHours(bookingDateTime.getHours() + 2); // +2 часа после начала записи
-        return bookingDateTime > now;
-    });
-    localStorage.setItem('bookings', JSON.stringify(filtered));
-}
+
 // ========================================
 // ПОСЛЕДНИЕ ОТЗЫВЫ НА ГЛАВНОЙ
 // ========================================
 async function loadRecentReviews() {
-  const container = document.getElementById('reviewsPreviewGrid');
-  if (!container) return;
+    const container = document.getElementById('reviewsPreviewGrid');
+    if (!container) return;
 
-  try {
-    const res = await fetch(`${API_BASE}/api/reviews`);
-    const reviews = await res.json();
-    if (reviews.length === 0) {
-      container.innerHTML = '<p style="color: #aaa6a0; text-align: center; grid-column: 1/-1;">Пока нет отзывов. Оставьте первый!</p>';
-      return;
-    }
-    reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    const recent = reviews.slice(0, 3);
-    container.innerHTML = recent.map(review => `
-      <div class="review-preview-item">
-        <div class="review-preview-header">
-          <span class="review-preview-name">${review.name}</span>
-          <span class="review-preview-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
-        </div>
-        <p class="review-preview-message">${review.message}</p>
-      </div>
-    `).join('');
-  } catch (err) {
-    console.error('Ошибка загрузки отзывов:', err);
-  }
-}
-
-    // Сортируем по дате (новые сверху)
-    reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-    const recent = reviews.slice(0, 3);
-
-    container.innerHTML = recent.map(review => `
-        <div class="review-preview-item">
-            <div class="review-preview-header">
-                <span class="review-preview-name">${review.name}</span>
-                <span class="review-preview-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+    try {
+        const res = await fetch(`${API_BASE}/api/reviews`);
+        const reviews = await res.json();
+        if (reviews.length === 0) {
+            container.innerHTML = '<p style="color: #aaa6a0; text-align: center; grid-column: 1/-1;">Пока нет отзывов. Оставьте первый!</p>';
+            return;
+        }
+        reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const recent = reviews.slice(0, 3);
+        container.innerHTML = recent.map(review => `
+            <div class="review-preview-item">
+                <div class="review-preview-header">
+                    <span class="review-preview-name">${review.name}</span>
+                    <span class="review-preview-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                </div>
+                <p class="review-preview-message">${review.message}</p>
             </div>
-            <p class="review-preview-message">${review.message}</p>
-        </div>
-    `).join('');
+        `).join('');
+    } catch (err) {
+        console.error('Ошибка загрузки отзывов:', err);
+    }
 }
+
 // ========================================
 // ЛАЙТБОКС ДЛЯ ФОТОГРАФИЙ "О МАСТЕРЕ"
 // ========================================
@@ -613,7 +577,6 @@ function initMasterGalleryLightbox() {
 }
 
 function openLightbox(src, alt) {
-    // Убираем существующий лайтбокс, если есть
     const existing = document.querySelector('.lightbox-overlay');
     if (existing) existing.remove();
 
@@ -633,14 +596,12 @@ function openLightbox(src, alt) {
     overlay.appendChild(image);
     document.body.appendChild(overlay);
 
-    // Закрытие по клику на фон или кнопку
     overlay.addEventListener('click', function(e) {
         if (e.target === overlay || e.target === closeBtn) {
             overlay.remove();
         }
     });
 
-    // Закрытие по клавише Escape
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             overlay.remove();
@@ -648,6 +609,6 @@ function openLightbox(src, alt) {
     }, { once: true });
 }
 
-// Инициализация при загрузке DOM
 document.addEventListener('DOMContentLoaded', initMasterGalleryLightbox);
+
 console.log('🚀 Сайт загружен');
