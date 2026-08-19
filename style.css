@@ -1710,3 +1710,11 @@ main,
 .footer {
     margin-top: auto;
 }
+/* Опускаем форму отзыва ниже */
+.reviews-page {
+    padding-top: 140px;   /* было 80px, увеличиваем */
+}
+
+.review-form {
+    margin-top: 30px;     /* дополнительный отступ сверху */
+}
