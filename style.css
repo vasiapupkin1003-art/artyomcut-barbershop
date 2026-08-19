@@ -1717,3 +1717,52 @@ main,
 .review-form {
     margin-top: 30px !important;
 }
+/* ==================================================
+   СТИЛИ ДЛЯ ПЕРЕКЛЮЧАТЕЛЯ ЯЗЫКА
+================================================== */
+.language-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lang-select {
+    background-color: #111516;
+    color: #c51f25;
+    border: 1px solid #c51f25;
+    border-radius: 6px;
+    padding: 8px 30px 8px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Стрелка вручную */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c51f25' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.lang-select:hover,
+.lang-select:focus {
+    background-color: #0a0c0d;
+    border-color: #e0262d;
+    color: #fff;
+}
+
+.lang-select option {
+    background-color: #111516;
+    color: #fff;
+}
+
+/* Выравнивание по центру в шапке */
+.header-inner {
+    align-items: center !important;
+}
+.socials .language-switcher {
+    align-self: center;
+}
