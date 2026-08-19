@@ -11,16 +11,27 @@ async function getReviews() {
 }
 
 // Отобразить список отзывов
-function renderReviews() {
-    const container = document.getElementById('reviewsList');
-    if (!container) return;
+async function renderReviews() {
+  const container = document.getElementById('reviewsList');
+  if (!container) return;
 
-    const reviews = getReviews();
-
-    if (reviews.length === 0) {
-        container.innerHTML = '<div class="no-reviews">Пока нет отзывов. Будьте первым!</div>';
-        return;
-    }
+  const reviews = await getReviews();
+  if (reviews.length === 0) {
+    container.innerHTML = '<div class="no-reviews">Пока нет отзывов. Будьте первым!</div>';
+    return;
+  }
+  reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  container.innerHTML = reviews.map(review => `
+    <div class="review-item">
+      <div class="review-header">
+        <span class="review-name">${review.name}</span>
+        <span class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+      </div>
+      <p class="review-message">${review.message}</p>
+      <p class="review-date">${new Date(review.createdAt).toLocaleString('ru-RU')}</p>
+    </div>
+  `).join('');
+}
 
     // Сортировка: новые сверху
     reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
