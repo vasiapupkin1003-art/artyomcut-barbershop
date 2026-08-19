@@ -8,7 +8,7 @@ function applyLanguage(lang) {
   currentLanguage = lang;
   localStorage.setItem('language', lang);
 
-  // Заменяем все текстовые узлы
+  // Текстовые элементы
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[lang][key]) {
@@ -24,13 +24,12 @@ function applyLanguage(lang) {
     }
   });
 
-  // Обновляем выбранный язык в выпадающем списке
+  // Выпадающий список
   document.querySelectorAll('.lang-select').forEach(select => {
     select.value = lang;
   });
 }
 
-// Инициализация после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
   applyLanguage(currentLanguage);
 });
