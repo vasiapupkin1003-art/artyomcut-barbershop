@@ -1,7 +1,7 @@
 // ========================================
 // ВЫБОР УСЛУГИ
 // ========================================
- 
+const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev'; 
 let selectedService = '';
  
 function selectService(serviceName) {
