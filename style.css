@@ -1712,7 +1712,7 @@ main,
 }
 /* Опускаем контент страницы отзывов ниже фиксированной шапки */
 .reviews-page {
-    padding-top: 160px !important;   /* было 80px, теперь достаточно */
+    padding-top: 200px !important;   /* было 80px, теперь достаточно */
 }
 .review-form {
     margin-top: 30px !important;
