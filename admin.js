@@ -402,38 +402,37 @@ function cleanupExpiredBookings() {
 // ========================================
 // ЗАГРУЗКА ЗАПИСЕЙ
 // ========================================
-function loadBookings() {
-    cleanupExpiredBookings(); // очищаем просроченные записи
-    
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    const container = document.getElementById('bookingsList');
-    
-    if (!container) return;
-    
-    if (bookings.length === 0) {
-        container.innerHTML = '<p style="color: #aaa6a0;">Нет записей</p>';
-        return;
-    }
-    
-    bookings.sort((a, b) => new Date(`${a.date} ${a.time}`) - new Date(`${b.date} ${b.time}`));
-    
-    container.innerHTML = bookings.map((booking, index) => `
-        <div class="booking-item">
-            <div>
-                <p><strong>${booking.name}</strong> — ${booking.service}</p>
-                <p style="color: #aaa6a0;">📅 ${booking.date} | 🕐 ${booking.time}</p>
-                <p style="color: #aaa6a0;">✈️ ${booking.telegram || 'Не указан'}</p>
-            </div>
-            <button class="btn-delete" onclick="deleteBooking(${index})">❌ УДАЛИТЬ</button>
-        </div>
-    `).join('');
-}
+async function loadBookings() {
+  const container = document.getElementById('bookingsList');
+  if (!container) return;
 
-function deleteBooking(index) {
-    let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    bookings.splice(index, 1);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-    loadBookings();
+  try {
+    const res = await fetch(`${API_BASE}/api/bookings`, {
+      headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+    });
+    if (!res.ok) {
+      container.innerHTML = '<p style="color: #aaa6a0;">Ошибка загрузки. Проверьте пароль.</p>';
+      return;
+    }
+    const bookings = await res.json();
+    if (bookings.length === 0) {
+      container.innerHTML = '<p style="color: #aaa6a0;">Нет записей</p>';
+      return;
+    }
+    bookings.sort((a, b) => new Date(`${a.date} ${a.time}`) - new Date(`${b.date} ${b.time}`));
+    container.innerHTML = bookings.map(booking => `
+      <div class="booking-item">
+        <div>
+          <p><strong>${booking.name}</strong> — ${booking.service}</p>
+          <p style="color: #aaa6a0;">📅 ${booking.date} | 🕐 ${booking.time}</p>
+          <p style="color: #aaa6a0;">✈️ ${booking.telegram || 'Не указан'}</p>
+        </div>
+        <button class="btn-delete" onclick="deleteBooking('${booking.id}')">❌ УДАЛИТЬ</button>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // ========================================
