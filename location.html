@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Уникальные стили только для этой страницы */
         body {
             background: #07090a;
             color: #e8e5df;
@@ -17,9 +16,9 @@
         }
 
         .wrap {
-            max-width: 1100px;
+            max-width: 1200px;                /* было 1100px — стало шире */
             margin: 0 auto;
-            padding: 120px 20px 60px;
+            padding: 180px 20px 60px;        /* опускаем ниже */
         }
 
         .eyebrow {
@@ -41,12 +40,6 @@
             font-style: italic;
             text-transform: uppercase;
             margin-bottom: 10px;
-        }
-        .sub {
-            color: #aaa6a0;
-            max-width: 540px;
-            font-size: 16px;
-            margin-bottom: 40px;
         }
 
         .grid {
@@ -215,9 +208,14 @@
             color: #fff;
             font-weight: 700;
         }
-        .hour-row.today .day::after {
-    content: none !important;
-}
+
+        /* Красный цвет только для слова "Сегодня" */
+        .today-suffix {
+            color: #c51f25;
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
         .footer {
             background: #050708;
             padding: 30px 20px;
@@ -229,6 +227,9 @@
         @media (max-width: 820px) {
             .grid {
                 grid-template-columns: 1fr;
+            }
+            .wrap {
+                padding-top: 140px;   /* на мобильных чуть меньше */
             }
         }
     </style>
@@ -282,7 +283,8 @@
     <div class="wrap">
         <div class="eyebrow"><span data-i18n="location_eyebrow">Локация</span></div>
         <h1 data-i18n="location_heading">Как нас найти</h1>
-         <div class="grid">
+
+        <div class="grid">
             <div class="map-card">
                 <div class="map-frame">
                     <iframe src="https://www.google.com/maps?q=Calle+de+San+Manuel+13+Gij%C3%B3n+Asturias&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -410,7 +412,11 @@
 
                     const dayName = translations[lang][dayNamesKeys[date.getDay()]];
                     const dateLabel = `${dayName}, ${date.getDate()} ${date.toLocaleString(lang === 'uk' ? 'uk-UA' : lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-GB' : 'ru-RU', { month: 'short' })}`;
-                    html += `<div class="hour-row ${isToday ? 'today' : ''}"><span class="day">${dateLabel}</span><span>${timeStr}</span></div>`;
+
+                    // Добавляем переведённое "Сегодня" через span
+                    const todaySuffix = isToday ? `<span class="today-suffix">${translations[lang]['hours_today_suffix']}</span>` : '';
+
+                    html += `<div class="hour-row ${isToday ? 'today' : ''}"><span class="day">${dateLabel}${todaySuffix}</span><span>${timeStr}</span></div>`;
                 }
 
                 hoursContainer.innerHTML = html;
