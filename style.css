@@ -1591,3 +1591,16 @@ button, input, select {
         align-self: center !important;       /* соцсети тоже по центру */
     }
 }
+/* Выравнивание элементов шапки на мобильной версии */
+@media (max-width: 768px) {
+    .header-inner {
+        align-items: center !important;   /* вертикальное центрирование всех элементов */
+    }
+    .logo,
+    .socials,
+    .burger-btn {
+        align-self: center !important;    /* каждому элементу — явное центрирование */
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+}
