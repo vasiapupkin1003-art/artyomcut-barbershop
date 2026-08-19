@@ -1380,3 +1380,32 @@ button, input, select {
 .lightbox-close:hover {
     color: #c51f25;
 }
+/* ГАРАНТИРОВАННОЕ ИСПРАВЛЕНИЕ ДЛЯ МОБИЛЬНЫХ */
+@media (max-width: 768px) {
+
+    /* Убираем чёрную полосу справа — меню полностью скрыто */
+    .nav {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 45% !important;
+        height: 100vh !important;
+        background: #0d1011 !important;
+        transform: translateX(100%) !important;  /* спрятано за правым краем */
+        transition: transform 0.3s ease !important;
+        z-index: 999 !important;
+    }
+    .nav.open {
+        transform: translateX(0) !important;
+    }
+
+    /* Равномерный градиент на всём hero-фото */
+    .hero-image::after {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        background: linear-gradient(180deg, rgba(7,9,10,0.1) 0%, rgba(7,9,10,0.85) 100%) !important;
+        display: block !important;
+        z-index: 2 !important;
+    }
+}
