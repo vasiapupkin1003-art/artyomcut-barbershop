@@ -2,6 +2,28 @@
 // ВЫБОР УСЛУГИ
 // ========================================
 const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
+let scheduleData = {
+    timeSettings: {
+        monday: { start: '10:00', end: '20:00' },
+        tuesday: { start: '10:00', end: '20:00' },
+        wednesday: { start: '10:00', end: '20:00' },
+        thursday: { start: '10:00', end: '20:00' },
+        friday: { start: '10:00', end: '20:00' },
+        saturday: { start: '10:00', end: '18:00' },
+        sunday: { start: '10:00', end: '20:00' }
+    },
+    specialDates: {},
+    blockedDays: []
+};
+
+async function loadSchedule() {
+    try {
+        const res = await fetch(`${API_BASE}/api/schedule`);
+        if (res.ok) scheduleData = await res.json();
+    } catch (e) {
+        console.error('Не удалось загрузить расписание', e);
+    }
+}
 let selectedService = '';
 
 function selectService(serviceName) {
