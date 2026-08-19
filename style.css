@@ -1611,8 +1611,8 @@ button, input, select {
         height: 50px;
     }
     body:has(.hero) .social-link svg {
-        width: 26px;
-        height: 26px;
+        width: 24px;
+        height: 24px;
     }
 
     /* Центрируем элементы шапки */
