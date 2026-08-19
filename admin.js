@@ -41,9 +41,10 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
     }
 });
 
-function showAdmin() {
+async function showAdmin() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminContent').style.display = 'block';
+    await loadSchedule();
     renderBlockCalendar();
     loadBookings();
     renderGalleryPhotosList();
