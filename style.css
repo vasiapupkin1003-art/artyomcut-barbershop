@@ -1556,3 +1556,13 @@ button, input, select {
         padding-top: 230px !important;  /* подберите под свой вкус */
     }
 }
+/* Шапка: полностью чёрная, без прозрачности */
+.header {
+    background: #000 !important;
+    backdrop-filter: none !important;
+}
+
+/* Логотип увеличиваем */
+.logo img {
+    height: 150px;  /* было 130px */
+}
