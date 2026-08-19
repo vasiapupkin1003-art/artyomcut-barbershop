@@ -136,3 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initRating();
     renderReviews();
 });
+document.addEventListener('DOMContentLoaded', function() {
+  initRating();
+  renderReviews();
+});
