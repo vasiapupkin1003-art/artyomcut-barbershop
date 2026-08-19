@@ -382,6 +382,37 @@
         <p>© 2026 ArtyomCut Barbershop — Gijón</p>
         <p>ROCK & CUTS ⚡ SINCE 2021</p>
     </footer>
-
+<script>
+    const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
+    async function loadScheduleAndRender() {
+        try {
+            const res = await fetch(`${API_BASE}/api/schedule`);
+            const data = await res.json();
+            const hoursContainer = document.querySelector('.hours');
+            if (hoursContainer && data.timeSettings) {
+                const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                const names = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+                let html = '<div class="hours-title">Часы работы</div>';
+                const today = new Date().getDay();
+                for (let i = 0; i < 7; i++) {
+                    const key = days[i];
+                    const day = data.timeSettings[key];
+                    const isToday = i === today;
+                    let timeStr;
+                    if (data.blockedDays?.some(d => d === new Date(Date.now() + (i - today)*86400000).toISOString().slice(0,10))) {
+                        timeStr = 'Выходной';
+                    } else if (day && day.start && day.end) {
+                        timeStr = `${day.start} – ${day.end}`;
+                    } else {
+                        timeStr = 'Выходной';
+                    }
+                    html += `<div class="hour-row ${isToday ? 'today' : ''}"><span class="day">${names[i]}</span><span>${timeStr}</span></div>`;
+                }
+                hoursContainer.innerHTML = html;
+            }
+        } catch(e) { console.error(e); }
+    }
+    document.addEventListener('DOMContentLoaded', loadScheduleAndRender);
+</script>
 </body>
 </html>
