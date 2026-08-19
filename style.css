@@ -1566,3 +1566,15 @@ button, input, select {
 .logo img {
     height: 80px;  /* было 130px */
 }
+@media (max-width: 768px) {
+    .burger-btn {
+        width: 52px;
+        height: 52px;
+        padding: 10px;
+        gap: 7px;
+    }
+    .burger-btn span {
+        width: 34px;
+        height: 3px;
+    }
+}
