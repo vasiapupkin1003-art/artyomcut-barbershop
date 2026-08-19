@@ -605,3 +605,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Лайтбокс
     initMasterGalleryLightbox();
 });
+// Закрытие бургер-меню при клике вне его области
+document.addEventListener('click', function(e) {
+    const nav = document.getElementById('mobileNav');
+    const burger = document.getElementById('burgerBtn');
+
+    if (nav && nav.classList.contains('open') && burger) {
+        const isClickInsideNav = nav.contains(e.target);
+        const isClickOnBurger = burger.contains(e.target);
+
+        if (!isClickInsideNav && !isClickOnBurger) {
+            nav.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        }
+    }
+});
