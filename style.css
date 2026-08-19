@@ -1551,3 +1551,8 @@ button, input, select {
         z-index: 2 !important;
     }
 }
+@media (max-width: 768px) {
+    .hero-content {
+        padding-top: 230px !important;  /* подберите под свой вкус */
+    }
+}
