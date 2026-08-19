@@ -1,7 +1,8 @@
 // ========================================
 // АДМИН-ПАНЕЛЬ С БЛОКИРОВКОЙ ДНЕЙ И ВРЕМЕНИ
 // ========================================
-
+const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
+const ADMIN_PASSWORD = 'artyom2026';
 let blockMonth = new Date().getMonth();
 let blockYear = new Date().getFullYear();
 
