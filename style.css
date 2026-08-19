@@ -1578,7 +1578,7 @@ button, input, select {
 /* Равномерное затемнение главного фото на телефоне */
 @media (max-width: 768px) {
     .hero-image::after {
-        background: rgba(8, 10, 11, 0.5) !important;  /* равномерная полупрозрачная чернота */
+        background: rgba(7, 9, 10, 0.5) !important;  /* равномерная полупрозрачная чернота */
         display: block !important;
     }
 }
