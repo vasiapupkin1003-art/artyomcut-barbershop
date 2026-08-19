@@ -531,12 +531,20 @@ async function renderGalleryPhotosList() {
   `).join('');
 }
 
-function removeGalleryPhoto(index) {
-    const photos = getGalleryPhotos();
-    photos.splice(index, 1);
-    saveGalleryPhotos(photos);
-    renderGalleryPhotosList();
-    alert('✅ Фото удалено');
+async function removeGalleryPhoto(id) {
+  if (!confirm('Удалить фото?')) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/gallery?id=${id}`, {
+      method: 'DELETE',
+      headers: { 'X-Admin-Password': ADMIN_PASSWORD }
+    });
+    if (res.ok) {
+      renderGalleryPhotosList();
+      alert('✅ Фото удалено');
+    }
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // ========================================
