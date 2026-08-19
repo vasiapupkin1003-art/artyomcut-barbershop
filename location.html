@@ -16,9 +16,9 @@
         }
 
         .wrap {
-            max-width: 1400px;                /* было 1100px — стало шире */
+            max-width: 1400px;          /* ← здесь задаём ширину рамки */
             margin: 0 auto;
-            padding: 180px 20px 60px;        /* опускаем ниже */
+            padding: 180px 20px 60px;  /* ← отступ сверху 180px */
         }
 
         .eyebrow {
@@ -209,7 +209,6 @@
             font-weight: 700;
         }
 
-        /* Красный цвет только для слова "Сегодня" */
         .today-suffix {
             color: #c51f25;
             font-weight: 700;
@@ -229,15 +228,9 @@
                 grid-template-columns: 1fr;
             }
             .wrap {
-                padding-top: 140px;   /* на мобильных чуть меньше */
+                padding-top: 140px;
             }
-        .wrap {
-    max-width: 1400px !important;
-    margin: 0 auto !important;
-    padding-top: 180px !important;
-}
         }
-        
     </style>
 </head>
 <body>
@@ -419,7 +412,6 @@
                     const dayName = translations[lang][dayNamesKeys[date.getDay()]];
                     const dateLabel = `${dayName}, ${date.getDate()} ${date.toLocaleString(lang === 'uk' ? 'uk-UA' : lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-GB' : 'ru-RU', { month: 'short' })}`;
 
-                    // Добавляем переведённое "Сегодня" через span
                     const todaySuffix = isToday ? `<span class="today-suffix">${translations[lang]['hours_today_suffix']}</span>` : '';
 
                     html += `<div class="hour-row ${isToday ? 'today' : ''}"><span class="day">${dateLabel}${todaySuffix}</span><span>${timeStr}</span></div>`;
