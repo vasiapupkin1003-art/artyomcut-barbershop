@@ -1553,7 +1553,7 @@ button, input, select {
 }
 @media (max-width: 768px) {
     .hero-content {
-        padding-top: 330px !important;  /* подберите под свой вкус */
+        padding-top: 430px !important;  /* подберите под свой вкус */
     }
 }
 /* Шапка: полностью чёрная, без прозрачности */
