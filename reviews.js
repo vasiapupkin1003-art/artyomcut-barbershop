@@ -83,39 +83,39 @@ function updateStars() {
 }
 
 // Отправить отзыв
-function submitReview() {
-    const nameInput = document.getElementById('reviewName');
-    const messageInput = document.getElementById('reviewMessage');
+async function submitReview() {
+  const nameInput = document.getElementById('reviewName');
+  const messageInput = document.getElementById('reviewMessage');
+  const name = nameInput.value.trim();
+  const message = messageInput.value.trim();
 
-    const name = nameInput.value.trim();
-    const message = messageInput.value.trim();
+  if (!name) { alert('Пожалуйста, укажите ваше имя'); nameInput.focus(); return; }
+  if (selectedRating === 0) { alert('Пожалуйста, выберите оценку'); return; }
+  if (!message) { alert('Пожалуйста, напишите сообщение'); messageInput.focus(); return; }
 
-    if (!name) {
-        alert('Пожалуйста, укажите ваше имя');
-        nameInput.focus();
-        return;
-    }
-
-    if (selectedRating === 0) {
-        alert('Пожалуйста, выберите оценку');
-        return;
-    }
-
-    if (!message) {
-        alert('Пожалуйста, напишите сообщение');
-        messageInput.focus();
-        return;
-    }
-
-    const reviews = getReviews();
-    reviews.push({
-        name: name,
-        rating: selectedRating,
-        message: message,
-        date: new Date().toISOString()
+  try {
+    const res = await fetch(`${API_BASE}/api/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, rating: selectedRating, message })
     });
-
-    saveReviews(reviews);
+    const data = await res.json();
+    if (!res.ok) {
+      alert(data.error || 'Ошибка отправки');
+      return;
+    }
+    nameInput.value = '';
+    messageInput.value = '';
+    selectedRating = 0;
+    updateStars();
+    document.getElementById('ratingValue').textContent = '0/5';
+    renderReviews();
+    alert('✅ Спасибо за ваш отзыв!');
+  } catch (err) {
+    console.error(err);
+    alert('Ошибка сети. Попробуйте позже.');
+  }
+}
 
     // Очистить форму
     nameInput.value = '';
