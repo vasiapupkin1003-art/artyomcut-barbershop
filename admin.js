@@ -478,23 +478,21 @@ function addPhotoToGallery() {
     reader.readAsDataURL(file);
 }
 
-function renderGalleryPhotosList() {
-    const container = document.getElementById('galleryPhotosList');
-    if (!container) return;
-    
-    const photos = getGalleryPhotos();
-    
-    if (photos.length === 0) {
-        container.innerHTML = '<p style="color: #aaa6a0;">Нет фотографий</p>';
-        return;
-    }
-    
-    container.innerHTML = photos.map((photo, index) => `
-        <div class="gallery-photo-item">
-            <img src="${photo.src}" alt="${photo.alt}">
-            <button class="remove-photo" onclick="removeGalleryPhoto(${index})">×</button>
-        </div>
-    `).join('');
+async function renderGalleryPhotosList() {
+  const container = document.getElementById('galleryPhotosList');
+  if (!container) return;
+
+  const photos = await getGalleryPhotos();
+  if (photos.length === 0) {
+    container.innerHTML = '<p style="color: #aaa6a0;">Нет фотографий</p>';
+    return;
+  }
+  container.innerHTML = photos.map(photo => `
+    <div class="gallery-photo-item">
+      <img src="${photo.src}" alt="${photo.alt}">
+      <button class="remove-photo" onclick="removeGalleryPhoto('${photo.id}')">×</button>
+    </div>
+  `).join('');
 }
 
 function removeGalleryPhoto(index) {
