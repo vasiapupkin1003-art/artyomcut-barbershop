@@ -1717,3 +1717,7 @@ main,
 .review-form {
     margin-top: 30px !important;
 }
+/* Опускаем контент страницы "Как нас найти" ниже шапки */
+.wrap {
+    padding-top: 160px !important;  /* было 120px, можно больше */
+}
