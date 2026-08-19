@@ -4,9 +4,10 @@
 const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
 let selectedRating = 0;
 
-// Получить отзывы из localStorage
+// Получить отзывы с сервера
 async function getReviews() {
   const res = await fetch(`${API_BASE}/api/reviews`);
+  if (!res.ok) throw new Error('Ошибка загрузки отзывов');
   return await res.json();
 }
 
@@ -20,7 +21,10 @@ async function renderReviews() {
     container.innerHTML = '<div class="no-reviews">Пока нет отзывов. Будьте первым!</div>';
     return;
   }
-  reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  // Сортировка: новые сверху (используем createdAt, если есть)
+  reviews.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+
   container.innerHTML = reviews.map(review => `
     <div class="review-item">
       <div class="review-header">
@@ -28,24 +32,9 @@ async function renderReviews() {
         <span class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
       </div>
       <p class="review-message">${review.message}</p>
-      <p class="review-date">${new Date(review.createdAt).toLocaleString('ru-RU')}</p>
+      <p class="review-date">${new Date(review.createdAt || review.date).toLocaleString('ru-RU')}</p>
     </div>
   `).join('');
-}
-
-    // Сортировка: новые сверху
-    reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    container.innerHTML = reviews.map(review => `
-        <div class="review-item">
-            <div class="review-header">
-                <span class="review-name">${review.name}</span>
-                <span class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
-            </div>
-            <p class="review-message">${review.message}</p>
-            <p class="review-date">${new Date(review.date).toLocaleString('ru-RU')}</p>
-        </div>
-    `).join('');
 }
 
 // Инициализация звёзд
@@ -104,18 +93,6 @@ async function submitReview() {
       alert(data.error || 'Ошибка отправки');
       return;
     }
-    nameInput.value = '';
-    messageInput.value = '';
-    selectedRating = 0;
-    updateStars();
-    document.getElementById('ratingValue').textContent = '0/5';
-    renderReviews();
-    alert('✅ Спасибо за ваш отзыв!');
-  } catch (err) {
-    console.error(err);
-    alert('Ошибка сети. Попробуйте позже.');
-  }
-}
 
     // Очистить форму
     nameInput.value = '';
@@ -129,14 +106,14 @@ async function submitReview() {
     renderReviews();
 
     alert('✅ Спасибо за ваш отзыв!');
+  } catch (err) {
+    console.error(err);
+    alert('Ошибка сети. Попробуйте позже.');
+  }
 }
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     initRating();
     renderReviews();
-});
-document.addEventListener('DOMContentLoaded', function() {
-  initRating();
-  renderReviews();
 });
