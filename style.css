@@ -1766,3 +1766,8 @@ main,
 .socials .language-switcher {
     align-self: center;
 }
+/* Скрываем красную полосу на страницах отзывов и галереи */
+.reviews-page .section-line,
+.gallery-page .section-line {
+    display: none !important;
+}
