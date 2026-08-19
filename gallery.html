@@ -24,25 +24,25 @@
 
             <!-- НАВИГАЦИЯ -->
             <nav class="nav" id="mobileNav">
-                <a href="index.html">ГЛАВНАЯ</a>
-                <a href="index.html#services">УСЛУГИ</a>
-                <a href="index.html#master">МАСТЕР</a>
-                <a href="gallery.html" class="active">ГАЛЕРЕЯ</a>
-                <a href="reviews.html">ОТЗЫВЫ</a>
-                <a href="index.html#music">МУЗЫКА</a>
-                <a href="index.html#booking">ЗАПИСЬ</a>
-                <a href="location.html">КАК НАС НАЙТИ</a>
+                <a href="index.html" data-i18n="nav_home">ГЛАВНАЯ</a>
+                <a href="index.html#services" data-i18n="nav_services">УСЛУГИ</a>
+                <a href="index.html#master" data-i18n="nav_master">МАСТЕР</a>
+                <a href="gallery.html" class="active" data-i18n="nav_gallery">ГАЛЕРЕЯ</a>
+                <a href="reviews.html" data-i18n="nav_reviews">ОТЗЫВЫ</a>
+                <a href="index.html#music" data-i18n="nav_music">МУЗЫКА</a>
+                <a href="index.html#booking" data-i18n="nav_booking">ЗАПИСЬ</a>
+                <a href="location.html" data-i18n="nav_contacts">КАК НАС НАЙТИ</a>
             </nav>
 
             <div class="socials">
                 <div class="language-switcher">
-  <select class="lang-select" onchange="applyLanguage(this.value)">
-    <option value="ru">RU</option>
-    <option value="uk">UA</option>
-    <option value="es">ES</option>
-    <option value="en">EN</option>
-  </select>
-</div>
+                    <select class="lang-select" onchange="applyLanguage(this.value)">
+                        <option value="ru">RU</option>
+                        <option value="uk">UA</option>
+                        <option value="es">ES</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
                 <a href="https://www.instagram.com/artembarbercat/" target="_blank" aria-label="Instagram" class="social-link">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="currentColor"/>
@@ -61,15 +61,15 @@
     <section class="gallery-page">
         <div class="container">
             <div class="gallery-page-heading">
-                <h1>ГАЛЕРЕЯ <span>РАБОТ</span></h1>
+                <h1><span data-i18n="gallery_heading_1">ГАЛЕРЕЯ</span> <span data-i18n="gallery_heading_2">РАБОТ</span></h1>
                 <div class="section-line"></div>
             </div>
 
             <div class="gallery-filters">
-                <button class="filter-btn active" data-filter="all">ВСЕ</button>
-                <button class="filter-btn" data-filter="fade">FADE</button>
-                <button class="filter-btn" data-filter="classic">CLASSIC</button>
-                <button class="filter-btn" data-filter="beard">BEARD</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="gallery_filters_all">ВСЕ</button>
+                <button class="filter-btn" data-filter="fade" data-i18n="gallery_filters_fade">FADE</button>
+                <button class="filter-btn" data-filter="classic" data-i18n="gallery_filters_classic">CLASSIC</button>
+                <button class="filter-btn" data-filter="beard" data-i18n="gallery_filters_beard">BEARD</button>
             </div>
 
             <div class="gallery-page-grid" id="galleryGrid"></div>
@@ -78,8 +78,8 @@
 
     <footer class="footer">
         <div class="container">
-            <p>© 2026 ArtyomCut Barbershop — Gijón</p>
-            <p>ROCK & CUTS ⚡ SINCE 2021</p>
+            <p data-i18n="footer_copyright">© 2026 ArtyomCut Barbershop — Gijón</p>
+            <p data-i18n="footer_slogan">ROCK & CUTS ⚡ SINCE 2021</p>
         </div>
     </footer>
 
@@ -102,6 +102,6 @@
         });
     </script>
     <script src="translations.js"></script>
-<script src="i18n.js"></script>
+    <script src="i18n.js"></script>
 </body>
 </html>
