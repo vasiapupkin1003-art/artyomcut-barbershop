@@ -508,9 +508,15 @@ function toggleMobileMenu() {
     const nav = document.getElementById('mobileNav');
     if (nav) {
         nav.classList.toggle('open');
+        if (nav.classList.contains('open')) {
+            document.body.classList.add('no-scroll');
+        } else {
+            document.body.classList.remove('no-scroll');
+        }
         nav.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', function() {
                 nav.classList.remove('open');
+                document.body.classList.remove('no-scroll');
             });
         });
     }
