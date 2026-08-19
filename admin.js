@@ -475,39 +475,37 @@ async function addPhotoToGallery() {
     }
 
     const file = fileInput.files[0];
-    if (file.size > 2 * 1024 * 1024) {
-        alert('Файл слишком большой. Максимум 2 МБ.');
+    // Можно ограничить, например, 20 МБ
+    if (file.size > 20 * 1024 * 1024) {
+        alert('Файл слишком большой. Максимум 20 МБ.');
         return;
     }
 
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-        const src = e.target.result;
-        try {
-            const res = await fetch(`${API_BASE}/api/gallery`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Admin-Password': ADMIN_PASSWORD
-                },
-                body: JSON.stringify({
-                    src,
-                    alt: 'Работа',
-                    category: categorySelect.value
-                })
-            });
-            if (res.ok) {
-                fileInput.value = '';
-                renderGalleryPhotosList();
-                alert('✅ Фото добавлено!');
-            } else {
-                alert('Ошибка при добавлении фото');
-            }
-        } catch (err) {
-            console.error(err);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('category', categorySelect.value);
+    formData.append('alt', 'Работа');
+
+    try {
+        const res = await fetch(`${API_BASE}/api/gallery`, {
+            method: 'POST',
+            headers: {
+                'X-Admin-Password': ADMIN_PASSWORD
+            },
+            body: formData
+        });
+        if (res.ok) {
+            fileInput.value = '';
+            renderGalleryPhotosList();
+            alert('✅ Фото добавлено!');
+        } else {
+            const error = await res.json();
+            alert(error.error || 'Ошибка при добавлении фото');
         }
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+        console.error(err);
+        alert('Ошибка сети');
+    }
 }
 
 async function removeGalleryPhoto(id) {
