@@ -232,9 +232,20 @@ function renderBlockedDaysList() {
 }
 
 function changeBlockMonth(delta) {
+    const targetDate = new Date(blockYear, blockMonth + delta, 1);
+    const currentDate = new Date(currentYear, currentMonth, 1);
+    
+    // Не пускаем в прошлые месяцы
+    if (targetDate < currentDate) return;
+    
     blockMonth += delta;
-    if (blockMonth < 0) { blockMonth = 11; blockYear--; }
-    else if (blockMonth > 11) { blockMonth = 0; blockYear++; }
+    if (blockMonth < 0) {
+        blockMonth = 11;
+        blockYear--;
+    } else if (blockMonth > 11) {
+        blockMonth = 0;
+        blockYear++;
+    }
     renderBlockCalendar();
 }
 
