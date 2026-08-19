@@ -319,10 +319,16 @@ function confirmBooking() {
     refreshCalendar();
 }
  
-function saveToLocalStorage(bookingData) {
-    let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    bookings.push(bookingData);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
+async function saveToLocalStorage(bookingData) {
+  const response = await fetch(`${API_BASE}/api/bookings`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bookingData)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Ошибка записи');
+  }
 }
  
 function showSuccessMessage(bookingData) {
