@@ -5,8 +5,9 @@ const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
 let selectedRating = 0;
 
 // Получить отзывы из localStorage
-function getReviews() {
-    return JSON.parse(localStorage.getItem('reviews') || '[]');
+async function getReviews() {
+  const res = await fetch(`${API_BASE}/api/reviews`);
+  return await res.json();
 }
 
 // Сохранить отзывы в localStorage
