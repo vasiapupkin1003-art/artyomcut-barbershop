@@ -1604,3 +1604,26 @@ button, input, select {
         margin-bottom: 0 !important;
     }
 }
+/* Увеличиваем соцсети на главной странице до размера бургера */
+@media (max-width: 768px) {
+    body:has(.hero) .social-link {
+        width: 50px;
+        height: 50px;
+    }
+    body:has(.hero) .social-link svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Центрируем элементы шапки */
+    .header-inner {
+        align-items: center !important;
+    }
+    .logo,
+    .socials,
+    .burger-btn {
+        align-self: center !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+}
