@@ -1586,3 +1586,27 @@ button, input, select {
         z-index: 2 !important;
     }
 }
+/* ==================================================
+   МОБИЛЬНОЕ МЕНЮ — ОТКРЫТИЕ СПРАВА
+   ================================================== */
+@media (max-width: 768px) {
+    .nav {
+        position: fixed;
+        top: 0;
+        right: -100%;          /* по умолчанию скрыто за правым краем */
+        width: 75%;            /* ширина меню */
+        height: 100vh;
+        background: #0d1011;
+        flex-direction: column;
+        padding: 80px 30px;
+        transition: right 0.3s ease;
+        gap: 20px;
+        align-items: flex-start;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .nav.open {
+        right: 0;              /* при открытии прижато к правому краю */
+    }
+}
