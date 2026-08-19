@@ -97,14 +97,24 @@ function renderBlockCalendar() {
     let html = '';
     for (let i = 0; i < startDay; i++) html += '<div class="block-day empty"></div>';
     for (let day = 1; day <= lastDay.getDate(); day++) {
-        const dateString = `${blockYear}-${String(blockMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const isBlocked = blockedDays.includes(dateString);
-        const hasSpecial = specialDates[dateString] !== undefined;
-        let classes = 'block-day';
+    const date = new Date(blockYear, blockMonth, day);
+    const dateString = `${blockYear}-${String(blockMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const isPast = date < todayStart;
+    const isBlocked = blockedDays.includes(dateString);
+    const hasSpecial = specialDates[dateString] !== undefined;
+    
+    let classes = 'block-day';
+    if (isPast) {
+        classes += ' past';                 // прошедшие дни неактивны
+    } else {
         if (isBlocked) classes += ' blocked';
         if (hasSpecial && !isBlocked) classes += ' special';
-        html += `<div class="${classes}" data-date="${dateString}" onclick="openDaySettings('${dateString}')">${day}</div>`;
     }
+    
+    // Для прошедших дней не добавляем onclick
+    const onclickAttr = isPast ? '' : `onclick="openDaySettings('${dateString}')"`;
+    html += `<div class="${classes}" data-date="${dateString}" ${onclickAttr}>${day}</div>`;
+}
     blockDays.innerHTML = html;
     renderBlockedDaysList();
 }
