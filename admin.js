@@ -3,6 +3,8 @@
 // ========================================
 const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
 let authToken = localStorage.getItem('authToken') || '';
+const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
+let authToken = localStorage.getItem('authToken') || '';
 
 // ================== АВТОРИЗАЦИЯ ==================
 document.addEventListener('DOMContentLoaded', async () => {
