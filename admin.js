@@ -447,14 +447,50 @@ function saveGalleryPhotos(photos) {
     localStorage.setItem('galleryPhotos', JSON.stringify(photos));
 }
 
-function addPhotoToGallery() {
-    const fileInput = document.getElementById('galleryPhotoInput');
-    const categorySelect = document.getElementById('galleryCategory');
-    
-    if (!fileInput.files || fileInput.files.length === 0) {
-        alert('Выберите фотографию');
-        return;
+async function addPhotoToGallery() {
+  const fileInput = document.getElementById('galleryPhotoInput');
+  const categorySelect = document.getElementById('galleryCategory');
+
+  if (!fileInput.files || fileInput.files.length === 0) {
+    alert('Выберите фотографию');
+    return;
+  }
+
+  const file = fileInput.files[0];
+  if (file.size > 2 * 1024 * 1024) {
+    alert('Файл слишком большой. Максимум 2 МБ.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    const src = e.target.result;
+    try {
+      const res = await fetch(`${API_BASE}/api/gallery`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Password': ADMIN_PASSWORD
+        },
+        body: JSON.stringify({
+          src,
+          alt: 'Работа',
+          category: categorySelect.value
+        })
+      });
+      if (res.ok) {
+        fileInput.value = '';
+        renderGalleryPhotosList();
+        alert('✅ Фото добавлено!');
+      } else {
+        alert('Ошибка при добавлении фото');
+      }
+    } catch (err) {
+      console.error(err);
     }
+  };
+  reader.readAsDataURL(file);
+}
     
     const file = fileInput.files[0];
     const category = categorySelect.value;
