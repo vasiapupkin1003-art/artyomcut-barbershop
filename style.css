@@ -1571,7 +1571,7 @@ button, input, select {
 /* Финальный сдвиг hero-фото: правее и вверх */
 @media (max-width: 768px) {
     .hero-image {
-        left: 50px !important;    /* ещё правее (было 30px) */
+        left: 35px !important;    /* ещё правее (было 30px) */
         top: 35px !important;     /* поднимаем выше (было 70px) */
     }
 }
