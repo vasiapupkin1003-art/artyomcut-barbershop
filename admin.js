@@ -239,16 +239,18 @@ function openDaySettings(dateString) {
     });
 }
 
-function toggleBlockDay(dateString) {
-    let blockedDays = getBlockedDays();
+async function toggleBlockDay(dateString) {
+    let blockedDays = scheduleData.blockedDays;
     const index = blockedDays.indexOf(dateString);
-    if (index > -1) blockedDays.splice(index, 1);
-    else {
+    if (index > -1) {
+        blockedDays.splice(index, 1);
+    } else {
         blockedDays.push(dateString);
-        const specialDates = getSpecialDates();
-        delete specialDates[dateString];
-        localStorage.setItem('specialDates', JSON.stringify(specialDates));
+        delete scheduleData.specialDates[dateString];
     }
+    await saveSchedule();
+    renderBlockCalendar();
+}
     localStorage.setItem('blockedDays', JSON.stringify(blockedDays));
     renderBlockCalendar();
 }
