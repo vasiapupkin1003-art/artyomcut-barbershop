@@ -1766,3 +1766,11 @@ main,
     margin: 0 auto !important;
     padding: 180px 20px 60px !important;
 }
+/* ЖЁСТКАЯ ФИКСАЦИЯ ШИРИНЫ И ОТСТУПА ДЛЯ СТРАНИЦЫ "КАК НАС НАЙТИ" */
+html body .wrap {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding-top: 180px !important;
+    display: block !important;
+    width: auto !important;
+}
