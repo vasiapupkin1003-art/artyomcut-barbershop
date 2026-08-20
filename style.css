@@ -1771,42 +1771,75 @@ main,
 .gallery-page .section-line {
     display: none !important;
 }
-/* ==================================================
-   АДАПТАЦИЯ ДЛЯ ПЛАНШЕТОВ (768px – 1366px)
-================================================== */
 @media (min-width: 769px) and (max-width: 1366px) {
 
-    /* Контейнер: не обрезаем края */
-    .container {
-        padding: 0 30px;
+    /* Шапка: уменьшаем высоту, логотип и шрифт навигации */
+    .header-inner {
+        min-height: 80px;
+        gap: 20px;
+    }
+    .logo {
+        min-width: auto;          /* убираем жёсткую ширину */
+        flex-shrink: 1;
+    }
+    .logo img {
+        height: 70px;             /* было 130px — уменьшаем */
+    }
+    .nav {
+        gap: 18px;
+        margin-left: auto;
+        margin-right: 15px;
+    }
+    .nav a {
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+    .socials {
+        gap: 8px;
+    }
+    .social-link {
+        width: 38px;
+        height: 38px;
+    }
+    .social-link svg {
+        width: 18px;
+        height: 18px;
     }
 
-    /* Главный экран: герой-блок не выходит за пределы */
+    /* Главный экран: фото снова абсолютное справа, но сужаем */
     .hero {
-        min-height: auto;
-        padding-top: 120px;
+        padding-top: 80px;
     }
     .hero-inner {
-        min-height: auto;
-        flex-wrap: wrap;
-        gap: 30px;
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
     }
     .hero-content {
         width: 60%;
-        padding: 40px 0;
-    }
-    .hero-image {
-        position: relative;
-        width: 100%;
-        height: 450px;
-        left: 0;
-        top: 0;
+        padding: 60px 0;
     }
     .hero h1 {
-        font-size: clamp(50px, 8vw, 100px);
+        font-size: clamp(60px, 8vw, 90px);
+    }
+    .hero-image {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 45%;
+        height: 100%;
+        left: auto;
+    }
+    .btn {
+        min-height: 55px;
+        padding: 0 30px;
+        font-size: 15px;
+    }
+    .hero-buttons {
+        gap: 15px;
     }
 
-    /* Секции: уменьшаем вертикальные отступы */
+    /* Секции: умеренные отступы */
     .services,
     .about,
     .gallery,
@@ -1816,33 +1849,23 @@ main,
         padding: 60px 0;
     }
 
-    /* Сетка услуг: две колонки */
+    /* Сетки: адаптируем */
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-
-    /* О мастере: фото занимают всю ширину */
     .about-inner {
         grid-template-columns: 1fr;
         gap: 40px;
     }
-    .about-gallery {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
     .about-gallery img {
         height: 350px;
     }
-
-    /* Галерея превью */
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
     }
     .gallery-grid img {
         height: 300px;
     }
-
-    /* Запись: три колонки могут быть тесноваты, делаем две */
     .booking-layout-3 {
         grid-template-columns: 1fr 1fr;
         gap: 20px;
@@ -1850,11 +1873,7 @@ main,
     .booking-frame:last-child {
         grid-column: span 2;
     }
-
-    /* Контакты: две колонки */
     .contacts-layout {
         grid-template-columns: 1fr 1fr;
     }
-
-    /* Футер: оставляем */
 }
