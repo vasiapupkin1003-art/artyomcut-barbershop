@@ -11,7 +11,7 @@ let scheduleData = {
         thursday: { start: '10:00', end: '20:00' },
         friday: { start: '10:00', end: '20:00' },
         saturday: { start: '10:00', end: '18:00' },
-        sunday: { start: null, end: null } // выходной
+        sunday: { start: null, end: null }
     },
     specialDates: {},
     blockedDays: []
@@ -42,7 +42,6 @@ let selectedService = '';
 
 function selectService(serviceName) {
     const searchName = serviceName.toUpperCase().trim();
-
     document.querySelectorAll('.service-option-item').forEach(item => {
         item.classList.remove('selected');
         const title = item.querySelector('h3');
@@ -54,7 +53,6 @@ function selectService(serviceName) {
             }
         }
     });
-
     const bookingSection = document.querySelector('#booking');
     if (bookingSection) {
         const headerHeight = document.querySelector('.header').offsetHeight;
@@ -69,9 +67,7 @@ function selectServiceOption(serviceName, element) {
     if (element) element.classList.add('selected');
 }
 
-// ========================================
-// АНИМАЦИИ
-// ========================================
+// Анимации
 document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -84,15 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ========================================
-// ШАПКА
-// ========================================
+// Шапка
 let lastScrollTop = 0;
 const header = document.querySelector('.header');
 
 window.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
     if (scrollTop > lastScrollTop && scrollTop > 200) {
         header.style.transform = 'translateY(-100%)';
     } else {
@@ -125,9 +118,7 @@ document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
     });
 });
 
-// ========================================
-// КАЛЕНДАРЬ И ВЫБОР ВРЕМЕНИ
-// ========================================
+// Календарь
 let bookingData = { service: '', date: '', time: '' };
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -178,7 +169,6 @@ function renderCalendar() {
             daysHTML += `<div class="${classes}" data-date="${dateString}" onclick="selectDate('${dateString}')">${day}</div>`;
         }
     }
-
     calendarDays.innerHTML = daysHTML;
 }
 
@@ -307,7 +297,6 @@ function refreshCalendar() {
 // ФОРМА ПОДТВЕРЖДЕНИЯ ЗАПИСИ
 // ========================================
 function showContactForm() {
-    // Удаляем все предыдущие формы, чтобы не было дублей
     document.querySelectorAll('.booking-modal').forEach(el => el.remove());
 
     const lang = currentLanguage || 'ru';
@@ -327,9 +316,9 @@ function showContactForm() {
             </div>
             <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_name_label || 'Имя'} <span style="color: #c51f25;">*</span></label>
             <input id="client-name" type="text" placeholder="${t.contact_name_placeholder}" style="width: 100%; height: 48px; margin-bottom: 15px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">TELEGRAM <span style="color: #c51f25;">*</span></label>
+            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_telegram_label || 'TELEGRAM'} <span style="color: #c51f25;">*</span></label>
             <input id="client-contact" type="text" placeholder="@username" style="width: 100%; height: 48px; margin-bottom: 5px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-            <p style="font-size: 12px; color: #aaa6a0; margin: 0 0 20px 0;">💡 Укажи Telegram, чтобы получить напоминание за 2 часа до визита.</p>
+            <p style="font-size: 12px; color: #aaa6a0; margin: 0 0 20px 0;">${t.contact_telegram_note || ''}</p>
             <button id="confirmBookingBtn" style="width: 100%; height: 50px; background: #c51f25; color: #fff; border: none; border-radius: 3px; font-size: 14px; font-weight: 800; cursor: pointer;">${t.contact_submit}</button>
         </div>
     `;
@@ -337,11 +326,7 @@ function showContactForm() {
 
     const closeBtn = modal.querySelector('#closeContactBtn');
     closeBtn.addEventListener('click', () => modal.remove());
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.remove();
-    });
-
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
     modal.querySelector('#confirmBookingBtn').addEventListener('click', confirmBooking);
 }
 
@@ -354,11 +339,7 @@ async function confirmBooking() {
 
     try {
         await saveBookingToServer(bookingData);
-
-        // Удаляем текущую модальную форму
         document.querySelector('.booking-modal')?.remove();
-
-        // Показываем сообщение об успехе
         showSuccessMessage(bookingData);
         refreshCalendar();
     } catch (error) {
@@ -379,7 +360,6 @@ async function saveBookingToServer(bookingData) {
 }
 
 function showSuccessMessage(bookingData) {
-    // Удаляем предыдущие окна успеха
     document.querySelectorAll('.success-modal').forEach(el => el.remove());
 
     const lang = currentLanguage || 'ru';
@@ -532,7 +512,6 @@ function toggleMobileMenu() {
     }
 }
 
-// Закрытие бургер-меню при клике вне его области
 document.addEventListener('click', function(e) {
     const nav = document.getElementById('mobileNav');
     const burger = document.getElementById('burgerBtn');
@@ -576,7 +555,7 @@ async function loadRecentReviews() {
 }
 
 // ========================================
-// ЛАЙТБОКС ДЛЯ ФОТОГРАФИЙ
+// ЛАЙТБОКС
 // ========================================
 function initMasterGalleryLightbox() {
     const photos = document.querySelectorAll('.about-gallery img');
