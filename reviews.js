@@ -1,5 +1,5 @@
 // ========================================
-// ОТЗЫВЫ — ЛОГИКА
+// ОТЗЫВЫ — ЛОГИКА С ПЕРЕВОДАМИ
 // ========================================
 const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
 let selectedRating = 0;
@@ -16,13 +16,15 @@ async function renderReviews() {
   const container = document.getElementById('reviewsList');
   if (!container) return;
 
+  const lang = currentLanguage || 'ru';
+  const t = translations[lang] || translations['ru'];
+
   const reviews = await getReviews();
   if (reviews.length === 0) {
-    container.innerHTML = '<div class="no-reviews">Пока нет отзывов. Будьте первым!</div>';
+    container.innerHTML = `<div class="no-reviews">${t.no_reviews}</div>`;
     return;
   }
 
-  // Сортировка: новые сверху (используем createdAt, если есть)
   reviews.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
 
   container.innerHTML = reviews.map(review => `
@@ -32,7 +34,7 @@ async function renderReviews() {
         <span class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
       </div>
       <p class="review-message">${review.message}</p>
-      <p class="review-date">${new Date(review.createdAt || review.date).toLocaleString('ru-RU')}</p>
+      <p class="review-date">${new Date(review.createdAt || review.date).toLocaleString(lang === 'uk' ? 'uk-UA' : lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-GB' : 'ru-RU')}</p>
     </div>
   `).join('');
 }
@@ -62,13 +64,19 @@ function initRating() {
     });
 }
 
-// Обновить отображение звёзд в соответствии с выбранным рейтингом
 function updateStars() {
     const stars = document.querySelectorAll('#ratingStars .star');
     stars.forEach(star => {
         const value = parseInt(star.getAttribute('data-value'));
         star.classList.toggle('active', value <= selectedRating);
     });
+}
+
+// Показать переведённое сообщение
+function showReviewAlert(key) {
+    const lang = currentLanguage || 'ru';
+    const t = translations[lang] || translations['ru'];
+    alert(t[key] || translations['ru'][key] || key);
 }
 
 // Отправить отзыв
@@ -78,9 +86,20 @@ async function submitReview() {
   const name = nameInput.value.trim();
   const message = messageInput.value.trim();
 
-  if (!name) { alert('Пожалуйста, укажите ваше имя'); nameInput.focus(); return; }
-  if (selectedRating === 0) { alert('Пожалуйста, выберите оценку'); return; }
-  if (!message) { alert('Пожалуйста, напишите сообщение'); messageInput.focus(); return; }
+  if (!name) {
+    showReviewAlert('review_alert_name');
+    nameInput.focus();
+    return;
+  }
+  if (selectedRating === 0) {
+    showReviewAlert('review_alert_rating');
+    return;
+  }
+  if (!message) {
+    showReviewAlert('review_alert_message');
+    messageInput.focus();
+    return;
+  }
 
   try {
     const res = await fetch(`${API_BASE}/api/reviews`, {
@@ -90,11 +109,15 @@ async function submitReview() {
     });
     const data = await res.json();
     if (!res.ok) {
-      alert(data.error || 'Ошибка отправки');
+      // Если сервер вернул 429 (уже оставлял отзыв), показываем перевод
+      if (res.status === 429) {
+        showReviewAlert('review_alert_already');
+      } else {
+        alert(data.error || 'Ошибка отправки');
+      }
       return;
     }
 
-    // Очистить форму
     nameInput.value = '';
     messageInput.value = '';
     selectedRating = 0;
@@ -102,13 +125,11 @@ async function submitReview() {
     const ratingValue = document.getElementById('ratingValue');
     if (ratingValue) ratingValue.textContent = '0/5';
 
-    // Перерисовать список
     renderReviews();
-
-    alert('✅ Спасибо за ваш отзыв!');
+    showReviewAlert('review_alert_success');
   } catch (err) {
     console.error(err);
-    alert('Ошибка сети. Попробуйте позже.');
+    showReviewAlert('review_alert_network');
   }
 }
 
