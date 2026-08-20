@@ -1773,28 +1773,27 @@ main,
 }
 @media (min-width: 769px) and (max-width: 1366px) {
 
-    /* Шапка: уменьшаем высоту, логотип и шрифт навигации */
+    /* Шапка: логотип слева, справа соцсети + язык + бургер */
     .header-inner {
-        min-height: 80px;
-        gap: 20px;
+        min-height: 70px;
+        gap: 10px;
+        padding: 10px 0;
     }
     .logo {
-        min-width: auto;          /* убираем жёсткую ширину */
-        flex-shrink: 1;
+        min-width: auto;
+        flex: 1;
     }
     .logo img {
-        height: 70px;             /* было 130px — уменьшаем */
+        height: 60px;
     }
-    .nav {
-        gap: 18px;
-        margin-left: auto;
-        margin-right: 15px;
+
+    .burger-btn {
+        display: flex;          /* показываем бургер */
+        order: 3;
     }
-    .nav a {
-        font-size: 13px;
-        letter-spacing: 1px;
-    }
+
     .socials {
+        order: 2;
         gap: 8px;
     }
     .social-link {
@@ -1806,12 +1805,35 @@ main,
         height: 18px;
     }
 
-    /* Главный экран: фото снова абсолютное справа, но сужаем */
+    /* Навигация — offcanvas, как на мобильном */
+    .nav {
+        position: fixed;
+        top: 0;
+        right: -60%;
+        width: 60%;
+        height: 100vh;
+        background: #0d1011;
+        flex-direction: column;
+        padding: 80px 30px;
+        transition: right 0.3s ease;
+        gap: 20px;
+        align-items: flex-start;
+        z-index: 999;
+        margin: 0;
+    }
+    .nav.open {
+        right: 0;
+    }
+    .nav a {
+        font-size: 18px;
+    }
+
+    /* Главный экран */
     .hero {
-        padding-top: 80px;
+        padding-top: 70px;
     }
     .hero-inner {
-        min-height: calc(100vh - 80px);
+        min-height: calc(100vh - 70px);
         display: flex;
         align-items: center;
     }
@@ -1839,7 +1861,7 @@ main,
         gap: 15px;
     }
 
-    /* Секции: умеренные отступы */
+    /* Секции и сетки */
     .services,
     .about,
     .gallery,
@@ -1848,8 +1870,6 @@ main,
     .contacts {
         padding: 60px 0;
     }
-
-    /* Сетки: адаптируем */
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
     }
