@@ -57,6 +57,7 @@ function selectService(serviceName) {
             if (titleText === searchName) {
                 item.classList.add('selected');
                 selectedService = title.textContent;
+                bookingData.serviceKey = getServiceKey(title.textContent);
             }
         }
     });
