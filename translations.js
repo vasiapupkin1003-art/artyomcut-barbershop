@@ -104,6 +104,13 @@ const translations = {
     review_submit: "ОТПРАВИТЬ ОТЗЫВ",
     no_reviews: "Пока нет отзывов. Будьте первым!",
 
+    review_alert_name: "Пожалуйста, укажите ваше имя",
+    review_alert_rating: "Пожалуйста, выберите оценку",
+    review_alert_message: "Пожалуйста, напишите сообщение",
+    review_alert_success: "✅ Спасибо за ваш отзыв!",
+    review_alert_network: "Ошибка сети. Попробуйте позже.",
+    review_alert_already: "Вы уже оставляли отзыв недавно.",
+
     location_eyebrow: "Локация",
     location_heading: "Как нас найти",
     location_sub: "Barbershop в самом центре Хихона — рядом с Calle de San Manuel. Пять минут пешком от площади, сложно промахнуться.",
@@ -235,6 +242,13 @@ const translations = {
     review_message_placeholder: "Напишіть пару слів про візит...",
     review_submit: "НАДІСЛАТИ ВІДГУК",
     no_reviews: "Поки немає відгуків. Будьте першим!",
+
+    review_alert_name: "Будь ласка, вкажіть ваше ім'я",
+    review_alert_rating: "Будь ласка, виберіть оцінку",
+    review_alert_message: "Будь ласка, напишіть повідомлення",
+    review_alert_success: "✅ Дякуємо за ваш відгук!",
+    review_alert_network: "Помилка мережі. Спробуйте пізніше.",
+    review_alert_already: "Ви вже залишали відгук нещодавно.",
 
     location_eyebrow: "Локація",
     location_heading: "Як нас знайти",
@@ -368,6 +382,13 @@ const translations = {
     review_submit: "ENVIAR RESEÑA",
     no_reviews: "Aún no hay reseñas. ¡Sé el primero!",
 
+    review_alert_name: "Por favor, indica tu nombre",
+    review_alert_rating: "Por favor, selecciona una valoración",
+    review_alert_message: "Por favor, escribe un mensaje",
+    review_alert_success: "✅ ¡Gracias por tu reseña!",
+    review_alert_network: "Error de red. Inténtalo de nuevo más tarde.",
+    review_alert_already: "Ya has dejado una reseña recientemente.",
+
     location_eyebrow: "Ubicación",
     location_heading: "Cómo encontrarnos",
     location_sub: "Barbershop en el centro de Gijón — cerca de Calle de San Manuel. A cinco minutos a pie de la plaza, difícil perderse.",
@@ -499,6 +520,13 @@ const translations = {
     review_message_placeholder: "Write a few words about your visit...",
     review_submit: "SUBMIT REVIEW",
     no_reviews: "No reviews yet. Be the first!",
+
+    review_alert_name: "Please enter your name",
+    review_alert_rating: "Please select a rating",
+    review_alert_message: "Please write a message",
+    review_alert_success: "✅ Thank you for your review!",
+    review_alert_network: "Network error. Please try again later.",
+    review_alert_already: "You have already left a review recently.",
 
     location_eyebrow: "Location",
     location_heading: "How to find us",
