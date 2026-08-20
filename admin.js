@@ -315,7 +315,7 @@ async function loadBookings() {
                 <div>
                     <p><strong>${booking.name}</strong> — ${booking.service}</p>
                     <p style="color: #aaa6a0;">📅 ${booking.date} | 🕐 ${booking.time}</p>
-                    <p style="color: #aaa6a0;">✈️ ${booking.telegram || 'Не указан'}</p>
+                    <p style="color: #aaa6a0;">📞 ${booking.contact || 'Не указан'}</p>
                 </div>
                 <button class="btn-delete" onclick="deleteBooking('${booking.id}')">❌ УДАЛИТЬ</button>
             </div>
