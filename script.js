@@ -152,19 +152,41 @@ function getDayKey(date) {
     return dayKeys[date.getDay()];
 }
 
+function getLocale(lang) {
+    if (lang === 'uk') return 'uk-UA';
+    if (lang === 'es') return 'es-ES';
+    if (lang === 'en') return 'en-GB';
+    return 'ru-RU';
+}
+
 function renderCalendar() {
     const calendarDays = document.getElementById('calendarDays');
     const calendarMonth = document.getElementById('calendarMonth');
     if (!calendarDays || !calendarMonth) return;
 
-    const blockedDays = getBlockedDays();
-    const monthNames = ['ЯНВАРЬ', 'ФЕВРАЛЬ', 'МАРТ', 'АПРЕЛЬ', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГУСТ', 'СЕНТЯБРЬ', 'ОКТЯБРЬ', 'НОЯБРЬ', 'ДЕКАБРЬ'];
-    calendarMonth.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    const lang = currentLanguage || 'ru';
+    const locale = getLocale(lang);
 
+    // Перевод месяца
+    const monthLabel = new Date(currentYear, currentMonth, 1).toLocaleString(locale, { month: 'long', year: 'numeric' });
+    calendarMonth.textContent = monthLabel.toUpperCase();
+
+    // Перевод дней недели
+    const weekdayElements = document.querySelectorAll('.calendar-weekdays span');
+    if (weekdayElements.length === 7) {
+        // 2026-01-05 — понедельник
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(2026, 0, 5 + i);
+            const short = d.toLocaleString(locale, { weekday: 'short' }).slice(0, 2).toUpperCase();
+            weekdayElements[i].textContent = short;
+        }
+    }
+
+    const blockedDays = getBlockedDays();
+    const schedule = getSchedule();
     const firstDay = new Date(currentYear, currentMonth, 1);
     const lastDay = new Date(currentYear, currentMonth + 1, 0);
     const startDay = (firstDay.getDay() + 6) % 7;
-    const schedule = getSchedule();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
