@@ -38,17 +38,22 @@ function getSpecialDates() {
     return scheduleData.specialDates || {};
 }
 
-let selectedService = '';
+// Функция определения ключа услуги по названию
 function getServiceKey(serviceName) {
-  const upper = serviceName.toUpperCase();
-  if (upper.includes('СТРИЖКА') && upper.includes('БОРОДА')) return 'combo';
-  if (upper.includes('СТРИЖКА')) return 'haircut';
-  if (upper.includes('БОРОДА')) return 'beard';
-  if (upper.includes('ДЕТСК')) return 'kids';
-  return 'haircut';
+    const upper = serviceName.toUpperCase().trim();
+    if (upper.includes('СТРИЖКА') && upper.includes('БОРОДА')) return 'combo';
+    if (upper.includes('СТРИЖКА')) return 'haircut';
+    if (upper.includes('БОРОДА')) return 'beard';
+    if (upper.includes('ДЕТСК')) return 'kids';
+    return 'haircut';
 }
+
+let selectedService = '';
+let selectedServiceKey = '';
+
 function selectService(serviceName) {
     const searchName = serviceName.toUpperCase().trim();
+
     document.querySelectorAll('.service-option-item').forEach(item => {
         item.classList.remove('selected');
         const title = item.querySelector('h3');
@@ -57,10 +62,11 @@ function selectService(serviceName) {
             if (titleText === searchName) {
                 item.classList.add('selected');
                 selectedService = title.textContent;
-                bookingData.serviceKey = getServiceKey(title.textContent);
+                selectedServiceKey = getServiceKey(title.textContent);
             }
         }
     });
+
     const bookingSection = document.querySelector('#booking');
     if (bookingSection) {
         const headerHeight = document.querySelector('.header').offsetHeight;
@@ -71,12 +77,14 @@ function selectService(serviceName) {
 
 function selectServiceOption(serviceName, element) {
     selectedService = serviceName;
-    bookingData.serviceKey = getServiceKey(serviceName);
+    selectedServiceKey = getServiceKey(serviceName);
     document.querySelectorAll('.service-option-item').forEach(item => item.classList.remove('selected'));
     if (element) element.classList.add('selected');
 }
 
-// Анимации
+// ========================================
+// АНИМАЦИИ
+// ========================================
 document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -89,12 +97,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Шапка
+// ========================================
+// ШАПКА
+// ========================================
 let lastScrollTop = 0;
 const header = document.querySelector('.header');
 
 window.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
     if (scrollTop > lastScrollTop && scrollTop > 200) {
         header.style.transform = 'translateY(-100%)';
     } else {
@@ -127,8 +138,10 @@ document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
     });
 });
 
-// Календарь
-let bookingData = { service: '', date: '', time: '' };
+// ========================================
+// КАЛЕНДАРЬ И ВЫБОР ВРЕМЕНИ
+// ========================================
+let bookingData = { service: '', date: '', time: '', serviceKey: '' };
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 let selectedDate = null;
@@ -178,6 +191,7 @@ function renderCalendar() {
             daysHTML += `<div class="${classes}" data-date="${dateString}" onclick="selectDate('${dateString}')">${day}</div>`;
         }
     }
+
     calendarDays.innerHTML = daysHTML;
 }
 
@@ -290,7 +304,12 @@ function proceedToBooking() {
     if (!selectedService) { alert('Выберите услугу'); return; }
     if (!selectedDate) { alert('Выберите дату'); return; }
     if (!selectedTime) { alert('Выберите время'); return; }
-    bookingData = { service: selectedService, date: selectedDate, time: selectedTime };
+    bookingData = {
+        service: selectedService,
+        date: selectedDate,
+        time: selectedTime,
+        serviceKey: selectedServiceKey
+    };
     showContactForm();
 }
 
@@ -382,7 +401,7 @@ function showSuccessMessage(bookingData) {
             <div style="font-size: 60px;">✅</div>
             <h3 style="color: #fff; margin: 20px 0;">${t.success_message}</h3>
             <p style="color: #aaa6a0;">${bookingData.name}${t.success_text}</p>
-            <p style="color: #fff; font-weight: 700;">${bookingData.service}</p>
+            <p style="color: #fff; font-weight: 700;">${t['booking_service_' + bookingData.serviceKey] || bookingData.service}</p>
             <p style="color: #aaa6a0;">${bookingData.date} в ${bookingData.time}</p>
             <button id="successOkBtn" style="margin-top: 20px; padding: 15px 40px; background: #c51f25; color: #fff; border: none; border-radius: 3px; cursor: pointer;">${t.success_ok}</button>
         </div>
@@ -564,7 +583,7 @@ async function loadRecentReviews() {
 }
 
 // ========================================
-// ЛАЙТБОКС
+// ЛАЙТБОКС ДЛЯ ФОТОГРАФИЙ
 // ========================================
 function initMasterGalleryLightbox() {
     const photos = document.querySelectorAll('.about-gallery img');
