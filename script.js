@@ -304,31 +304,42 @@ function refreshCalendar() {
 }
 
 // ========================================
-// ФОРМА ЗАПИСИ
+// ФОРМА ПОДТВЕРЖДЕНИЯ ЗАПИСИ
 // ========================================
 function showContactForm() {
+    const lang = currentLanguage || 'ru';
+    const t = translations[lang];
+
     const modal = document.createElement('div');
+    modal.className = 'booking-modal'; // добавим класс для удобного удаления
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;`;
     modal.innerHTML = `
         <div style="background: #0d1011; border: 1px solid #343839; border-radius: 10px; padding: 30px; max-width: 500px; width: 100%; position: relative;">
             <button id="closeContactBtn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer;">×</button>
-            <h3 style="color: #fff; font-size: 24px; margin-bottom: 20px; font-weight: 900;">ПОДТВЕРДИТЕ ЗАПИСЬ</h3>
+            <h3 style="color: #fff; font-size: 24px; margin-bottom: 20px; font-weight: 900;">${t.contact_form_heading}</h3>
             <div style="background: #15191a; padding: 15px; border-radius: 5px; margin-bottom: 20px; color: #aaa6a0;">
-                <strong style="color: #fff;">Услуга:</strong> ${bookingData.service}<br>
-                <strong style="color: #fff;">Дата:</strong> ${bookingData.date}<br>
-                <strong style="color: #fff;">Время:</strong> ${bookingData.time}
+                <strong style="color: #fff;">${t.contact_service_label}</strong> ${bookingData.service}<br>
+                <strong style="color: #fff;">${t.contact_date_label}</strong> ${bookingData.date}<br>
+                <strong style="color: #fff;">${t.contact_time_label}</strong> ${bookingData.time}
             </div>
-            <input id="client-name" type="text" placeholder="Ваше имя" style="width: 100%; height: 48px; margin-bottom: 15px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">TELEGRAM <span style="color: #c51f25;">*</span></label>
-<input id="client-contact" type="text" placeholder="@username" style="width: 100%; height: 48px; margin-bottom: 5px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-<p style="font-size: 12px; color: #aaa6a0; margin: 0 0 20px 0;">💡 Укажи Telegram, чтобы получить напоминание за 2 часа до визита.</p>
-            <button onclick="confirmBooking()" style="width: 100%; height: 50px; background: #c51f25; color: #fff; border: none; border-radius: 3px; font-size: 14px; font-weight: 800; cursor: pointer;">ПОДТВЕРДИТЬ ЗАПИСЬ</button>
+            <input id="client-name" type="text" placeholder="${t.contact_name_placeholder}" style="width: 100%; height: 48px; margin-bottom: 15px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+            <input id="client-contact" type="text" placeholder="${t.contact_contact_placeholder}" style="width: 100%; height: 48px; margin-bottom: 20px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+            <button id="confirmBookingBtn" style="width: 100%; height: 50px; background: #c51f25; color: #fff; border: none; border-radius: 3px; font-size: 14px; font-weight: 800; cursor: pointer;">${t.contact_submit}</button>
         </div>
     `;
     document.body.appendChild(modal);
+
+    // Закрытие по крестику
     const closeBtn = modal.querySelector('#closeContactBtn');
-    if (closeBtn) closeBtn.addEventListener('click', function() { modal.remove(); });
-    modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
+    closeBtn.addEventListener('click', () => modal.remove());
+
+    // Закрытие по клику на фон
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+
+    // Кнопка подтверждения
+    modal.querySelector('#confirmBookingBtn').addEventListener('click', confirmBooking);
 }
 
 async function confirmBooking() {
@@ -340,52 +351,41 @@ async function confirmBooking() {
 
     try {
         await saveBookingToServer(bookingData);
+
+        // Удаляем текущую модальную форму
+        document.querySelector('.booking-modal')?.remove();
+
+        // Показываем сообщение об успехе
         showSuccessMessage(bookingData);
-        document.querySelector('div[style*="position: fixed"]').remove();
         refreshCalendar();
     } catch (error) {
         alert(error.message || 'Ошибка записи. Попробуйте позже.');
     }
 }
 
-async function saveBookingToServer(bookingData) {
-    const response = await fetch(`${API_BASE}/api/bookings`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bookingData)
-    });
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Ошибка записи');
-    }
-}
-
 function showSuccessMessage(bookingData) {
+    const lang = currentLanguage || 'ru';
+    const t = translations[lang];
+
     const modal = document.createElement('div');
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999;`;
     modal.innerHTML = `
         <div style="background: #0d1011; padding: 40px; border-radius: 8px; text-align: center; max-width: 400px;">
             <div style="font-size: 60px;">✅</div>
-            <h3 style="color: #fff; margin: 20px 0;">ЗАПИСЬ ПОДТВЕРЖДЕНА!</h3>
-            <p style="color: #aaa6a0;">${bookingData.name}, ждем вас!</p>
+            <h3 style="color: #fff; margin: 20px 0;">${t.success_message}</h3>
+            <p style="color: #aaa6a0;">${bookingData.name}${t.success_text}</p>
             <p style="color: #fff; font-weight: 700;">${bookingData.service}</p>
             <p style="color: #aaa6a0;">${bookingData.date} в ${bookingData.time}</p>
-            <button id="successOkBtn" style="margin-top: 20px; padding: 15px 40px; background: #c51f25; color: #fff; border: none; border-radius: 3px; cursor: pointer;">ОТЛИЧНО!</button>
+            <button id="successOkBtn" style="margin-top: 20px; padding: 15px 40px; background: #c51f25; color: #fff; border: none; border-radius: 3px; cursor: pointer;">${t.success_ok}</button>
         </div>
     `;
     document.body.appendChild(modal);
 
-    // Кнопка закрывает окно мгновенно
     const okBtn = modal.querySelector('#successOkBtn');
-    okBtn.addEventListener('click', () => {
-        modal.remove();
-    });
+    okBtn.addEventListener('click', () => modal.remove());
 
-    // Автоматическое закрытие через 5 секунд (можно удалить, если не нужно)
     setTimeout(() => {
-        if (document.body.contains(modal)) {
-            modal.remove();
-        }
+        if (document.body.contains(modal)) modal.remove();
     }, 5000);
 }
 
