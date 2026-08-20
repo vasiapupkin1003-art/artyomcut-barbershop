@@ -307,11 +307,14 @@ function refreshCalendar() {
 // ФОРМА ПОДТВЕРЖДЕНИЯ ЗАПИСИ
 // ========================================
 function showContactForm() {
+    // Удаляем все предыдущие формы, чтобы не было дублей
+    document.querySelectorAll('.booking-modal').forEach(el => el.remove());
+
     const lang = currentLanguage || 'ru';
     const t = translations[lang];
 
     const modal = document.createElement('div');
-    modal.className = 'booking-modal'; // добавим класс для удобного удаления
+    modal.className = 'booking-modal';
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;`;
     modal.innerHTML = `
         <div style="background: #0d1011; border: 1px solid #343839; border-radius: 10px; padding: 30px; max-width: 500px; width: 100%; position: relative;">
@@ -322,23 +325,23 @@ function showContactForm() {
                 <strong style="color: #fff;">${t.contact_date_label}</strong> ${bookingData.date}<br>
                 <strong style="color: #fff;">${t.contact_time_label}</strong> ${bookingData.time}
             </div>
+            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_name_label || 'Имя'} <span style="color: #c51f25;">*</span></label>
             <input id="client-name" type="text" placeholder="${t.contact_name_placeholder}" style="width: 100%; height: 48px; margin-bottom: 15px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-            <input id="client-contact" type="text" placeholder="${t.contact_contact_placeholder}" style="width: 100%; height: 48px; margin-bottom: 20px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">TELEGRAM <span style="color: #c51f25;">*</span></label>
+            <input id="client-contact" type="text" placeholder="@username" style="width: 100%; height: 48px; margin-bottom: 5px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+            <p style="font-size: 12px; color: #aaa6a0; margin: 0 0 20px 0;">💡 Укажи Telegram, чтобы получить напоминание за 2 часа до визита.</p>
             <button id="confirmBookingBtn" style="width: 100%; height: 50px; background: #c51f25; color: #fff; border: none; border-radius: 3px; font-size: 14px; font-weight: 800; cursor: pointer;">${t.contact_submit}</button>
         </div>
     `;
     document.body.appendChild(modal);
 
-    // Закрытие по крестику
     const closeBtn = modal.querySelector('#closeContactBtn');
     closeBtn.addEventListener('click', () => modal.remove());
 
-    // Закрытие по клику на фон
     modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.remove();
     });
 
-    // Кнопка подтверждения
     modal.querySelector('#confirmBookingBtn').addEventListener('click', confirmBooking);
 }
 
@@ -363,11 +366,27 @@ async function confirmBooking() {
     }
 }
 
+async function saveBookingToServer(bookingData) {
+    const response = await fetch(`${API_BASE}/api/bookings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingData)
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Ошибка записи');
+    }
+}
+
 function showSuccessMessage(bookingData) {
+    // Удаляем предыдущие окна успеха
+    document.querySelectorAll('.success-modal').forEach(el => el.remove());
+
     const lang = currentLanguage || 'ru';
     const t = translations[lang];
 
     const modal = document.createElement('div');
+    modal.className = 'success-modal';
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999;`;
     modal.innerHTML = `
         <div style="background: #0d1011; padding: 40px; border-radius: 8px; text-align: center; max-width: 400px;">
@@ -513,6 +532,20 @@ function toggleMobileMenu() {
     }
 }
 
+// Закрытие бургер-меню при клике вне его области
+document.addEventListener('click', function(e) {
+    const nav = document.getElementById('mobileNav');
+    const burger = document.getElementById('burgerBtn');
+    if (nav && nav.classList.contains('open') && burger) {
+        const isClickInsideNav = nav.contains(e.target);
+        const isClickOnBurger = burger.contains(e.target);
+        if (!isClickInsideNav && !isClickOnBurger) {
+            nav.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        }
+    }
+});
+
 // ========================================
 // ПОСЛЕДНИЕ ОТЗЫВЫ
 // ========================================
@@ -590,7 +623,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     renderCalendar();
     loadRecentReviews();
 
-    // Инициализация радио
     setStation(0);
     const playBtn = document.getElementById('playBtn');
     if (playBtn) playBtn.addEventListener('click', toggleMusic);
@@ -616,21 +648,5 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     updateMuteIcon();
 
-    // Лайтбокс
     initMasterGalleryLightbox();
-});
-// Закрытие бургер-меню при клике вне его области
-document.addEventListener('click', function(e) {
-    const nav = document.getElementById('mobileNav');
-    const burger = document.getElementById('burgerBtn');
-
-    if (nav && nav.classList.contains('open') && burger) {
-        const isClickInsideNav = nav.contains(e.target);
-        const isClickOnBurger = burger.contains(e.target);
-
-        if (!isClickInsideNav && !isClickOnBurger) {
-            nav.classList.remove('open');
-            document.body.classList.remove('no-scroll');
-        }
-    }
 });
