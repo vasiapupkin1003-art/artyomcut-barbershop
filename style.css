@@ -1771,3 +1771,90 @@ main,
 .gallery-page .section-line {
     display: none !important;
 }
+/* ==================================================
+   АДАПТАЦИЯ ДЛЯ ПЛАНШЕТОВ (768px – 1366px)
+================================================== */
+@media (min-width: 769px) and (max-width: 1366px) {
+
+    /* Контейнер: не обрезаем края */
+    .container {
+        padding: 0 30px;
+    }
+
+    /* Главный экран: герой-блок не выходит за пределы */
+    .hero {
+        min-height: auto;
+        padding-top: 120px;
+    }
+    .hero-inner {
+        min-height: auto;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    .hero-content {
+        width: 60%;
+        padding: 40px 0;
+    }
+    .hero-image {
+        position: relative;
+        width: 100%;
+        height: 450px;
+        left: 0;
+        top: 0;
+    }
+    .hero h1 {
+        font-size: clamp(50px, 8vw, 100px);
+    }
+
+    /* Секции: уменьшаем вертикальные отступы */
+    .services,
+    .about,
+    .gallery,
+    .music,
+    .booking,
+    .contacts {
+        padding: 60px 0;
+    }
+
+    /* Сетка услуг: две колонки */
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* О мастере: фото занимают всю ширину */
+    .about-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .about-gallery {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    .about-gallery img {
+        height: 350px;
+    }
+
+    /* Галерея превью */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .gallery-grid img {
+        height: 300px;
+    }
+
+    /* Запись: три колонки могут быть тесноваты, делаем две */
+    .booking-layout-3 {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .booking-frame:last-child {
+        grid-column: span 2;
+    }
+
+    /* Контакты: две колонки */
+    .contacts-layout {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Футер: оставляем */
+}
