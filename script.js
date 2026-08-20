@@ -39,7 +39,14 @@ function getSpecialDates() {
 }
 
 let selectedService = '';
-
+function getServiceKey(serviceName) {
+  const upper = serviceName.toUpperCase();
+  if (upper.includes('СТРИЖКА') && upper.includes('БОРОДА')) return 'combo';
+  if (upper.includes('СТРИЖКА')) return 'haircut';
+  if (upper.includes('БОРОДА')) return 'beard';
+  if (upper.includes('ДЕТСК')) return 'kids';
+  return 'haircut';
+}
 function selectService(serviceName) {
     const searchName = serviceName.toUpperCase().trim();
     document.querySelectorAll('.service-option-item').forEach(item => {
