@@ -319,7 +319,9 @@ function showContactForm() {
                 <strong style="color: #fff;">Время:</strong> ${bookingData.time}
             </div>
             <input id="client-name" type="text" placeholder="Ваше имя" style="width: 100%; height: 48px; margin-bottom: 15px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-            <input id="client-contact" type="text" placeholder="@username или +34 XXX XXX XXX" style="width: 100%; height: 48px; margin-bottom: 20px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">TELEGRAM <span style="color: #c51f25;">*</span></label>
+<input id="client-contact" type="text" placeholder="@username" style="width: 100%; height: 48px; margin-bottom: 5px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+<p style="font-size: 12px; color: #aaa6a0; margin: 0 0 20px 0;">💡 Укажи Telegram, чтобы получить напоминание за 2 часа до визита.</p>
             <button onclick="confirmBooking()" style="width: 100%; height: 50px; background: #c51f25; color: #fff; border: none; border-radius: 3px; font-size: 14px; font-weight: 800; cursor: pointer;">ПОДТВЕРДИТЬ ЗАПИСЬ</button>
         </div>
     `;
