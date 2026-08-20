@@ -71,6 +71,7 @@ function selectService(serviceName) {
 
 function selectServiceOption(serviceName, element) {
     selectedService = serviceName;
+    bookingData.serviceKey = getServiceKey(serviceName);
     document.querySelectorAll('.service-option-item').forEach(item => item.classList.remove('selected'));
     if (element) element.classList.add('selected');
 }
