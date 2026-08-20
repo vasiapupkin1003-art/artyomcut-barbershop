@@ -370,11 +370,23 @@ function showSuccessMessage(bookingData) {
             <p style="color: #aaa6a0;">${bookingData.name}, ждем вас!</p>
             <p style="color: #fff; font-weight: 700;">${bookingData.service}</p>
             <p style="color: #aaa6a0;">${bookingData.date} в ${bookingData.time}</p>
-            <button onclick="this.closest('div[style*="position: fixed"]').remove()" style="margin-top: 20px; padding: 15px 40px; background: #c51f25; color: #fff; border: none; border-radius: 3px; cursor: pointer;">ОТЛИЧНО!</button>
+            <button id="successOkBtn" style="margin-top: 20px; padding: 15px 40px; background: #c51f25; color: #fff; border: none; border-radius: 3px; cursor: pointer;">ОТЛИЧНО!</button>
         </div>
     `;
     document.body.appendChild(modal);
-    setTimeout(() => modal.remove(), 5000);
+
+    // Кнопка закрывает окно мгновенно
+    const okBtn = modal.querySelector('#successOkBtn');
+    okBtn.addEventListener('click', () => {
+        modal.remove();
+    });
+
+    // Автоматическое закрытие через 5 секунд (можно удалить, если не нужно)
+    setTimeout(() => {
+        if (document.body.contains(modal)) {
+            modal.remove();
+        }
+    }, 5000);
 }
 
 // ========================================
