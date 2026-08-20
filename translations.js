@@ -81,6 +81,14 @@ const translations = {
     success_text: ", ждем вас!",
     success_ok: "ОТЛИЧНО!",
 
+    alert_day_blocked: "В этот день барбершоп не работает",
+    alert_day_off: "В этот день выходной",
+    alert_select_service: "Выберите услугу",
+    alert_select_date: "Выберите дату",
+    alert_select_time: "Выберите время",
+    alert_fill_fields: "Заполните все поля",
+    alert_time_busy: "Это время уже занято",
+
     reviews_preview_heading_1: "ПОСЛЕДНИЕ",
     reviews_preview_heading_2: "ОТЗЫВЫ",
     reviews_preview_all: "ВСЕ ОТЗЫВЫ →",
@@ -204,6 +212,14 @@ const translations = {
     success_message: "ЗАПИС ПІДТВЕРДЖЕНО!",
     success_text: ", чекаємо на вас!",
     success_ok: "ЧУДОВО!",
+
+    alert_day_blocked: "У цей день барбершоп не працює",
+    alert_day_off: "У цей день вихідний",
+    alert_select_service: "Виберіть послугу",
+    alert_select_date: "Виберіть дату",
+    alert_select_time: "Виберіть час",
+    alert_fill_fields: "Заповніть усі поля",
+    alert_time_busy: "Цей час вже зайнято",
 
     reviews_preview_heading_1: "ОСТАННІ",
     reviews_preview_heading_2: "ВІДГУКИ",
@@ -329,6 +345,14 @@ const translations = {
     success_text: ", ¡te esperamos!",
     success_ok: "¡GENIAL!",
 
+    alert_day_blocked: "Este día la barbería no abre",
+    alert_day_off: "Este día está cerrado",
+    alert_select_service: "Elige un servicio",
+    alert_select_date: "Elige una fecha",
+    alert_select_time: "Elige una hora",
+    alert_fill_fields: "Completa todos los campos",
+    alert_time_busy: "Esa hora ya está ocupada",
+
     reviews_preview_heading_1: "ÚLTIMAS",
     reviews_preview_heading_2: "RESEÑAS",
     reviews_preview_all: "TODAS LAS RESEÑAS →",
@@ -452,6 +476,14 @@ const translations = {
     success_message: "BOOKING CONFIRMED!",
     success_text: ", see you soon!",
     success_ok: "GREAT!",
+
+    alert_day_blocked: "The barbershop is closed on this day",
+    alert_day_off: "This day is closed",
+    alert_select_service: "Select a service",
+    alert_select_date: "Select a date",
+    alert_select_time: "Select a time",
+    alert_fill_fields: "Fill in all fields",
+    alert_time_busy: "That time is already booked",
 
     reviews_preview_heading_1: "LATEST",
     reviews_preview_heading_2: "REVIEWS",
