@@ -2,7 +2,11 @@
 // БАЗОВЫЕ НАСТРОЙКИ И РАСПИСАНИЕ С СЕРВЕРА
 // ========================================
 const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
-
+function showAlert(key) {
+    const lang = currentLanguage || 'ru';
+    const t = translations[lang];
+    alert(t[key] || translations['ru'][key] || key);
+}
 let scheduleData = {
     timeSettings: {
         monday: { start: '10:00', end: '20:00' },
