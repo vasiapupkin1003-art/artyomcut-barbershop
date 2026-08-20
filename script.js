@@ -224,7 +224,7 @@ function renderCalendar() {
 function selectDate(dateString) {
     const blockedDays = getBlockedDays();
     if (blockedDays.includes(dateString)) {
-        alert('В этот день барбершоп не работает');
+        showAlert('alert_day_blocked');
         return;
     }
 
