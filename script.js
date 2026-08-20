@@ -2,11 +2,7 @@
 // БАЗОВЫЕ НАСТРОЙКИ И РАСПИСАНИЕ С СЕРВЕРА
 // ========================================
 const API_BASE = 'https://artyomcut-api.vasia-pupkin1003.workers.dev';
-function showAlert(key) {
-    const lang = currentLanguage || 'ru';
-    const t = translations[lang];
-    alert(t[key] || translations['ru'][key] || key);
-}
+
 let scheduleData = {
     timeSettings: {
         monday: { start: '10:00', end: '20:00' },
@@ -40,6 +36,13 @@ function getBlockedDays() {
 
 function getSpecialDates() {
     return scheduleData.specialDates || {};
+}
+
+// Функция перевода alert-сообщений
+function showAlert(key) {
+    const lang = currentLanguage || 'ru';
+    const t = translations[lang] || translations['ru'];
+    alert(t[key] || translations['ru'][key] || key);
 }
 
 // Функция определения ключа услуги по названию
@@ -178,7 +181,6 @@ function renderCalendar() {
     // Перевод дней недели
     const weekdayElements = document.querySelectorAll('.calendar-weekdays span');
     if (weekdayElements.length === 7) {
-        // 2026-01-05 — понедельник
         for (let i = 0; i < 7; i++) {
             const d = new Date(2026, 0, 5 + i);
             const short = d.toLocaleString(locale, { weekday: 'short' }).slice(0, 2).toUpperCase();
@@ -327,9 +329,9 @@ function selectTime(time) {
 }
 
 function proceedToBooking() {
-    if (!selectedService) { alert('Выберите услугу'); return; }
-    if (!selectedDate) { alert('Выберите дату'); return; }
-    if (!selectedTime) { alert('Выберите время'); return; }
+    if (!selectedService) { showAlert('alert_select_service'); return; }
+    if (!selectedDate) { showAlert('alert_select_date'); return; }
+    if (!selectedTime) { showAlert('alert_select_time'); return; }
     bookingData = {
         service: selectedService,
         date: selectedDate,
@@ -354,7 +356,7 @@ function showContactForm() {
     document.querySelectorAll('.booking-modal').forEach(el => el.remove());
 
     const lang = currentLanguage || 'ru';
-    const t = translations[lang];
+    const t = translations[lang] || translations['ru'];
 
     const modal = document.createElement('div');
     modal.className = 'booking-modal';
@@ -387,7 +389,7 @@ function showContactForm() {
 async function confirmBooking() {
     const name = document.querySelector('#client-name').value;
     const contact = document.querySelector('#client-contact').value;
-    if (!name || !contact) { alert('Заполните все поля'); return; }
+    if (!name || !contact) { showAlert('alert_fill_fields'); return; }
     bookingData.name = name;
     bookingData.contact = contact;
 
@@ -397,7 +399,7 @@ async function confirmBooking() {
         showSuccessMessage(bookingData);
         refreshCalendar();
     } catch (error) {
-        alert(error.message || 'Ошибка записи. Попробуйте позже.');
+        showAlert('alert_time_busy');
     }
 }
 
@@ -417,7 +419,7 @@ function showSuccessMessage(bookingData) {
     document.querySelectorAll('.success-modal').forEach(el => el.remove());
 
     const lang = currentLanguage || 'ru';
-    const t = translations[lang];
+    const t = translations[lang] || translations['ru'];
 
     const modal = document.createElement('div');
     modal.className = 'success-modal';
