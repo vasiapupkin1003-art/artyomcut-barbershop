@@ -319,7 +319,7 @@ function showContactForm() {
             <button id="closeContactBtn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer;">×</button>
             <h3 style="color: #fff; font-size: 24px; margin-bottom: 20px; font-weight: 900;">${t.contact_form_heading}</h3>
             <div style="background: #15191a; padding: 15px; border-radius: 5px; margin-bottom: 20px; color: #aaa6a0;">
-                <strong style="color: #fff;">${t.contact_service_label}</strong> ${bookingData.service}<br>
+                <strong style="color: #fff;">${t.contact_service_label}</strong> ${t['booking_service_' + bookingData.serviceKey] || bookingData.service}<br>
                 <strong style="color: #fff;">${t.contact_date_label}</strong> ${bookingData.date}<br>
                 <strong style="color: #fff;">${t.contact_time_label}</strong> ${bookingData.time}
             </div>
