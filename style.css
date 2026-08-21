@@ -1898,13 +1898,13 @@ main,
     }
 }
 @media (max-width: 768px) {
-    .service-overlay {
-        padding-top: 40px;      /* добавьте это, если нужно ещё ниже */
+    .service-card .service-overlay {
+        padding-top: 60px !important;      /* увеличивает пространство сверху */
     }
-    .service-overlay h3 {
-        margin-top: 45px;       /* опускаем название */
+    .service-card .service-overlay h3 {
+        margin-top: 30px !important;
     }
-    .service-overlay .service-type {
-        margin-top: 25px;       /* опускаем описание */
+    .service-card .service-overlay .service-type {
+        margin-top: 15px !important;
     }
 }
