@@ -1,0 +1,21 @@
+{
+  "name": "ArtyomCut Barbershop",
+  "short_name": "ArtyomCut",
+  "description": "Барбершоп в Хихоне — мужские стрижки и борода. Онлайн-запись.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07090a",
+  "theme_color": "#c51f25",
+  "icons": [
+    {
+      "src": "/images/logo/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logo/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
