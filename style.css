@@ -1897,17 +1897,3 @@ main,
         grid-template-columns: 1fr 1fr;
     }
 }
-@media (max-width: 768px) {
-    .service-card .service-overlay {
-        padding-top: 20px !important;   /* уменьшаем, чтобы текст ниже */
-        justify-content: flex-end;      /* контент прижимается к низу */
-    }
-    .service-card .service-overlay h3 {
-        margin-top: 0 !important;
-        margin-bottom: 8px !important;
-    }
-    .service-card .service-overlay .service-type {
-        margin-top: 0 !important;
-        margin-bottom: 20px !important;
-    }
-}
