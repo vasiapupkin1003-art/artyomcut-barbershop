@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Как нас найти — ArtyomCut</title>
+    <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#c51f25">
+<link rel="apple-touch-icon" href="/images/logo/logo.png">
     <meta name="description" content="Как найти ArtyomCut Barbershop в Хихоне. Адрес: Calle de San Manuel, 13. Телефон, Telegram, Instagram.">
 <meta property="og:title" content="Как нас найти — ArtyomCut Barbershop">
 <meta property="og:description" content="Барбершоп в центре Хихона. Смотрите карту, часы работы и контакты.">
@@ -436,5 +439,10 @@
     </script>
     <script src="translations.js"></script>
     <script src="i18n.js"></script>
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
 </body>
 </html>
