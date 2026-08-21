@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://artyomcut-barbershopgijon.es/sitemap.xml
