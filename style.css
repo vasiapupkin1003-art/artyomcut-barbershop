@@ -1902,9 +1902,9 @@ main,
         padding-top: 40px;      /* добавьте это, если нужно ещё ниже */
     }
     .service-overlay h3 {
-        margin-top: 25px;       /* опускаем название */
+        margin-top: 45px;       /* опускаем название */
     }
     .service-overlay .service-type {
-        margin-top: 15px;       /* опускаем описание */
+        margin-top: 25px;       /* опускаем описание */
     }
 }
