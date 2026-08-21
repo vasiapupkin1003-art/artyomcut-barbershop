@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Отзывы — ArtyomCut | Barbershop</title>
+    <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#c51f25">
+<link rel="apple-touch-icon" href="/images/logo/logo.png">
     <meta name="description" content="Отзывы клиентов ArtyomCut Barbershop в Хихоне. Оставьте свой отзыв о стрижке или бороде.">
 <meta property="og:title" content="Отзывы — ArtyomCut Barbershop">
 <meta property="og:description" content="Читайте отзывы клиентов и делитесь своим опытом посещения барбершопа.">
@@ -287,6 +290,11 @@
                 document.body.style.overflow = '';
             }
         });
+        <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
     </script>
 </body>
 </html>
