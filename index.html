@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtyomCut — Barbershop | Хихон</title>
+
+    <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#c51f25">
-<link rel="apple-touch-icon" href="/images/logo/logo.png">
+    <meta name="theme-color" content="#c51f25">
+    <link rel="apple-touch-icon" href="/images/logo/logo.png">
+
     <!-- SEO -->
     <meta name="description" content="ArtyomCut Barbershop в Хихоне — мужские стрижки, борода, онлайн-запись. Стиль решает всё.">
     <meta name="keywords" content="барбершоп, Хихон, Gijón, мужская стрижка, борода, barbershop, barbería, ArtyomCut">
@@ -50,7 +53,7 @@
           "closes": "18:00"
         }
       ],
-            "sameAs": [
+      "sameAs": [
         "https://www.instagram.com/artembarbercat/",
         "https://t.me/artyomcut"
       ]
@@ -358,5 +361,11 @@
     <script src="script.js"></script>
     <script src="translations.js"></script>
     <script src="i18n.js"></script>
+
+    <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+    </script>
 </body>
 </html>
