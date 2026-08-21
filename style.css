@@ -1897,3 +1897,14 @@ main,
         grid-template-columns: 1fr 1fr;
     }
 }
+@media (max-width: 768px) {
+    .service-overlay {
+        padding-top: 40px;      /* добавьте это, если нужно ещё ниже */
+    }
+    .service-overlay h3 {
+        margin-top: 25px;       /* опускаем название */
+    }
+    .service-overlay .service-type {
+        margin-top: 15px;       /* опускаем описание */
+    }
+}
