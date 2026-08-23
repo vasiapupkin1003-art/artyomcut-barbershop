@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Как нас найти — ArtyomCut</title>
+
     <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#c51f25">
-<link rel="apple-touch-icon" href="/images/logo/logo1.jfif">
+    <meta name="theme-color" content="#c51f25">
+    <link rel="apple-touch-icon" href="/images/logo/logo1.jfif">
+
     <meta name="description" content="Как найти ArtyomCut Barbershop в Хихоне. Адрес: Calle de San Manuel, 13. Телефон, Telegram, Instagram.">
-<meta property="og:title" content="Как нас найти — ArtyomCut Barbershop">
-<meta property="og:description" content="Барбершоп в центре Хихона. Смотрите карту, часы работы и контакты.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://artyomcut-barbershopgijon.es/location.html">
-<meta property="og:image" content="https://artyomcut-barbershopgijon.es/images/logo/logo1.jfif">
+    <meta property="og:title" content="Как нас найти — ArtyomCut Barbershop">
+    <meta property="og:description" content="Барбершоп в центре Хихона. Смотрите карту, часы работы и контакты.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://artyomcut-barbershopgijon.es/location.html">
+    <meta property="og:image" content="https://artyomcut-barbershopgijon.es/images/logo/logo1.jfif">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
     <style>
         body {
             background: #07090a;
@@ -268,10 +272,21 @@
                 <a href="index.html#music" data-i18n="nav_music">МУЗЫКА</a>
                 <a href="index.html#booking" data-i18n="nav_booking">ЗАПИСЬ</a>
                 <a href="location.html" class="active" data-i18n="nav_contacts">КАК НАС НАЙТИ</a>
+
+                <!-- Переключатель языка в бургере (mobile) -->
+                <div class="language-switcher mobile-only">
+                    <select class="lang-select" onchange="applyLanguage(this.value); loadScheduleAndRender();">
+                        <option value="ru">RU</option>
+                        <option value="uk">UA</option>
+                        <option value="es">ES</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
             </nav>
 
             <div class="socials">
-                <div class="language-switcher">
+                <!-- Переключатель языка в шапке (desktop) -->
+                <div class="language-switcher desktop-only">
                     <select class="lang-select" onchange="applyLanguage(this.value); loadScheduleAndRender();">
                         <option value="ru">RU</option>
                         <option value="uk">UA</option>
@@ -440,6 +455,6 @@
         document.addEventListener('DOMContentLoaded', loadScheduleAndRender);
     </script>
     <script src="translations.js"></script>
-  <script src="i18n.js"></script>
+    <script src="i18n.js"></script>
 </body>
 </html>
