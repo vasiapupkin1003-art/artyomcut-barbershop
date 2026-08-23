@@ -1,7 +1,15 @@
 // ========================================
 // ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА
 // ========================================
-let currentLanguage = localStorage.getItem('language') || 'ru';
+function getBrowserLanguage() {
+    const lang = (navigator.language || navigator.languages?.[0] || 'ru').toLowerCase();
+    if (lang.startsWith('uk')) return 'uk';
+    if (lang.startsWith('es')) return 'es';
+    if (lang.startsWith('en')) return 'en';
+    return 'ru';
+}
+
+let currentLanguage = localStorage.getItem('language') || getBrowserLanguage();
 
 function applyLanguage(lang) {
   if (!translations[lang]) lang = 'ru';
