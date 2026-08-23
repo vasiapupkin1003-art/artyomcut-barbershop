@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Галерея — ArtyomCut | Barbershop</title>
+
     <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#c51f25">
-<link rel="apple-touch-icon" href="/images/logo/logo1.jfif">
+    <meta name="theme-color" content="#c51f25">
+    <link rel="apple-touch-icon" href="/images/logo/logo1.jfif">
+
     <meta name="description" content="Галерея работ ArtyomCut Barbershop в Хихоне. Мужские стрижки, борода, fade, classic.">
-<meta property="og:title" content="Галерея работ — ArtyomCut Barbershop">
-<meta property="og:description" content="Смотрите примеры наших мужских стрижек и оформления бороды.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://artyomcut-barbershopgijon.es/gallery.html">
-<meta property="og:image" content="https://artyomcut-barbershopgijon.es/images/logo/logo1.jfif">
+    <meta property="og:title" content="Галерея работ — ArtyomCut Barbershop">
+    <meta property="og:description" content="Смотрите примеры наших мужских стрижек и оформления бороды.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://artyomcut-barbershopgijon.es/gallery.html">
+    <meta property="og:image" content="https://artyomcut-barbershopgijon.es/images/logo/logo1.jfif">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -41,10 +44,21 @@
                 <a href="index.html#music" data-i18n="nav_music">МУЗЫКА</a>
                 <a href="index.html#booking" data-i18n="nav_booking">ЗАПИСЬ</a>
                 <a href="location.html" data-i18n="nav_contacts">КАК НАС НАЙТИ</a>
+
+                <!-- Переключатель языка в бургере (мобильные) -->
+                <div class="language-switcher mobile-only">
+                    <select class="lang-select" onchange="applyLanguage(this.value)">
+                        <option value="ru">RU</option>
+                        <option value="uk">UA</option>
+                        <option value="es">ES</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
             </nav>
 
             <div class="socials">
-                <div class="language-switcher">
+                <!-- Переключатель языка в шапке (десктоп) -->
+                <div class="language-switcher desktop-only">
                     <select class="lang-select" onchange="applyLanguage(this.value)">
                         <option value="ru">RU</option>
                         <option value="uk">UA</option>
