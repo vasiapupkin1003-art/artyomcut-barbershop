@@ -1897,3 +1897,22 @@ main,
         grid-template-columns: 1fr 1fr;
     }
 }
+/* Показываем языковой переключатель в шапке только на десктопе */
+.desktop-only {
+    display: block;
+}
+.mobile-only {
+    display: none;
+}
+
+/* На мобильных переносим в бургер */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+    .mobile-only {
+        display: flex;
+        justify-content: flex-start;
+        margin: 10px 0;
+    }
+}
