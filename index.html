@@ -83,10 +83,21 @@
                 <a href="#music" data-i18n="nav_music">МУЗЫКА</a>
                 <a href="#booking" data-i18n="nav_booking">ЗАПИСЬ</a>
                 <a href="location.html" data-i18n="nav_contacts">КАК НАС НАЙТИ</a>
+
+                <!-- Мобильный переключатель языка (виден только в бургере) -->
+                <div class="language-switcher mobile-only">
+                    <select class="lang-select" onchange="applyLanguage(this.value); renderCalendar();">
+                        <option value="ru">RU</option>
+                        <option value="uk">UA</option>
+                        <option value="es">ES</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
             </nav>
 
             <div class="socials">
-                <div class="language-switcher">
+                <!-- Десктопный переключатель языка (виден только на широких экранах) -->
+                <div class="language-switcher desktop-only">
                     <select class="lang-select" onchange="applyLanguage(this.value); renderCalendar();">
                         <option value="ru">RU</option>
                         <option value="uk">UA</option>
@@ -104,8 +115,11 @@
         </div>
     </header>
 
-    <main>
+    <!-- Остальной код страницы без изменений... -->
+    <!-- (Секции main, footer, скрипты) -->
+    <!-- Здесь ваш полный main, footer и скрипты -->
 
+    <main>
         <!-- ГЛАВНЫЙ ЭКРАН -->
         <section id="home" class="hero">
             <div class="container hero-inner">
@@ -343,10 +357,8 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- ПОДВАЛ -->
     <footer class="footer">
         <div class="container">
             <p data-i18n="footer_copyright">© 2026 ArtyomCut Barbershop — Gijón</p>
