@@ -19,24 +19,51 @@ async function renderReviews() {
   const lang = currentLanguage || 'ru';
   const t = translations[lang] || translations['ru'];
 
-  const reviews = await getReviews();
-  if (reviews.length === 0) {
-    container.innerHTML = `<div class="no-reviews">${t.no_reviews}</div>`;
-    return;
+  try {
+    const reviews = await getReviews();
+    if (!reviews.length) {
+      const empty = document.createElement('div');
+      empty.className = 'no-reviews';
+      empty.textContent = t.no_reviews;
+      container.replaceChildren(empty);
+      return;
+    }
+
+    const locale = lang === 'uk' ? 'uk-UA' : lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-GB' : 'ru-RU';
+    const fragment = document.createDocumentFragment();
+    reviews
+      .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
+      .forEach(review => {
+        const item = document.createElement('article');
+        item.className = 'review-item';
+        const header = document.createElement('div');
+        header.className = 'review-header';
+        const name = document.createElement('span');
+        name.className = 'review-name';
+        name.textContent = String(review.name || '').slice(0, 80);
+        const stars = document.createElement('span');
+        stars.className = 'review-stars';
+        const rating = Math.min(5, Math.max(1, Number.parseInt(review.rating, 10) || 1));
+        stars.textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        const message = document.createElement('p');
+        message.className = 'review-message';
+        message.textContent = String(review.message || '').slice(0, 1200);
+        const date = document.createElement('p');
+        date.className = 'review-date';
+        const createdAt = new Date(review.createdAt || review.date);
+        date.textContent = Number.isNaN(createdAt.getTime()) ? '' : createdAt.toLocaleString(locale);
+        header.append(name, stars);
+        item.append(header, message, date);
+        fragment.append(item);
+      });
+    container.replaceChildren(fragment);
+  } catch (error) {
+    console.error('Ошибка загрузки отзывов:', error);
+    const empty = document.createElement('div');
+    empty.className = 'no-reviews';
+    empty.textContent = t.no_reviews;
+    container.replaceChildren(empty);
   }
-
-  reviews.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
-
-  container.innerHTML = reviews.map(review => `
-    <div class="review-item">
-      <div class="review-header">
-        <span class="review-name">${review.name}</span>
-        <span class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
-      </div>
-      <p class="review-message">${review.message}</p>
-      <p class="review-date">${new Date(review.createdAt || review.date).toLocaleString(lang === 'uk' ? 'uk-UA' : lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-GB' : 'ru-RU')}</p>
-    </div>
-  `).join('');
 }
 
 // Инициализация звёзд
@@ -83,8 +110,8 @@ function showReviewAlert(key) {
 async function submitReview() {
   const nameInput = document.getElementById('reviewName');
   const messageInput = document.getElementById('reviewMessage');
-  const name = nameInput.value.trim();
-  const message = messageInput.value.trim();
+  const name = nameInput.value.trim().slice(0, 80);
+  const message = messageInput.value.trim().slice(0, 1200);
 
   if (!name) {
     showReviewAlert('review_alert_name');

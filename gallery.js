@@ -48,19 +48,23 @@ function displayPhotos(filter = 'all') {
     ? [...galleryPhotos]
     : galleryPhotos.filter(photo => photo.category === filter);
 
-  grid.innerHTML = filteredPhotos.map((photo, index) => `
-    <div class="gallery-item" data-index="${index}">
-      <img src="${photo.src}" alt="${photo.alt}">
-    </div>
-  `).join('');
-
-  // Добавляем обработчики кликов для лайтбокса
-  document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('click', function() {
-      const index = parseInt(this.dataset.index);
-      openLightbox(index);
-    });
+  const fragment = document.createDocumentFragment();
+  filteredPhotos.forEach((photo, index) => {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'gallery-item';
+    item.dataset.index = String(index);
+    item.setAttribute('aria-label', `Открыть фото ${index + 1}`);
+    const image = document.createElement('img');
+    image.src = String(photo.src || '');
+    image.alt = String(photo.alt || 'Работа ArtyomCut');
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    item.append(image);
+    item.addEventListener('click', () => openLightbox(index));
+    fragment.append(item);
   });
+  grid.replaceChildren(fragment);
 }
 
 // Лайтбокс
@@ -86,15 +90,15 @@ function openLightbox(index) {
   `;
 
   lightbox.innerHTML = `
-    <img src="${filteredPhotos[currentPhotoIndex].src}" alt="${filteredPhotos[currentPhotoIndex].alt}" style="
+    <img style="
       max-width: 80%;
       max-height: 80%;
       object-fit: contain;
       border: 1px solid #343839;
       border-radius: 4px;
       transition: opacity 0.3s;
-    ">
-    <button class="lightbox-close" style="
+    "> 
+    <button class="lightbox-close" type="button" aria-label="Закрыть" style="
       position: absolute;
       top: 20px;
       right: 20px;
@@ -111,8 +115,8 @@ function openLightbox(index) {
       justify-content: center;
       z-index: 10000;
       transition: all 0.3s;
-    ">×</button>
-    <button class="lightbox-prev" style="
+    "><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
+    <button class="lightbox-prev" type="button" aria-label="Предыдущее фото" style="
       position: absolute;
       left: 20px;
       top: 50%;
@@ -130,8 +134,8 @@ function openLightbox(index) {
       justify-content: center;
       z-index: 10000;
       transition: all 0.3s;
-    ">❮</button>
-    <button class="lightbox-next" style="
+    "><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="m14 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="lightbox-next" type="button" aria-label="Следующее фото" style="
       position: absolute;
       right: 20px;
       top: 50%;
@@ -149,7 +153,7 @@ function openLightbox(index) {
       justify-content: center;
       z-index: 10000;
       transition: all 0.3s;
-    ">❯</button>
+    "><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="m10 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="lightbox-counter" style="
       position: absolute;
       bottom: 30px;
@@ -165,6 +169,8 @@ function openLightbox(index) {
   document.body.appendChild(lightbox);
 
   const lightboxImg = lightbox.querySelector('img');
+  lightboxImg.src = String(filteredPhotos[currentPhotoIndex].src || '');
+  lightboxImg.alt = String(filteredPhotos[currentPhotoIndex].alt || 'Работа ArtyomCut');
   const closeBtn = lightbox.querySelector('.lightbox-close');
   const prevBtn = lightbox.querySelector('.lightbox-prev');
   const nextBtn = lightbox.querySelector('.lightbox-next');

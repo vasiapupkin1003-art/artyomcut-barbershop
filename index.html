@@ -12,6 +12,7 @@
 
     <!-- SEO -->
     <meta name="description" content="ArtyomCut Barbershop в Хихоне — мужские стрижки, борода, онлайн-запись. Стиль решает всё.">
+    <link rel="canonical" href="https://artyomcut-barbershopgijon.es/">
     <meta name="keywords" content="барбершоп, Хихон, Gijón, мужская стрижка, борода, barbershop, barbería, ArtyomCut">
     <meta property="og:title" content="ArtyomCut Barbershop — Хихон">
     <meta property="og:description" content="Мужские стрижки и борода в центре Хихона. Записывайся онлайн!">
@@ -68,7 +69,7 @@
                 <img src="images/logo/logo.png" alt="ArtyomCut Barbershop">
             </a>
 
-            <button class="burger-btn" id="burgerBtn" onclick="toggleMobileMenu()">
+            <button class="burger-btn" id="burgerBtn" type="button" onclick="toggleMobileMenu()" aria-label="Открыть меню" aria-controls="mobileNav" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -78,11 +79,11 @@
                 <a href="#home" class="active" data-i18n="nav_home">ГЛАВНАЯ</a>
                 <a href="#services" data-i18n="nav_services">УСЛУГИ</a>
                 <a href="#master" data-i18n="nav_master">МАСТЕР</a>
-                <a href="gallery.html" data-i18n="nav_gallery">ГАЛЕРЕЯ</a>
-                <a href="reviews.html" data-i18n="nav_reviews">ОТЗЫВЫ</a>
+                <a href="/gallery" data-i18n="nav_gallery">ГАЛЕРЕЯ</a>
+                <a href="/reviews" data-i18n="nav_reviews">ОТЗЫВЫ</a>
                 <a href="#music" data-i18n="nav_music">МУЗЫКА</a>
                 <a href="#booking" data-i18n="nav_booking">ЗАПИСЬ</a>
-                <a href="location.html" data-i18n="nav_contacts">КАК НАС НАЙТИ</a>
+                <a href="/location" data-i18n="nav_contacts">КАК НАС НАЙТИ</a>
 
                 <!-- Мобильный переключатель языка (виден только в бургере) -->
                 <div class="language-switcher mobile-only">
@@ -105,10 +106,10 @@
                         <option value="en">EN</option>
                     </select>
                 </div>
-                <a href="https://www.instagram.com/artembarbercat/" target="_blank" class="social-link">
+                <a href="https://www.instagram.com/artembarbercat/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-link">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                 </a>
-                <a href="https://t.me/artyomcut" target="_blank" class="social-link">
+                <a href="https://t.me/artyomcut" target="_blank" rel="noopener noreferrer" aria-label="Telegram" class="social-link">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                 </a>
             </div>
@@ -134,11 +135,11 @@
                     <div class="hero-line"></div>
                     <div class="hero-buttons">
                         <a href="#booking" class="btn btn-red" data-i18n="hero_btn_booking">ЗАПИСАТЬСЯ</a>
-                        <a href="location.html" class="btn btn-outline" data-i18n="hero_btn_find">КАК НАС НАЙТИ</a>
+                        <a href="/location" class="btn btn-outline" data-i18n="hero_btn_find">КАК НАС НАЙТИ</a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="images/barber/hero.jpeg" alt="ArtyomCut Barber">
+                    <img src="images/barber/hero.jpeg" alt="ArtyomCut Barber" width="1362" height="1155" fetchpriority="high" decoding="async">
                 </div>
             </div>
         </section>
@@ -150,38 +151,38 @@
                     <h2><span data-i18n="services_heading_1">НАШИ</span> <span data-i18n="services_heading_2">УСЛУГИ</span></h2>
                 </div>
                 <div class="services-grid">
-                    <div class="service-card" onclick="selectService('СТРИЖКА')">
-                        <img src="images/services/haircut.jpg" alt="Мужская стрижка">
+                    <button type="button" class="service-card" onclick="selectService('СТРИЖКА')" aria-label="Выбрать услугу: стрижка">
+                        <img src="images/services/haircut.jpg" alt="Мужская стрижка" width="1536" height="1024" loading="lazy" decoding="async">
                         <div class="service-overlay">
                             <h3 data-i18n="service_haircut">СТРИЖКА</h3>
                             <span class="service-type" data-i18n="service_haircut_type">ФЕЙД / КЛАССИКА / АНДЕРКАРТ</span>
                             <span class="price">20€</span>
                         </div>
-                    </div>
-                    <div class="service-card" onclick="selectService('БОРОДА')">
-                        <img src="images/services/beard.jpg" alt="Борода">
+                    </button>
+                    <button type="button" class="service-card" onclick="selectService('БОРОДА')" aria-label="Выбрать услугу: борода">
+                        <img src="images/services/beard.jpg" alt="Борода" width="1536" height="1024" loading="lazy" decoding="async">
                         <div class="service-overlay">
                             <h3 data-i18n="service_beard">БОРОДА</h3>
                             <span class="service-type" data-i18n="service_beard_type">БРИТЬЕ / УХОД</span>
                             <span class="price">15€</span>
                         </div>
-                    </div>
-                    <div class="service-card" onclick="selectService('СТРИЖКА + БОРОДА')">
-                        <img src="images/services/combo.jpg" alt="Стрижка + борода">
+                    </button>
+                    <button type="button" class="service-card" onclick="selectService('СТРИЖКА + БОРОДА')" aria-label="Выбрать услугу: стрижка и борода">
+                        <img src="images/services/combo.jpg" alt="Стрижка + борода" width="1536" height="1024" loading="lazy" decoding="async">
                         <div class="service-overlay">
                             <h3 data-i18n="service_combo">СТРИЖКА + БОРОДА</h3>
                             <span class="service-type" data-i18n="service_combo_type">КОМПЛЕКС</span>
                             <span class="price">30€</span>
                         </div>
-                    </div>
-                    <div class="service-card" onclick="selectService('ДЕТСКАЯ')">
-                        <img src="images/services/kids.jpg" alt="Детская стрижка">
+                    </button>
+                    <button type="button" class="service-card" onclick="selectService('ДЕТСКАЯ')" aria-label="Выбрать услугу: детская стрижка">
+                        <img src="images/services/kids.jpg" alt="Детская стрижка" width="1536" height="1024" loading="lazy" decoding="async">
                         <div class="service-overlay">
                             <h3 data-i18n="service_kids">ДЕТСКАЯ</h3>
                             <span class="service-type" data-i18n="service_kids_type">ДО 12 ЛЕТ</span>
                             <span class="price">15€</span>
                         </div>
-                    </div>
+                    </button>
                 </div>
             </div>
         </section>
@@ -192,15 +193,15 @@
                 <div class="about-text">
                     <h2 data-i18n="master_heading">О МАСТЕРЕ</h2>
                     <div class="section-line"></div>
-                    <p data-i18n="master_text_1">Привет, я <span style="color: #c51f25; font-weight: 700;">АРТЁМ</span> — твой барбер в Хихоне.</p>
+                    <p data-i18n-html="master_text_1">Привет, я <span style="color: #c51f25; font-weight: 700;">АРТЁМ</span> — твой барбер в Хихоне.</p>
                     <p data-i18n="master_text_2">Более 10 лет я создаю стиль для мужчин, которые знают, чего хотят. Для меня барберинг — это не просто стрижка, это искусство подчеркнуть твой характер.</p>
                     <p data-i18n="master_text_3">Рок, барабаны, кофе и идеальный фейд — вот моя формула. Приходи, и ты поймёшь, почему мои клиенты возвращаются.</p>
                     <p data-i18n="master_text_4" style="color: #c51f25; font-size: 24px; font-weight: 900; font-style: italic;">Твой стиль. Твои правила.</p>
                 </div>
                 <div class="about-gallery">
-                    <img src="images/barber/barber-1.jpeg" alt="ArtyomCut">
-                    <img src="images/barber/barber-2.jpeg" alt="ArtyomCut Barber">
-                    <img src="images/barber/barber-3.jpeg" alt="ArtyomCut">
+                    <img src="images/barber/barber-1.jpeg" alt="ArtyomCut" width="1023" height="1537" loading="lazy" decoding="async">
+                    <img src="images/barber/barber-2.jpeg" alt="ArtyomCut Barber" width="1086" height="1448" loading="lazy" decoding="async">
+                    <img src="images/barber/barber-3.jpeg" alt="ArtyomCut" width="1086" height="1448" loading="lazy" decoding="async">
                 </div>
             </div>
         </section>
@@ -210,13 +211,13 @@
             <div class="container">
                 <div class="section-heading">
                     <h2><span data-i18n="gallery_heading_1">ГАЛЕРЕЯ</span> <span data-i18n="gallery_heading_2">РАБОТ</span></h2>
-                    <a href="gallery.html" style="position: relative; z-index: 100; display: inline-block;" data-i18n="gallery_view_all">СМОТРЕТЬ ВСЕ →</a>
+                    <a href="/gallery" style="position: relative; z-index: 100; display: inline-block;" data-i18n="gallery_view_all">СМОТРЕТЬ ВСЕ →</a>
                 </div>
                 <div class="gallery-grid">
-                    <img src="images/works/work-1.jpeg" alt="Работа ArtyomCut">
-                    <img src="images/works/work-2.jpeg" alt="Работа ArtyomCut">
-                    <img src="images/works/work-3.jpeg" alt="Работа ArtyomCut">
-                    <img src="images/works/work-4.jpeg" alt="Работа ArtyomCut">
+                    <img src="images/works/work-1.jpeg" alt="Работа ArtyomCut" width="1268" height="1241" loading="lazy" decoding="async">
+                    <img src="images/works/work-2.jpeg" alt="Работа ArtyomCut" width="1277" height="1232" loading="lazy" decoding="async">
+                    <img src="images/works/work-3.jpeg" alt="Работа ArtyomCut" width="1284" height="1225" loading="lazy" decoding="async">
+                    <img src="images/works/work-4.jpeg" alt="Работа ArtyomCut" width="1269" height="1240" loading="lazy" decoding="async">
                 </div>
             </div>
         </section>
@@ -229,14 +230,14 @@
                 </div>
 
                 <div class="music-player" id="radioPlayer" style="max-width: 400px; margin: 0 auto; text-align: center; background: #111; padding: 30px 20px; border-radius: 20px;">
-                    <p class="player-title" style="font-size: 18px; font-weight: 700; letter-spacing: 2px; margin: 0; color: #fff;" data-i18n="music_player_title">МУЗЫКА ⚡</p>
+                    <p class="player-title" style="font-size: 18px; font-weight: 700; letter-spacing: 2px; margin: 0; color: #fff;" data-i18n="music_player_title">МУЗЫКА</p>
                     <p class="player-station" style="font-size: 32px; font-weight: 900; color: #fff; margin: 5px 0 0; letter-spacing: 4px;" data-i18n="music_station">ARTYOMCUT</p>
                     <p class="player-station-accent" style="font-size: 22px; font-weight: 700; color: #c51f25; margin: 0 0 15px; letter-spacing: 6px;" data-i18n="music_station_accent">RADIO</p>
 
                     <p id="currentStationName" style="color: #c51f25; font-weight: 700; margin: 0 0 15px; letter-spacing: 2px;">Radio Paradise Rock Mix</p>
 
                     <div class="player-art" style="width: 220px; height: 220px; margin: 20px auto; border-radius: 50%; overflow: hidden; border: 4px solid #c51f25; box-shadow: 0 0 25px rgba(197,31,37,0.6); position: relative; background: #000;">
-                        <video id="drummerVideo" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                        <video id="drummerVideo" autoplay muted loop playsinline preload="metadata" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                             <source src="images/drummer.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -284,9 +285,9 @@
                             <label class="booking-label" data-i18n="booking_step_date">1. ВЫБЕРИТЕ ДАТУ</label>
                             <div class="calendar">
                                 <div class="calendar-header">
-                                    <button class="calendar-nav" onclick="changeMonth(-1)">‹</button>
+                                    <button class="calendar-nav" type="button" onclick="changeMonth(-1)" aria-label="Предыдущий месяц">‹</button>
                                     <span id="calendarMonth">АВГУСТ 2026</span>
-                                    <button class="calendar-nav" onclick="changeMonth(1)">›</button>
+                                    <button class="calendar-nav" type="button" onclick="changeMonth(1)" aria-label="Следующий месяц">›</button>
                                 </div>
                                 <div class="calendar-weekdays">
                                     <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
@@ -296,39 +297,39 @@
                         </div>
                         <div class="booking-frame">
                             <label class="booking-label" data-i18n="booking_step_service">2. ВЫБЕРИТЕ УСЛУГУ</label>
-                            <div class="service-options">
-                                <div class="service-option-item" onclick="selectServiceOption('Стрижка', this)">
+                            <div class="service-options" role="radiogroup">
+                                <button type="button" class="service-option-item" role="radio" aria-checked="false" onclick="selectServiceOption('Стрижка', this)">
                                     <div class="service-radio"><span class="radio-dot"></span></div>
                                     <div>
                                         <h3 data-i18n="booking_service_haircut">СТРИЖКА</h3>
                                         <p data-i18n="booking_service_haircut_desc">Фейд / Классика / Андеркарт</p>
                                         <span class="service-price">20€</span>
                                     </div>
-                                </div>
-                                <div class="service-option-item" onclick="selectServiceOption('Стрижка + борода', this)">
+                                </button>
+                                <button type="button" class="service-option-item" role="radio" aria-checked="false" onclick="selectServiceOption('Стрижка + борода', this)">
                                     <div class="service-radio"><span class="radio-dot"></span></div>
                                     <div>
                                         <h3 data-i18n="booking_service_combo">СТРИЖКА + БОРОДА</h3>
                                         <p data-i18n="booking_service_combo_desc">Комплекс</p>
                                         <span class="service-price">30€</span>
                                     </div>
-                                </div>
-                                <div class="service-option-item" onclick="selectServiceOption('Борода', this)">
+                                </button>
+                                <button type="button" class="service-option-item" role="radio" aria-checked="false" onclick="selectServiceOption('Борода', this)">
                                     <div class="service-radio"><span class="radio-dot"></span></div>
                                     <div>
                                         <h3 data-i18n="booking_service_beard">БОРОДА</h3>
                                         <p data-i18n="booking_service_beard_desc">Бритье / Уход</p>
                                         <span class="service-price">15€</span>
                                     </div>
-                                </div>
-                                <div class="service-option-item" onclick="selectServiceOption('Детская стрижка', this)">
+                                </button>
+                                <button type="button" class="service-option-item" role="radio" aria-checked="false" onclick="selectServiceOption('Детская стрижка', this)">
                                     <div class="service-radio"><span class="radio-dot"></span></div>
                                     <div>
                                         <h3 data-i18n="booking_service_kids">ДЕТСКАЯ</h3>
                                         <p data-i18n="booking_service_kids_desc">До 12 лет</p>
                                         <span class="service-price">15€</span>
                                     </div>
-                                </div>
+                                </button>
                             </div>
                         </div>
                         <div class="booking-frame">
@@ -350,7 +351,7 @@
             <div class="container">
                 <div class="section-heading">
                     <h2><span data-i18n="reviews_preview_heading_1">ПОСЛЕДНИЕ</span> <span data-i18n="reviews_preview_heading_2">ОТЗЫВЫ</span></h2>
-                    <a href="reviews.html" style="position: relative; z-index: 100; display: inline-block;" data-i18n="reviews_preview_all">ВСЕ ОТЗЫВЫ →</a>
+                    <a href="/reviews" style="position: relative; z-index: 100; display: inline-block;" data-i18n="reviews_preview_all">ВСЕ ОТЗЫВЫ →</a>
                 </div>
                 <div class="reviews-preview-grid" id="reviewsPreviewGrid">
                     <!-- Сюда будут подгружаться последние отзывы -->
@@ -362,7 +363,8 @@
     <footer class="footer">
         <div class="container">
             <p data-i18n="footer_copyright">© 2026 ArtyomCut Barbershop — Gijón</p>
-            <p data-i18n="footer_slogan">ROCK & CUTS ⚡ SINCE 2021</p>
+            <p data-i18n="footer_slogan">ROCK & CUTS SINCE 2021</p>
+            <p><a href="/privacy" data-i18n="footer_privacy">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></p>
             <a href="admin.html" class="admin-link" aria-label="Админ-панель">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5A3.5 3.5 0 100 12a3.5 3.5 0 000 7zM19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1.04 1.56V21a2 2 0 01-4 0v-.09A1.7 1.7 0 008.9 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.56-1.04H3a2 2 0 010-4h.09A1.7 1.7 0 004.6 8.9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 012.83-2.83l.06.06A1.7 1.7 0 008.9 4.6a1.7 1.7 0 001.04-1.56V3a2 2 0 014 0v.09a1.7 1.7 0 001.04 1.56 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 012.83 2.83l-.06.06A1.7 1.7 0 0019.4 8.9a1.7 1.7 0 001.56 1.04H21a2 2 0 010 4h-.09a1.7 1.7 0 00-1.56 1.04z"/></svg>
             </a>

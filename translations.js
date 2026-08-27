@@ -48,7 +48,7 @@ const translations = {
 
     music_heading_1: "МУЗЫКА",
     music_heading_2: "RADIO",
-    music_player_title: "МУЗЫКА ⚡",
+    music_player_title: "МУЗЫКА",
     music_station: "ARTYOMCUT",
     music_station_accent: "RADIO",
     music_status_stopped: "Радио остановлено",
@@ -72,8 +72,9 @@ const translations = {
     contact_date_label: "Дата:",
     contact_time_label: "Время:",
     contact_name_label: "ИМЯ",
-    contact_telegram_label: "TELEGRAM",
-    contact_telegram_note: "💡 Укажи Telegram, чтобы получить напоминание за 2 часа до визита.",
+    contact_phone_label: "WHATSAPP / ТЕЛЕФОН",
+    contact_phone_note: "Укажи номер WhatsApp или телефона, чтобы мы могли подтвердить запись.",
+    contact_privacy_note: "Отправляя форму, вы соглашаетесь с <a href=\"/privacy\">политикой конфиденциальности</a>.",
     contact_name_placeholder: "Ваше имя",
     contact_contact_placeholder: "@username или +34 XXX XXX XXX",
     contact_submit: "ПОДТВЕРДИТЬ ЗАПИСЬ",
@@ -107,7 +108,7 @@ const translations = {
     review_alert_name: "Пожалуйста, укажите ваше имя",
     review_alert_rating: "Пожалуйста, выберите оценку",
     review_alert_message: "Пожалуйста, напишите сообщение",
-    review_alert_success: "✅ Спасибо за ваш отзыв!",
+    review_alert_success: "Спасибо за ваш отзыв!",
     review_alert_network: "Ошибка сети. Попробуйте позже.",
     review_alert_already: "Вы уже оставляли отзыв недавно.",
 
@@ -138,7 +139,8 @@ const translations = {
     hours_off: "Выходной",
 
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
-    footer_slogan: "ROCK & CUTS ⚡ SINCE 2021"
+    footer_slogan: "ROCK & CUTS SINCE 2021",
+    footer_privacy: "ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ"
   },
 
   uk: {
@@ -187,7 +189,7 @@ const translations = {
 
     music_heading_1: "МУЗИКА",
     music_heading_2: "RADIO",
-    music_player_title: "МУЗИКА ⚡",
+    music_player_title: "МУЗИКА",
     music_station: "ARTYOMCUT",
     music_station_accent: "RADIO",
     music_status_stopped: "Радіо зупинено",
@@ -211,8 +213,9 @@ const translations = {
     contact_date_label: "Дата:",
     contact_time_label: "Час:",
     contact_name_label: "ІМ'Я",
-    contact_telegram_label: "TELEGRAM",
-    contact_telegram_note: "💡 Вкажи Telegram, щоб отримати нагадування за 2 години до візиту.",
+    contact_phone_label: "WHATSAPP / ТЕЛЕФОН",
+    contact_phone_note: "Вкажи номер WhatsApp або телефону, щоб ми могли підтвердити запис.",
+    contact_privacy_note: "Надсилаючи форму, ви погоджуєтесь з <a href=\"/privacy\">політикою конфіденційності</a>.",
     contact_name_placeholder: "Ваше ім'я",
     contact_contact_placeholder: "@username або +34 XXX XXX XXX",
     contact_submit: "ПІДТВЕРДИТИ ЗАПИС",
@@ -246,7 +249,7 @@ const translations = {
     review_alert_name: "Будь ласка, вкажіть ваше ім'я",
     review_alert_rating: "Будь ласка, виберіть оцінку",
     review_alert_message: "Будь ласка, напишіть повідомлення",
-    review_alert_success: "✅ Дякуємо за ваш відгук!",
+    review_alert_success: "Дякуємо за ваш відгук!",
     review_alert_network: "Помилка мережі. Спробуйте пізніше.",
     review_alert_already: "Ви вже залишали відгук нещодавно.",
 
@@ -277,7 +280,8 @@ const translations = {
     hours_off: "Вихідний",
 
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
-    footer_slogan: "ROCK & CUTS ⚡ SINCE 2021"
+    footer_slogan: "ROCK & CUTS SINCE 2021",
+    footer_privacy: "ПОЛІТИКА КОНФІДЕНЦІЙНОСТІ"
   },
 
   es: {
@@ -326,7 +330,7 @@ const translations = {
 
     music_heading_1: "MÚSICA",
     music_heading_2: "RADIO",
-    music_player_title: "MÚSICA ⚡",
+    music_player_title: "MÚSICA",
     music_station: "ARTYOMCUT",
     music_station_accent: "RADIO",
     music_status_stopped: "Radio detenida",
@@ -350,8 +354,9 @@ const translations = {
     contact_date_label: "Fecha:",
     contact_time_label: "Hora:",
     contact_name_label: "NOMBRE",
-    contact_telegram_label: "TELEGRAM",
-    contact_telegram_note: "💡 Indica tu Telegram para recibir un recordatorio 2 horas antes de tu visita.",
+    contact_phone_label: "WHATSAPP / TELÉFONO",
+    contact_phone_note: "Indica tu número de WhatsApp o teléfono para confirmar la reserva.",
+    contact_privacy_note: "Al enviar el formulario, aceptas la <a href=\"/privacy\">política de privacidad</a>.",
     contact_name_placeholder: "Tu nombre",
     contact_contact_placeholder: "@usuario o +34 XXX XXX XXX",
     contact_submit: "CONFIRMAR RESERVA",
@@ -385,7 +390,7 @@ const translations = {
     review_alert_name: "Por favor, indica tu nombre",
     review_alert_rating: "Por favor, selecciona una valoración",
     review_alert_message: "Por favor, escribe un mensaje",
-    review_alert_success: "✅ ¡Gracias por tu reseña!",
+    review_alert_success: "¡Gracias por tu reseña!",
     review_alert_network: "Error de red. Inténtalo de nuevo más tarde.",
     review_alert_already: "Ya has dejado una reseña recientemente.",
 
@@ -416,7 +421,8 @@ const translations = {
     hours_off: "Cerrado",
 
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
-    footer_slogan: "ROCK & CUTS ⚡ SINCE 2021"
+    footer_slogan: "ROCK & CUTS SINCE 2021",
+    footer_privacy: "POLÍTICA DE PRIVACIDAD"
   },
 
   en: {
@@ -465,7 +471,7 @@ const translations = {
 
     music_heading_1: "MUSIC",
     music_heading_2: "RADIO",
-    music_player_title: "MUSIC ⚡",
+    music_player_title: "MUSIC",
     music_station: "ARTYOMCUT",
     music_station_accent: "RADIO",
     music_status_stopped: "Radio stopped",
@@ -489,8 +495,9 @@ const translations = {
     contact_date_label: "Date:",
     contact_time_label: "Time:",
     contact_name_label: "NAME",
-    contact_telegram_label: "TELEGRAM",
-    contact_telegram_note: "💡 Enter your Telegram to get a reminder 2 hours before your visit.",
+    contact_phone_label: "WHATSAPP / PHONE",
+    contact_phone_note: "Enter a WhatsApp or phone number so we can confirm your booking.",
+    contact_privacy_note: "By submitting this form, you agree to the <a href=\"/privacy\">privacy policy</a>.",
     contact_name_placeholder: "Your name",
     contact_contact_placeholder: "@username or +34 XXX XXX XXX",
     contact_submit: "CONFIRM BOOKING",
@@ -524,7 +531,7 @@ const translations = {
     review_alert_name: "Please enter your name",
     review_alert_rating: "Please select a rating",
     review_alert_message: "Please write a message",
-    review_alert_success: "✅ Thank you for your review!",
+    review_alert_success: "Thank you for your review!",
     review_alert_network: "Network error. Please try again later.",
     review_alert_already: "You have already left a review recently.",
 
@@ -555,6 +562,7 @@ const translations = {
     hours_off: "Closed",
 
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
-    footer_slogan: "ROCK & CUTS ⚡ SINCE 2021"
+    footer_slogan: "ROCK & CUTS SINCE 2021",
+    footer_privacy: "PRIVACY POLICY"
   }
 };

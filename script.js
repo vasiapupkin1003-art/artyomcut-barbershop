@@ -85,8 +85,14 @@ function selectService(serviceName) {
 function selectServiceOption(serviceName, element) {
     selectedService = serviceName;
     selectedServiceKey = getServiceKey(serviceName);
-    document.querySelectorAll('.service-option-item').forEach(item => item.classList.remove('selected'));
-    if (element) element.classList.add('selected');
+    document.querySelectorAll('.service-option-item').forEach(item => {
+        item.classList.remove('selected');
+        item.setAttribute('aria-checked', 'false');
+    });
+    if (element) {
+        element.classList.add('selected');
+        element.setAttribute('aria-checked', 'true');
+    }
 }
 
 // ========================================
@@ -246,9 +252,15 @@ function changeMonth(delta) {
 }
 
 async function fetchBookedSlots(dateString) {
-    const res = await fetch(`${API_BASE}/api/booked?date=${dateString}`);
-    if (!res.ok) return [];
-    return await res.json();
+    try {
+        const res = await fetch(`${API_BASE}/api/booked?date=${encodeURIComponent(dateString)}`);
+        if (!res.ok) return [];
+        const slots = await res.json();
+        return Array.isArray(slots) ? slots : [];
+    } catch (error) {
+        console.error('Не удалось загрузить занятые слоты', error);
+        return [];
+    }
 }
 
 async function renderTimeSlots(dateString) {
@@ -257,7 +269,7 @@ async function renderTimeSlots(dateString) {
 
     const blockedDays = getBlockedDays();
     if (blockedDays.includes(dateString)) {
-        timeGroups.innerHTML = '<p class="time-placeholder">🔴 В этот день барбершоп не работает</p>';
+        timeGroups.innerHTML = '<p class="time-placeholder">Этот день недоступен для записи</p>';
         return;
     }
 
@@ -363,18 +375,19 @@ function showContactForm() {
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;`;
     modal.innerHTML = `
         <div style="background: #0d1011; border: 1px solid #343839; border-radius: 10px; padding: 30px; max-width: 500px; width: 100%; position: relative;">
-            <button id="closeContactBtn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer;">×</button>
+            <button id="closeContactBtn" type="button" aria-label="Закрыть" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer;">×</button>
             <h3 style="color: #fff; font-size: 24px; margin-bottom: 20px; font-weight: 900;">${t.contact_form_heading}</h3>
             <div style="background: #15191a; padding: 15px; border-radius: 5px; margin-bottom: 20px; color: #aaa6a0;">
                 <strong style="color: #fff;">${t.contact_service_label}</strong> ${t['booking_service_' + bookingData.serviceKey] || bookingData.service}<br>
                 <strong style="color: #fff;">${t.contact_date_label}</strong> ${bookingData.date}<br>
                 <strong style="color: #fff;">${t.contact_time_label}</strong> ${bookingData.time}
             </div>
-            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_name_label || 'Имя'} <span style="color: #c51f25;">*</span></label>
-            <input id="client-name" type="text" placeholder="${t.contact_name_placeholder}" style="width: 100%; height: 48px; margin-bottom: 15px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-            <label style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_telegram_label || 'TELEGRAM'} <span style="color: #c51f25;">*</span></label>
-            <input id="client-contact" type="text" placeholder="@username" style="width: 100%; height: 48px; margin-bottom: 5px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
-            <p style="font-size: 12px; color: #aaa6a0; margin: 0 0 20px 0;">${t.contact_telegram_note || ''}</p>
+            <label for="client-name" style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_name_label || 'Имя'} <span style="color: #c51f25;">*</span></label>
+            <input id="client-name" name="name" type="text" required autocomplete="name" maxlength="80" placeholder="${t.contact_name_placeholder}" style="width: 100%; height: 48px; margin-bottom: 15px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+            <label for="client-contact" style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_phone_label || 'WHATSAPP / ТЕЛЕФОН'} <span style="color: #c51f25;">*</span></label>
+            <input id="client-contact" name="contact" type="tel" inputmode="tel" required autocomplete="tel" maxlength="40" placeholder="${t.contact_contact_placeholder}" style="width: 100%; height: 48px; margin-bottom: 5px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
+            <p style="font-size: 12px; color: #aaa6a0; margin: 0 0 12px 0;">${t.contact_phone_note || ''}</p>
+            <p class="booking-privacy-note" style="font-size: 11px; color: #aaa6a0; margin: 0 0 20px 0;">${t.contact_privacy_note || ''}</p>
             <button id="confirmBookingBtn" style="width: 100%; height: 50px; background: #c51f25; color: #fff; border: none; border-radius: 3px; font-size: 14px; font-weight: 800; cursor: pointer;">${t.contact_submit}</button>
         </div>
     `;
@@ -387,8 +400,8 @@ function showContactForm() {
 }
 
 async function confirmBooking() {
-    const name = document.querySelector('#client-name').value;
-    const contact = document.querySelector('#client-contact').value;
+    const name = document.querySelector('#client-name').value.trim().slice(0, 80);
+    const contact = document.querySelector('#client-contact').value.trim().slice(0, 40);
     if (!name || !contact) { showAlert('alert_fill_fields'); return; }
     bookingData.name = name;
     bookingData.contact = contact;
@@ -426,15 +439,16 @@ function showSuccessMessage(bookingData) {
     modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999;`;
     modal.innerHTML = `
         <div style="background: #0d1011; padding: 40px; border-radius: 8px; text-align: center; max-width: 400px;">
-            <div style="font-size: 60px;">✅</div>
+            <div class="status-icon status-icon-success" aria-hidden="true"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16.5 9"/></svg></div>
             <h3 style="color: #fff; margin: 20px 0;">${t.success_message}</h3>
-            <p style="color: #aaa6a0;">${bookingData.name}${t.success_text}</p>
+            <p id="successClientMessage" style="color: #aaa6a0;"></p>
             <p style="color: #fff; font-weight: 700;">${t['booking_service_' + bookingData.serviceKey] || bookingData.service}</p>
             <p style="color: #aaa6a0;">${bookingData.date} в ${bookingData.time}</p>
             <button id="successOkBtn" style="margin-top: 20px; padding: 15px 40px; background: #c51f25; color: #fff; border: none; border-radius: 3px; cursor: pointer;">${t.success_ok}</button>
         </div>
     `;
     document.body.appendChild(modal);
+    modal.querySelector('#successClientMessage').textContent = `${bookingData.name}${t.success_text}`;
 
     const okBtn = modal.querySelector('#successOkBtn');
     okBtn.addEventListener('click', () => modal.remove());
@@ -456,8 +470,8 @@ const radioStations = [
     { name: 'SomaFM Metal Detector', url: 'https://ice1.somafm.com/metal-128-mp3' },
     { name: 'SomaFM Underground 80s', url: 'https://ice1.somafm.com/u80s-128-mp3' },
     { name: 'SomaFM The Trip', url: 'https://ice1.somafm.com/thetrip-128-mp3' },
-    { name: '181.FM The Eagle (Classic Rock)', url: 'http://listen.181fm.com/181-eagle_128k.mp3' },
-    { name: '181.FM Rock 40', url: 'http://listen.181fm.com/181-rock40_128k.mp3' },
+    { name: '181.FM The Eagle (Classic Rock)', url: 'https://listen.181fm.com/181-eagle_128k.mp3' },
+    { name: '181.FM Rock 40', url: 'https://listen.181fm.com/181-rock40_128k.mp3' },
     { name: '1.FM Classic Rock', url: 'http://strm112.1.fm/crock_mobile_mp3' }
 ];
 
@@ -552,8 +566,11 @@ async function toggleMusic() {
 // ========================================
 function toggleMobileMenu() {
     const nav = document.getElementById('mobileNav');
+    const burger = document.getElementById('burgerBtn');
     if (nav) {
         nav.classList.toggle('open');
+        burger?.setAttribute('aria-expanded', String(nav.classList.contains('open')));
+        burger?.setAttribute('aria-label', nav.classList.contains('open') ? 'Закрыть меню' : 'Открыть меню');
         if (nav.classList.contains('open')) {
             document.body.classList.add('no-scroll');
         } else {
@@ -577,6 +594,8 @@ document.addEventListener('click', function(e) {
         if (!isClickInsideNav && !isClickOnBurger) {
             nav.classList.remove('open');
             document.body.classList.remove('no-scroll');
+            burger?.setAttribute('aria-expanded', 'false');
+            burger?.setAttribute('aria-label', 'Открыть меню');
         }
     }
 });
@@ -596,15 +615,27 @@ async function loadRecentReviews() {
         }
         reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         const recent = reviews.slice(0, 3);
-        container.innerHTML = recent.map(review => `
-            <div class="review-preview-item">
-                <div class="review-preview-header">
-                    <span class="review-preview-name">${review.name}</span>
-                    <span class="review-preview-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
-                </div>
-                <p class="review-preview-message">${review.message}</p>
-            </div>
-        `).join('');
+        const fragment = document.createDocumentFragment();
+        recent.forEach(review => {
+            const item = document.createElement('article');
+            item.className = 'review-preview-item';
+            const header = document.createElement('div');
+            header.className = 'review-preview-header';
+            const name = document.createElement('span');
+            name.className = 'review-preview-name';
+            name.textContent = String(review.name || '').slice(0, 80);
+            const stars = document.createElement('span');
+            stars.className = 'review-preview-stars';
+            const rating = Math.min(5, Math.max(1, Number.parseInt(review.rating, 10) || 1));
+            stars.textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+            const message = document.createElement('p');
+            message.className = 'review-preview-message';
+            message.textContent = String(review.message || '').slice(0, 400);
+            header.append(name, stars);
+            item.append(header, message);
+            fragment.append(item);
+        });
+        container.replaceChildren(fragment);
     } catch (err) {
         console.error('Ошибка загрузки отзывов:', err);
     }

@@ -316,8 +316,15 @@ button, input, select {
 .service-card {
     position: relative;
     height: 300px;
+    width: 100%;
+    padding: 0;
     overflow: hidden;
     border-radius: 10px;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    background: transparent;
+    border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.4s;
 }
@@ -774,10 +781,44 @@ button, input, select {
     cursor: pointer;
     transition: 0.3s;
     position: relative;
+    width: 100%;
+    font: inherit;
+    color: inherit;
+    text-align: left;
 }
 
 .service-option-item:hover, .service-option-item.selected {
     border-color: #c51f25;
+}
+
+.service-card:focus-visible,
+.service-option-item:focus-visible,
+.burger-btn:focus-visible,
+.calendar-nav:focus-visible,
+.social-link:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-icon-success {
+    color: #35b66a;
+    margin-bottom: 8px;
+}
+
+.booking-privacy-note a {
+    color: #fff;
+    text-decoration: underline;
 }
 
 .service-radio {
