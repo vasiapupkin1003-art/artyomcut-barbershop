@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#07090a">
+    <meta name="description" content="Сайт ArtyomCut Barbershop временно на обновлении. Записаться можно по телефону, в Telegram или Instagram.">
+    <title>Идут работы — ArtyomCut Barbershop</title>
+    <link rel="icon" href="/images/logo/logo1.jfif">
+    <style>
+        :root{
+            --bg:#07090a;
+            --panel:#0f1314;
+            --line:#262b2c;
+            --text:#e8e5df;
+            --muted:#98a0a0;
+            --red:#c51f25;
+        }
+
+        *{box-sizing:border-box}
+
+        [hidden]{display:none !important}
+
+        html,body{height:100%}
+
+        body{
+            margin:0;
+            padding:28px 16px;
+            min-height:100vh;
+            min-height:100dvh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            background:var(--bg);
+            color:var(--text);
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            -webkit-font-smoothing:antialiased;
+            overflow-x:hidden;
+            animation:fade .3s ease both;
+        }
+
+        @keyframes fade{from{opacity:0}to{opacity:1}}
+
+        /* Красное свечение на фоне */
+        body::before{
+            content:"";
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+            background:
+                radial-gradient(55% 45% at 50% -10%, rgba(197,31,37,.38), transparent 70%),
+                radial-gradient(45% 40% at 50% 112%, rgba(197,31,37,.14), transparent 70%);
+        }
+
+        .card{
+            position:relative;
+            width:100%;
+            max-width:660px;
+            padding:44px 26px 26px;
+            border:1px solid var(--line);
+            border-radius:22px;
+            background:linear-gradient(180deg,#101415,#0a0d0e);
+            box-shadow:0 30px 80px rgba(0,0,0,.6);
+            text-align:center;
+            overflow:hidden;
+        }
+
+        /* Полоса «барберпол» сверху карточки */
+        .pole{
+            position:absolute;
+            top:0; left:0; right:0;
+            height:4px;
+            background:repeating-linear-gradient(135deg,var(--red) 0 14px,#efe9dd 14px 28px);
+            background-size:40px 100%;
+            animation:pole 5s linear infinite;
+        }
+
+        @keyframes pole{to{background-position:40px 0}}
+
+        .langs{
+            position:absolute;
+            top:10px; right:10px;
+            display:flex;
+            gap:2px;
+        }
+
+        .langs button{
+            padding:5px 7px;
+            border:1px solid transparent;
+            border-radius:8px;
+            background:transparent;
+            color:#727b7c;
+            font-size:10.5px;
+            font-weight:700;
+            letter-spacing:.08em;
+            cursor:pointer;
+            transition:.2s;
+        }
+
+        .langs button:hover{color:#cfd4d4}
+        .langs button[aria-pressed="true"]{
+            color:#fff;
+            background:#161b1c;
+            border-color:var(--line);
+        }
+
+        .logo{
+            width:min(320px,72%);
+            height:auto;
+            margin:0 auto 26px;
+            mix-blend-mode:lighten; /* чёрный фон логотипа растворяется в фоне карточки */
+        }
+
+        .chip{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            margin:0 0 16px;
+            padding:7px 13px;
+            border:1px solid rgba(197,31,37,.45);
+            border-radius:999px;
+            background:rgba(197,31,37,.12);
+            color:#f4cdce;
+            font-size:11px;
+            font-weight:700;
+            letter-spacing:.16em;
+            text-transform:uppercase;
+        }
+
+        .dot{
+            width:7px;
+            height:7px;
+            border-radius:50%;
+            background:var(--red);
+            box-shadow:0 0 0 0 rgba(197,31,37,.65);
+            animation:pulse 2.2s infinite;
+        }
+
+        @keyframes pulse{
+            70%{box-shadow:0 0 0 9px rgba(197,31,37,0)}
+            100%{box-shadow:0 0 0 0 rgba(197,31,37,0)}
+        }
+
+        h1{
+            margin:0 0 14px;
+            font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;
+            font-size:clamp(30px,7.2vw,52px);
+            font-weight:800;
+            line-height:1.05;
+            letter-spacing:-.015em;
+            text-transform:uppercase;
+        }
+
+        .lead{
+            max-width:46ch;
+            margin:0 auto;
+            color:var(--muted);
+            font-size:clamp(14px,2.4vw,16px);
+            line-height:1.6;
+        }
+
+        .actions{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:10px;
+            margin:28px 0 0;
+        }
+
+        .btn{
+            display:inline-flex;
+            align-items:center;
+            gap:9px;
+            padding:13px 19px;
+            border:1px solid var(--line);
+            border-radius:12px;
+            background:#151a1b;
+            color:#fff;
+            font-size:14px;
+            font-weight:700;
+            text-decoration:none;
+            transition:transform .18s, background .18s, border-color .18s;
+        }
+
+        .btn:hover{
+            background:#1d2324;
+            border-color:#3a4142;
+            transform:translateY(-1px);
+        }
+
+        .btn svg{width:17px;height:17px;flex:none}
+
+        .btn--primary{
+            background:var(--red);
+            border-color:var(--red);
+        }
+
+        .btn--primary:hover{
+            background:#e0272d;
+            border-color:#e0272d;
+        }
+
+        .info{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:8px 22px;
+            margin:26px 0 0;
+            padding-top:22px;
+            border-top:1px solid var(--line);
+            color:var(--muted);
+            font-size:13px;
+            line-height:1.5;
+        }
+
+        .info b{
+            color:var(--text);
+            font-weight:600;
+        }
+
+        .owner{
+            margin:24px 0 0;
+        }
+
+        .owner-toggle{
+            padding:6px 10px;
+            border:0;
+            border-radius:8px;
+            background:none;
+            color:#697172;
+            font-size:11px;
+            font-weight:700;
+            letter-spacing:.13em;
+            text-transform:uppercase;
+            cursor:pointer;
+            transition:color .2s;
+        }
+
+        .owner-toggle:hover{color:#cfd4d4}
+
+        .owner-form{
+            display:none;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:8px;
+            margin-top:14px;
+        }
+
+        .owner-form.open{display:flex}
+        .owner-form.open input{animation:reveal .2s ease both}
+
+        @keyframes reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+        .owner-form input{
+            flex:1 1 220px;
+            max-width:300px;
+            padding:12px 14px;
+            border:1px solid var(--line);
+            border-radius:10px;
+            background:#080b0c;
+            color:var(--text);
+            font-size:14px;
+            letter-spacing:.06em;
+        }
+
+        .owner-form input::placeholder{color:#5d6667;letter-spacing:normal}
+
+        .owner-form input:focus{
+            outline:none;
+            border-color:var(--red);
+            box-shadow:0 0 0 3px rgba(197,31,37,.18);
+        }
+
+        .owner-form button{
+            padding:12px 18px;
+            border:1px solid var(--line);
+            border-radius:10px;
+            background:#1b2122;
+            color:#fff;
+            font-size:14px;
+            font-weight:700;
+            cursor:pointer;
+        }
+
+        .owner-form button:hover{border-color:#3a4142}
+
+        .owner-msg{
+            min-height:18px;
+            margin:10px 0 0;
+            font-size:12.5px;
+            color:#ff9296;
+        }
+
+        .shake{animation:shake .4s ease}
+        @keyframes shake{
+            20%{transform:translateX(-6px)}
+            40%{transform:translateX(6px)}
+            60%{transform:translateX(-4px)}
+            80%{transform:translateX(4px)}
+        }
+
+        .page-foot{
+            margin:22px 0 0;
+            color:#5c6566;
+            font-size:11.5px;
+            letter-spacing:.1em;
+            text-align:center;
+        }
+
+        .page-foot a{color:inherit;text-decoration:none;border-bottom:1px solid #3a4142}
+        .page-foot a:hover{color:#cfd4d4}
+
+        @media (max-width:420px){
+            .card{padding:38px 18px 22px;border-radius:18px}
+            .logo{width:min(260px,80%);margin-bottom:22px}
+            .btn{flex:1 1 auto;justify-content:center}
+        }
+
+        @media (prefers-reduced-motion:reduce){
+            *,*::before,*::after{animation:none !important;transition:none !important}
+        }
+    </style>
+</head>
+<body>
+
+    <main class="card">
+        <div class="pole" aria-hidden="true"></div>
+
+        <nav class="langs" aria-label="Language">
+            <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+            <button type="button" data-lang="es" aria-pressed="false">ES</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            <button type="button" data-lang="uk" aria-pressed="false">UK</button>
+        </nav>
+
+        <img class="logo" src="/images/logo/logo.png" alt="ArtyomCut Barbershop" width="320" height="164">
+
+        <p class="chip"><span class="dot" aria-hidden="true"></span><span data-t="eyebrow">Идёт обновление сайта</span></p>
+
+        <h1 data-t="title">Скоро вернёмся</h1>
+
+        <p class="lead" data-t="lead">Сайт временно закрыт на обновление. Записаться можно по телефону или в мессенджерах — мы на связи.</p>
+
+        <div class="actions">
+            <a class="btn btn--primary" href="tel:+34602692534">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.7a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+                <span data-t="call">Позвонить</span>
+            </a>
+            <a class="btn" href="https://t.me/artyomcut" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.9 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.1zm4.96 7.22c.1 0 .32.02.46.14a.5.5 0 0 1 .17.32c.02.1.04.31.02.48-.18 1.9-.96 6.5-1.36 8.62-.17.9-.5 1.2-.82 1.23-.7.07-1.23-.46-1.9-.9-1.06-.7-1.65-1.13-2.68-1.8-1.19-.79-.42-1.21.26-1.92.17-.18 3.24-2.97 3.3-3.23.01-.03.02-.15-.05-.21s-.18-.04-.25-.02c-.1.02-1.8 1.14-5.06 3.34-.48.33-.92.5-1.3.49-.43-.01-1.26-.25-1.87-.45-.75-.24-1.35-.37-1.3-.79.03-.21.33-.43.9-.66 3.5-1.52 5.83-2.53 7-3.01 3.33-1.39 4.02-1.63 4.47-1.64z"/></svg>
+                Telegram
+            </a>
+            <a class="btn" href="https://instagram.com/artembarbercat" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.7"/><circle cx="17.2" cy="6.8" r=".7" fill="currentColor" stroke="none"/></svg>
+                Instagram
+            </a>
+        </div>
+
+        <div class="info">
+            <span><b>Calle de San Manuel, 13</b> · Gijón</span>
+            <span data-t="hours">Пн–Пт 10:00–20:00 · Сб 10:00–18:00</span>
+        </div>
+
+        <div class="owner">
+            <button class="owner-toggle" id="ownerToggle" type="button" aria-controls="ownerForm" aria-expanded="false" data-t="owner">Вход для владельца</button>
+
+            <form class="owner-form" id="ownerForm" autocomplete="off">
+                <input id="ownerKey" type="password" name="key" placeholder="Ключ доступа" aria-label="Ключ доступа для владельца" data-t-placeholder="owner_placeholder">
+                <button type="submit" data-t="owner_btn">Войти</button>
+            </form>
+
+            <p class="owner-msg" id="ownerMsg" role="status" aria-live="polite"></p>
+
+            <p hidden id="openSiteWrap"><a class="btn btn--primary" id="openSite" href="/" data-t="open_site">Открыть сайт</a></p>
+        </div>
+    </main>
+
+    <p class="page-foot">
+        <span data-t="footer">© 2026 ArtyomCut Barbershop — Gijón</span> ·
+        <a href="/privacy" data-t="privacy">Política de privacidad</a>
+    </p>
+
+    <noscript>
+        <p class="page-foot">Для входа владельцу нужен JavaScript.</p>
+    </noscript>
+
+    <!-- Логика доступа: выставляет cookie владельцу, остальным показывает эту страницу -->
+    <script src="/maintenance-gate.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            var T = {
+                ru: {
+                    page: 'Идут работы — ArtyomCut Barbershop',
+                    eyebrow: 'Идёт обновление сайта',
+                    title: 'Скоро вернёмся',
+                    lead: 'Сайт временно закрыт на обновление. Записаться можно по телефону или в мессенджерах — мы на связи.',
+                    call: 'Позвонить',
+                    hours: 'Пн–Пт 10:00–20:00 · Сб 10:00–18:00',
+                    owner: 'Вход для владельца',
+                    owner_placeholder: 'Ключ доступа',
+                    owner_btn: 'Войти',
+                    owner_error: 'Ключ не подошёл. Проверьте, нет ли лишних пробелов.',
+                    open_site: 'Открыть сайт',
+                    footer: '© 2026 ArtyomCut Barbershop — Gijón',
+                    privacy: 'Политика конфиденциальности'
+                },
+                es: {
+                    page: 'Web en mantenimiento — ArtyomCut',
+                    eyebrow: 'Estamos actualizando la web',
+                    title: 'Volvemos muy pronto',
+                    lead: 'La web está en mantenimiento. Puedes reservar por teléfono o por mensaje: seguimos disponibles.',
+                    call: 'Llamar',
+                    hours: 'Lun–Vie 10:00–20:00 · Sáb 10:00–18:00',
+                    owner: 'Acceso del propietario',
+                    owner_placeholder: 'Clave de acceso',
+                    owner_btn: 'Entrar',
+                    owner_error: 'Clave incorrecta. Revisa que no haya espacios de más.',
+                    open_site: 'Abrir la web',
+                    footer: '© 2026 ArtyomCut Barbershop — Gijón',
+                    privacy: 'Política de privacidad'
+                },
+                en: {
+                    page: 'Under maintenance — ArtyomCut',
+                    eyebrow: 'Site upgrade in progress',
+                    title: "We'll be right back",
+                    lead: "Our website is being updated. You can still book by phone or message — we're here.",
+                    call: 'Call',
+                    hours: 'Mon–Fri 10:00–20:00 · Sat 10:00–18:00',
+                    owner: 'Owner access',
+                    owner_placeholder: 'Access key',
+                    owner_btn: 'Sign in',
+                    owner_error: 'Wrong key. Check for extra spaces.',
+                    open_site: 'Open the site',
+                    footer: '© 2026 ArtyomCut Barbershop — Gijón',
+                    privacy: 'Privacy policy'
+                },
+                uk: {
+                    page: 'Тривають роботи — ArtyomCut Barbershop',
+                    eyebrow: 'Триває оновлення сайту',
+                    title: 'Незабаром повернемось',
+                    lead: 'Сайт тимчасово закрито на оновлення. Записатися можна телефоном або в месенджерах — ми на звʼязку.',
+                    call: 'Подзвонити',
+                    hours: 'Пн–Пт 10:00–20:00 · Сб 10:00–18:00',
+                    owner: 'Вхід для власника',
+                    owner_placeholder: 'Ключ доступу',
+                    owner_btn: 'Увійти',
+                    owner_error: 'Невірний ключ. Перевірте, чи немає зайвих пробілів.',
+                    open_site: 'Відкрити сайт',
+                    footer: '© 2026 ArtyomCut Barbershop — Gijón',
+                    privacy: 'Політика конфіденційності'
+                }
+            };
+
+            var ORDER = ['ru', 'es', 'en', 'uk'];
+
+            function detect() {
+                var raw = (navigator.language || (navigator.languages && navigator.languages[0]) || 'ru').toLowerCase();
+                if (raw.indexOf('uk') === 0) return 'uk';
+                if (raw.indexOf('es') === 0) return 'es';
+                if (raw.indexOf('en') === 0) return 'en';
+                return 'ru';
+            }
+
+            function stored() {
+                try {
+                    var value = localStorage.getItem('language');
+                    return ORDER.indexOf(value) !== -1 ? value : null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            var lang = stored() || detect();
+
+            function apply(code) {
+                var dict = T[code] || T.ru;
+                lang = T[code] ? code : 'ru';
+                document.documentElement.lang = lang;
+                document.title = dict.page;
+
+                document.querySelectorAll('[data-t]').forEach(function (el) {
+                    var value = dict[el.getAttribute('data-t')];
+                    if (value) el.textContent = value;
+                });
+                document.querySelectorAll('[data-t-placeholder]').forEach(function (el) {
+                    var value = dict[el.getAttribute('data-t-placeholder')];
+                    if (value) el.setAttribute('placeholder', value);
+                });
+                document.querySelectorAll('.langs button').forEach(function (btn) {
+                    btn.setAttribute('aria-pressed', String(btn.getAttribute('data-lang') === lang));
+                });
+
+                try { localStorage.setItem('language', lang); } catch (e) { /* ignore */ }
+            }
+
+            document.querySelectorAll('.langs button').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    apply(btn.getAttribute('data-lang'));
+                });
+            });
+
+            var gate = window.ACGate;
+            var params = new URLSearchParams(location.search);
+            var form = document.getElementById('ownerForm');
+            var input = document.getElementById('ownerKey');
+            var toggle = document.getElementById('ownerToggle');
+            var message = document.getElementById('ownerMsg');
+
+            function openForm() {
+                form.classList.add('open');
+                toggle.setAttribute('aria-expanded', 'true');
+                setTimeout(function () { input.focus(); }, 40);
+            }
+
+            function fail(text) {
+                message.textContent = text;
+                form.classList.add('shake');
+                setTimeout(function () { form.classList.remove('shake'); }, 450);
+            }
+
+            toggle.addEventListener('click', openForm);
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                if (!gate) {
+                    fail(T[lang].owner_error);
+                    return;
+                }
+                if (gate.unlock(input.value)) {
+                    message.textContent = '';
+                    location.replace(gate.next());
+                } else {
+                    input.select();
+                    fail(T[lang].owner_error);
+                }
+            });
+
+            apply(lang);
+
+            if (gate && gate.isUnlocked()) {
+                // владелец уже с ключом: вернуть его на ту страницу, откуда пришёл
+                if (params.has('next')) {
+                    location.replace(gate.next());
+                    return;
+                }
+                toggle.hidden = true;
+                document.getElementById('openSiteWrap').hidden = false;
+            } else if (params.get('badkey') === '1') {
+                openForm();
+                message.textContent = T[lang].owner_error;
+            }
+        })();
+    </script>
+</body>
+</html>
