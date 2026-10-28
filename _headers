@@ -17,3 +17,14 @@
 
 /admin*
   X-Robots-Tag: noindex, nofollow
+
+/maintenance.html
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+
+/maintenance
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+
+/maintenance-gate.js
+  Cache-Control: no-cache
