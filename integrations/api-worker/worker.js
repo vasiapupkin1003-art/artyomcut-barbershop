@@ -3,9 +3,13 @@ const DAY_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frida
 const MAX_JSON_BYTES = 16 * 1024;
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 
-const BOOKING_PREFIX = 'booking:';
+// Записи хранятся объектами в R2 (строгая консистентность: list/get сразу видят запись),
+// слоты блокируются отдельными ключами KV.
+const BOOKING_PREFIX = 'bookings/';
 const SLOT_PREFIX = 'slot:';
 const LEGACY_BOOKINGS_KEY = 'bookings';
+const LEGACY_BOOKING_PREFIX = 'booking:';
+const R2_MIGRATION_MARKER = 'bookings_migrated_r2';
 const SLOT_CONFIRM_DELAY_MS = 150;
 
 const DEFAULT_SCHEDULE = {
@@ -192,6 +196,13 @@ function validateBooking(data, schedule) {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const bookingObjectKey = (booking) => `${BOOKING_PREFIX}${booking.date}/${booking.time}/${booking.id}.json`;
+
+function parseBookingKey(key) {
+  const match = /^bookings\/(\d{4}-\d{2}-\d{2})\/(\d{2}:\d{2})\/([^/]+)\.json$/.exec(key);
+  return match ? { date: match[1], time: match[2], id: match[3] } : null;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -227,51 +238,88 @@ export default {
       return Boolean(token && await getKV(`session_${token}`));
     };
 
-    // Все записи хранятся отдельными ключами booking:<id> — параллельные записи
-    // больше не перезаписывают общий список и не теряются.
-    const listBookings = async () => {
+    const listBookingKeys = async (prefix = BOOKING_PREFIX) => {
+      if (!bucket) fail(503, 'Storage is not configured');
+      const keys = [];
+      let cursor;
+      do {
+        const page = await bucket.list({ prefix, cursor, limit: 1000 });
+        keys.push(...page.objects.map((object) => object.key));
+        cursor = page.truncated ? page.cursor : undefined;
+      } while (cursor);
+      return keys;
+    };
+
+    // Однократный перенос записей из старого KV-хранилища в R2.
+    const migrateLegacyBookings = async () => {
+      if (await getKV(R2_MIGRATION_MARKER)) return;
+      if (!bucket) return;
+      const imported = new Set();
+
       const legacy = await getKV(LEGACY_BOOKINGS_KEY);
       if (legacy) {
         try {
-          const old = JSON.parse(legacy);
-          if (Array.isArray(old)) {
-            for (const booking of old) {
-              if (!booking?.id) continue;
-              await putKV(BOOKING_PREFIX + booking.id, JSON.stringify(booking));
-              if (isDate(booking.date) && isTime(booking.time)) {
-                await putKV(SLOT_PREFIX + booking.date + ':' + booking.time, String(booking.id));
-              }
+          const list = JSON.parse(legacy);
+          if (Array.isArray(list)) {
+            for (const booking of list) {
+              if (!booking?.id || !isDate(booking.date) || !isTime(booking.time)) continue;
+              await bucket.put(bookingObjectKey(booking), JSON.stringify(booking));
+              imported.add(String(booking.id));
             }
           }
         } catch {
-          // повреждённый старый список просто игнорируем
+          // игнорируем повреждённый старый список
         }
         await dataStore.delete(LEGACY_BOOKINGS_KEY);
       }
 
-      const keys = [];
       let cursor;
       do {
-        const page = await dataStore.list({ prefix: BOOKING_PREFIX, cursor });
-        keys.push(...page.keys.map((key) => key.name));
+        const page = await dataStore.list({ prefix: LEGACY_BOOKING_PREFIX, cursor });
+        for (const key of page.keys) {
+          const raw = await getKV(key.name);
+          if (!raw) continue;
+          try {
+            const booking = JSON.parse(raw);
+            if (booking?.id && isDate(booking.date) && isTime(booking.time) && !imported.has(String(booking.id))) {
+              await bucket.put(bookingObjectKey(booking), JSON.stringify(booking));
+              imported.add(String(booking.id));
+            }
+          } catch {
+            // пропускаем повреждённую запись
+          }
+          await dataStore.delete(key.name);
+        }
         cursor = page.list_complete ? undefined : page.cursor;
       } while (cursor);
 
-      const values = await Promise.all(keys.map((key) => getKV(key)));
-      return values
-        .filter(Boolean)
-        .map((raw) => {
-          try { return JSON.parse(raw); } catch { return null; }
-        })
-        .filter(Boolean);
+      await putKV(R2_MIGRATION_MARKER, '1');
+    };
+
+    const readBooking = async (key) => {
+      const object = await bucket.get(key);
+      if (!object) return null;
+      try {
+        return JSON.parse(await object.text());
+      } catch {
+        return null;
+      }
+    };
+
+    const listBookings = async () => {
+      await migrateLegacyBookings();
+      const keys = await listBookingKeys();
+      const bookings = await Promise.all(keys.map(readBooking));
+      return bookings.filter(Boolean);
     };
 
     const removeBooking = async (booking) => {
-      if (!booking) return;
+      if (!booking?.id) return;
+      const key = bookingObjectKey(booking);
       const slotKey = SLOT_PREFIX + booking.date + ':' + booking.time;
       const owner = await getKV(slotKey);
       if (owner === booking.id) await dataStore.delete(slotKey);
-      await dataStore.delete(BOOKING_PREFIX + booking.id);
+      await bucket.delete(key);
     };
 
     const cleanupBookings = async () => {
@@ -325,8 +373,13 @@ export default {
       if (path === '/api/booked' && method === 'GET') {
         const date = url.searchParams.get('date');
         if (!isDate(date)) fail(400, 'Invalid date');
-        const bookings = await cleanupBookings();
-        return response(request, env, bookings.filter((booking) => booking.date === date).map((booking) => booking.time).sort());
+        await migrateLegacyBookings();
+        const keys = await listBookingKeys(`${BOOKING_PREFIX}${date}/`);
+        const times = keys
+          .map(parseBookingKey)
+          .filter((item) => item && item.date === date)
+          .map((item) => item.time);
+        return response(request, env, [...new Set(times)].sort());
       }
 
       if (path === '/api/bookings') {
@@ -338,6 +391,8 @@ export default {
           const contentLength = Number(request.headers.get('Content-Length') || '0');
           if (contentLength > MAX_JSON_BYTES) fail(413, 'Request too large');
           const booking = validateBooking(await readJson(request), await getSchedule());
+          await migrateLegacyBookings();
+          if (!bucket) fail(503, 'Storage is not configured');
 
           const slotKey = SLOT_PREFIX + booking.date + ':' + booking.time;
           if (await getKV(slotKey)) fail(409, 'Selected time is already booked');
@@ -350,18 +405,24 @@ export default {
           if (await getKV(slotKey) !== id) fail(409, 'Selected time is already booked');
 
           const stored = { ...booking, id, createdAt: new Date().toISOString() };
-          await putKV(BOOKING_PREFIX + id, JSON.stringify(stored));
+          try {
+            await bucket.put(bookingObjectKey(stored), JSON.stringify(stored));
+          } catch (error) {
+            await dataStore.delete(slotKey);
+            throw error;
+          }
           return response(request, env, { success: true, id });
         }
         if (method === 'DELETE') {
           if (!(await isAuthorized())) fail(401, 'Unauthorized');
           const id = url.searchParams.get('id');
           if (!id || id.length > 80) fail(400, 'Invalid id');
-          const raw = await getKV(BOOKING_PREFIX + id);
-          if (raw) {
-            let booking = null;
-            try { booking = JSON.parse(raw); } catch { booking = null; }
-            await removeBooking(booking || { id, date: '', time: '' });
+          await migrateLegacyBookings();
+          const keys = await listBookingKeys();
+          const target = keys.map(parseBookingKey).find((item) => item && item.id === id);
+          if (target) {
+            const booking = await readBooking(bookingObjectKey(target));
+            await removeBooking(booking || target);
           }
           return response(request, env, { success: true });
         }
