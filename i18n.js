@@ -53,25 +53,25 @@ function applyDocumentMetadata(lang) {
     home: {
       ru: ['ArtyomCut — Барбершоп | Хихон', 'ArtyomCut Barbershop в Хихоне — мужские стрижки, борода, онлайн-запись.'],
       uk: ['ArtyomCut — Барбершоп | Хіхон', 'ArtyomCut Barbershop у Хіхоні — чоловічі стрижки, борода та онлайн-запис.'],
-      es: ['ArtyomCut — Barbería en Gijón', 'Barbería ArtyomCut en Gijón: cortes de pelo, barba y reserva online.'],
+      es: ['ArtyomCut — Barbería en Gijón | Cortes de pelo y barba', 'Barbería ArtyomCut en Gijón: cortes de pelo, arreglo de barba y reserva online. Calle de San Manuel, 13.'],
       en: ['ArtyomCut — Barbershop | Gijón', 'ArtyomCut Barbershop in Gijón — haircuts, beard care and online booking.']
     },
     gallery: {
       ru: ['Галерея работ — ArtyomCut | Барбершоп', 'Галерея работ ArtyomCut Barbershop в Хихоне.'],
       uk: ['Галерея робіт — ArtyomCut | Барбершоп', 'Галерея робіт ArtyomCut Barbershop у Хіхоні.'],
-      es: ['Galería de trabajos — ArtyomCut | Barbería', 'Galería de cortes y barbas de ArtyomCut Barbershop en Gijón.'],
+      es: ['Galería de trabajos — ArtyomCut | Barbería en Gijón', 'Galería de cortes y barbas de ArtyomCut Barbershop en Gijón. Fade, classic, beard.'],
       en: ['Work gallery — ArtyomCut | Barbershop', 'Haircuts and beard work by ArtyomCut Barbershop in Gijón.']
     },
     reviews: {
       ru: ['Отзывы — ArtyomCut | Барбершоп', 'Отзывы клиентов ArtyomCut Barbershop в Хихоне.'],
       uk: ['Відгуки — ArtyomCut | Барбершоп', 'Відгуки клієнтів ArtyomCut Barbershop у Хіхоні.'],
-      es: ['Reseñas — ArtyomCut | Barbería', 'Reseñas de clientes de ArtyomCut Barbershop en Gijón.'],
+      es: ['Reseñas de clientes — ArtyomCut | Barbería en Gijón', 'Reseñas de clientes de ArtyomCut Barbershop en Gijón. Deja tu opinión sobre tu corte o barba.'],
       en: ['Reviews — ArtyomCut | Barbershop', 'Customer reviews for ArtyomCut Barbershop in Gijón.']
     },
     location: {
       ru: ['Как нас найти — ArtyomCut | Хихон', 'Адрес, часы работы и контакты ArtyomCut Barbershop в Хихоне.'],
       uk: ['Як нас знайти — ArtyomCut | Хіхон', 'Адреса, графік та контакти ArtyomCut Barbershop у Хіхоні.'],
-      es: ['Cómo encontrarnos — ArtyomCut | Gijón', 'Dirección, horarios y contactos de ArtyomCut Barbershop en Gijón.'],
+      es: ['Cómo encontrarnos — ArtyomCut | Gijón', 'Dirección, horarios y contactos de ArtyomCut Barbershop en Gijón. Calle de San Manuel, 13.'],
       en: ['Find us — ArtyomCut | Gijón', 'Address, opening hours and contacts for ArtyomCut Barbershop in Gijón.']
     }
   };

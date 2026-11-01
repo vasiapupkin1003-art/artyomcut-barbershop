@@ -292,7 +292,7 @@ const translations = {
     nav_reviews: "RESEÑAS",
     nav_music: "MÚSICA",
     nav_booking: "RESERVA",
-    nav_contacts: "CÓMO ENCONTRARNOS",
+    nav_contacts: "UBICACIÓN",
     back_to_site: "← AL SITIO",
 
     hero_small_title: "ARTYOMCUT BARBERSHOP",
