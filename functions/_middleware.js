@@ -22,6 +22,7 @@
    ============================================================ */
 
 const COOKIE = 'ac_preview';
+const CANONICAL_HOST = 'artyomcut-barbershopgijon.es';
 
 function readCookie(header, name) {
   const parts = String(header || '').split(';');
@@ -42,6 +43,12 @@ function readCookie(header, name) {
 export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
+
+  // www.→ основной домен: один адрес для сайта, cookie и API (CORS).
+  if ((request.method === 'GET' || request.method === 'HEAD') && url.hostname === 'www.' + CANONICAL_HOST) {
+    url.hostname = CANONICAL_HOST;
+    return Response.redirect(url.toString(), 301);
+  }
 
   const key = env && env.MAINTENANCE_KEY;
   // Ключ не настроен — ничего не блокируем.
