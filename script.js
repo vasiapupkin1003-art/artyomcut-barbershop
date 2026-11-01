@@ -154,6 +154,14 @@ document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
 // ========================================
 // КАЛЕНДАРЬ И ВЫБОР ВРЕМЕНИ
 // ========================================
+
+// Сообщения при ошибках записи
+const BOOKING_MESSAGES = {
+    ru: { busy: 'Это время только что заняли. Выберите другое.', server: 'Не удалось отправить запись. Попробуйте ещё раз или позвоните: +34 602 692 534', sending: 'ОТПРАВЛЯЕМ…' },
+    es: { busy: 'Ese hueco acaba de ocuparse. Elige otro.', server: 'No se pudo enviar la reserva. Inténtalo otra vez o llámanos: +34 602 692 534', sending: 'ENVIANDO…' },
+    en: { busy: 'That slot was just taken. Please pick another.', server: 'Could not send the booking. Try again or call us: +34 602 692 534', sending: 'SENDING…' },
+    uk: { busy: 'Цей час щойно зайняли. Оберіть інший.', server: 'Не вдалося надіслати запис. Спробуйте ще раз або зателефонуйте: +34 602 692 534', sending: 'НАДСИЛАЄМО…' }
+};
 let bookingData = { service: '', date: '', time: '', serviceKey: '' };
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -400,19 +408,50 @@ function showContactForm() {
 }
 
 async function confirmBooking() {
+    const button = document.querySelector('#confirmBookingBtn');
+    if (button && button.disabled) return;
+
     const name = document.querySelector('#client-name').value.trim().slice(0, 80);
     const contact = document.querySelector('#client-contact').value.trim().slice(0, 40);
     if (!name || !contact) { showAlert('alert_fill_fields'); return; }
     bookingData.name = name;
     bookingData.contact = contact;
 
+    const lang = currentLanguage || 'ru';
+    const t = translations[lang] || translations['ru'];
+    const messages = BOOKING_MESSAGES[lang] || BOOKING_MESSAGES.ru;
+
     try {
+        // перед отправкой ещё раз проверяем, что слот свободен
+        const bookedNow = await fetchBookedSlots(bookingData.date);
+        if (bookedNow.indexOf(bookingData.time) !== -1) {
+            alert(messages.busy);
+            await renderTimeSlots(bookingData.date);
+            return;
+        }
+
+        if (button) {
+            button.disabled = true;
+            button.textContent = messages.sending;
+        }
+
         await saveBookingToServer(bookingData);
         document.querySelector('.booking-modal')?.remove();
         showSuccessMessage(bookingData);
         refreshCalendar();
     } catch (error) {
-        showAlert('alert_time_busy');
+        if (error && error.status === 409) {
+            alert(messages.busy);
+            await renderTimeSlots(bookingData.date);
+        } else {
+            console.error('Ошибка записи:', error);
+            alert(messages.server);
+        }
+    } finally {
+        if (button && document.body.contains(button)) {
+            button.disabled = false;
+            button.textContent = t.contact_submit;
+        }
     }
 }
 
@@ -423,8 +462,11 @@ async function saveBookingToServer(bookingData) {
         body: JSON.stringify(bookingData)
     });
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Ошибка записи');
+        let details = '';
+        try { details = (await response.json()).error || ''; } catch (e) { /* ignore */ }
+        const error = new Error(details || ('HTTP ' + response.status));
+        error.status = response.status;
+        throw error;
     }
 }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +7,19 @@
     <!-- Режим «Идут работы»: заглушка для всех, кроме владельца.
          Выключается одной строкой в maintenance-gate.js (enabled: false). -->
     <script src="/maintenance-gate.js"></script>
-    <title>Галерея — ArtyomCut | Barbershop</title>
+    <title>Galería de trabajos — ArtyomCut | Barbería en Gijón</title>
 
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#c51f25">
     <link rel="apple-touch-icon" href="/images/logo/apple-touch-icon.png">
 
-    <meta name="description" content="Галерея работ ArtyomCut Barbershop в Хихоне. Мужские стрижки, борода, fade, classic.">
+    <meta name="description" content="Galería de cortes y barbas de ArtyomCut Barbershop en Gijón. Fade, classic, beard.">
     <link rel="canonical" href="https://artyomcut-barbershopgijon.es/gallery">
-    <meta property="og:title" content="Галерея работ — ArtyomCut Barbershop">
-    <meta property="og:description" content="Смотрите примеры наших мужских стрижек и оформления бороды.">
+    <meta property="og:title" content="Galería de trabajos — ArtyomCut Barbershop">
+    <meta property="og:description" content="Cortes y barbas de ArtyomCut Barbershop en Gijón.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://artyomcut-barbershopgijon.es/gallery.html">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://artyomcut-barbershopgijon.es/gallery">
     <meta property="og:image" content="https://artyomcut-barbershopgijon.es/images/logo/logo1.jfif">
 
     <link rel="stylesheet" href="style.css">
@@ -33,7 +34,7 @@
             </a>
 
             <!-- БУРГЕР-КНОПКА -->
-            <button class="burger-btn" id="burgerBtn" type="button" onclick="toggleMobileMenu()" aria-label="Открыть меню" aria-controls="mobileNav" aria-expanded="false">
+            <button class="burger-btn" id="burgerBtn" type="button" onclick="toggleMobileMenu()" aria-label="Abrir menú" aria-controls="mobileNav" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -41,14 +42,14 @@
 
             <!-- НАВИГАЦИЯ -->
             <nav class="nav" id="mobileNav">
-                <a href="index.html" data-i18n="nav_home">ГЛАВНАЯ</a>
-                <a href="index.html#services" data-i18n="nav_services">УСЛУГИ</a>
-                <a href="index.html#master" data-i18n="nav_master">МАСТЕР</a>
-                <a href="gallery.html" class="active" data-i18n="nav_gallery">ГАЛЕРЕЯ</a>
-                <a href="reviews.html" data-i18n="nav_reviews">ОТЗЫВЫ</a>
-                <a href="index.html#music" data-i18n="nav_music">МУЗЫКА</a>
-                <a href="index.html#booking" data-i18n="nav_booking">ЗАПИСЬ</a>
-                <a href="location.html" data-i18n="nav_contacts">КАК НАС НАЙТИ</a>
+                <a href="index.html" data-i18n="nav_home">INICIO</a>
+                <a href="index.html#services" data-i18n="nav_services">SERVICIOS</a>
+                <a href="index.html#master" data-i18n="nav_master">MAESTRO</a>
+                <a href="gallery.html" class="active" data-i18n="nav_gallery">GALERÍA</a>
+                <a href="reviews.html" data-i18n="nav_reviews">RESEÑAS</a>
+                <a href="index.html#music" data-i18n="nav_music">MÚSICA</a>
+                <a href="index.html#booking" data-i18n="nav_booking">RESERVA</a>
+                <a href="location.html" data-i18n="nav_contacts">CÓMO ENCONTRARNOS</a>
 
                 <!-- Переключатель языка в бургере (мобильные) -->
                 <div class="language-switcher mobile-only">
@@ -81,6 +82,10 @@
                         <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" fill="currentColor"/>
                     </svg>
                 </a>
+
+                <a href="https://wa.me/34602692534" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-link">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.02c-1.55 0-3.06-.42-4.38-1.2l-.31-.18-3.12.82.83-3.04-.2-.32a8.1 8.1 0 0 1-1.25-4.34c0-4.49 3.65-8.14 8.14-8.14 4.49 0 8.14 3.65 8.14 8.14 0 4.49-3.65 8.14-8.14 8.14zm4.47-6.1c-.24-.12-1.45-.71-1.67-.79-.22-.08-.39-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.52.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.45-1.35-1.69-.14-.24-.02-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2.01 0 1.19.87 2.34.99 2.5.12.16 1.71 2.6 4.13 3.65.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.09.47-.07 1.45-.59 1.65-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.16-.46-.28z"/></svg>
+                </a>
             </div>
         </div>
     </header>
@@ -89,15 +94,15 @@
     <section class="gallery-page">
         <div class="container">
             <div class="gallery-page-heading">
-                <h1><span data-i18n="gallery_heading_1">ГАЛЕРЕЯ</span> <span data-i18n="gallery_heading_2">РАБОТ</span></h1>
+                <h1><span data-i18n="gallery_heading_1">GALERÍA</span> <span data-i18n="gallery_heading_2">DE TRABAJOS</span></h1>
                 <div class="section-line"></div>
             </div>
 
             <div class="gallery-filters">
-                <button class="filter-btn active" data-filter="all" data-i18n="gallery_filters_all">ВСЕ</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="gallery_filters_all">TODOS</button>
                 <button class="filter-btn" data-filter="fade" data-i18n="gallery_filters_fade">FADE</button>
-                <button class="filter-btn" data-filter="classic" data-i18n="gallery_filters_classic">CLASSIC</button>
-                <button class="filter-btn" data-filter="beard" data-i18n="gallery_filters_beard">BEARD</button>
+                <button class="filter-btn" data-filter="classic" data-i18n="gallery_filters_classic">CLÁSICO</button>
+                <button class="filter-btn" data-filter="beard" data-i18n="gallery_filters_beard">BARBA</button>
             </div>
 
             <div class="gallery-page-grid" id="galleryGrid"></div>
@@ -107,8 +112,8 @@
     <footer class="footer">
         <div class="container">
             <p data-i18n="footer_copyright">© 2026 ArtyomCut Barbershop — Gijón</p>
-            <p data-i18n="footer_slogan">ROCK & CUTS SINCE 2021</p>
-            <p><a href="/privacy" data-i18n="footer_privacy">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a></p>
+            <p data-i18n="footer_slogan">ROCK &amp; CUTS SINCE 2021</p>
+            <p><a href="/privacy" data-i18n="footer_privacy">POLÍTICA DE PRIVACIDAD</a></p>
         </div>
     </footer>
 
