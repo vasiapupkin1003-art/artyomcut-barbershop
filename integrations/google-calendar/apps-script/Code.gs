@@ -173,7 +173,19 @@ function eventDescription_(booking) {
 }
 
 function eventStart_(booking) {
-  return new Date(booking.date + 'T' + String(booking.time).slice(0, 5) + ':00');
+  return madridDate_(booking.date, String(booking.time).slice(0, 5));
+}
+
+/**
+ * Момент времени по часам Мадрида, независимо от часового пояса скрипта.
+ */
+function madridDate_(dateString, timeString) {
+  var naiveUtc = new Date(dateString + 'T' + timeString + ':00Z');
+  var offset = Utilities.formatDate(naiveUtc, 'Europe/Madrid', 'Z');
+  var sign = offset.charAt(0) === '-' ? -1 : 1;
+  var hours = parseInt(offset.slice(1, 3), 10) || 0;
+  var minutes = parseInt(offset.slice(3, 5), 10) || 0;
+  return new Date(naiveUtc.getTime() - sign * (hours * 60 + minutes) * 60000);
 }
 
 function eventEnd_(booking) {
