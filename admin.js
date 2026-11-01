@@ -296,6 +296,16 @@ async function loadBookings() {
             remove.textContent = 'УДАЛИТЬ';
             remove.addEventListener('click', () => deleteBooking(String(booking.id || '')));
             details.append(main, time, contact);
+            if (window.ACCalendar) {
+                const calendarLink = document.createElement('a');
+                calendarLink.className = 'btn-calendar';
+                calendarLink.href = ACCalendar.googleUrl(ACCalendar.forBooking(booking));
+                calendarLink.target = '_blank';
+                calendarLink.rel = 'noopener';
+                calendarLink.textContent = 'В КАЛЕНДАРЬ';
+                calendarLink.title = 'Добавить запись в Google Календарь';
+                details.append(calendarLink);
+            }
             item.append(details, remove);
             fragment.append(item);
         });

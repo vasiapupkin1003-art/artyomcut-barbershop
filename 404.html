@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#07090a">
+    <title>Страница не найдена — ArtyomCut Barbershop</title>
+    <link rel="icon" type="image/png" href="/images/logo/icon-192.png">
+    <style>
+        :root { --bg:#07090a; --line:#262b2c; --text:#e8e5df; --muted:#98a0a0; --red:#c51f25; }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; padding: 28px 16px; min-height: 100vh; min-height: 100dvh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: var(--bg); color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            text-align: center; overflow-x: hidden;
+        }
+        body::before {
+            content: ""; position: fixed; inset: 0; pointer-events: none;
+            background: radial-gradient(55% 45% at 50% -10%, rgba(197,31,37,.35), transparent 70%);
+        }
+        .card {
+            position: relative; width: 100%; max-width: 620px; padding: 46px 28px 34px;
+            border: 1px solid var(--line); border-radius: 22px;
+            background: linear-gradient(180deg, #101415, #0a0d0e);
+            box-shadow: 0 30px 80px rgba(0,0,0,.6);
+        }
+        .logo { width: min(280px, 70%); height: auto; margin: 0 auto 26px; display: block; mix-blend-mode: lighten; }
+        .code {
+            font-size: clamp(64px, 16vw, 120px); font-weight: 800; line-height: 1;
+            letter-spacing: -.03em; color: var(--red); margin: 0;
+            font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        }
+        h1 {
+            margin: 10px 0 12px; font-size: clamp(20px, 4vw, 30px);
+            text-transform: uppercase; letter-spacing: .02em;
+        }
+        p { margin: 0 auto 8px; color: var(--muted); max-width: 46ch; line-height: 1.6; font-size: 15px; }
+        .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 28px; }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 13px 22px; border-radius: 12px; border: 1px solid var(--line);
+            background: #151a1b; color: #fff; font-size: 14px; font-weight: 700;
+            text-decoration: none; transition: .2s;
+        }
+        .btn:hover { background: #1d2324; border-color: #3a4142; }
+        .btn--primary { background: var(--red); border-color: var(--red); }
+        .btn--primary:hover { background: #e0272d; border-color: #e0272d; }
+        .foot { margin-top: 22px; color: #5c6566; font-size: 11.5px; letter-spacing: .1em; }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <img class="logo" src="/images/logo/logo.png" alt="ArtyomCut Barbershop" width="280" height="143">
+        <p class="code">404</p>
+        <h1>Страница не найдена</h1>
+        <p>Такой страницы нет или она переехала. Но мы на месте — Calle de San Manuel, 13, Gijón.</p>
+        <p lang="es">Página no encontrada. Estamos en Calle de San Manuel, 13, Gijón.</p>
+        <p lang="en">Page not found. We are at Calle de San Manuel, 13, Gijón.</p>
+        <div class="actions">
+            <a class="btn btn--primary" href="/">НА ГЛАВНУЮ</a>
+            <a class="btn" href="/location">КАК НАС НАЙТИ</a>
+            <a class="btn" href="tel:+34602692534">+34 602 692 534</a>
+        </div>
+        <div class="foot">© 2026 ARTYOMCUT BARBERSHOP — ROCK &amp; CUTS SINCE 2021</div>
+    </main>
+</body>
+</html>

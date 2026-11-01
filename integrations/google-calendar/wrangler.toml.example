@@ -1,0 +1,26 @@
+# Пример конфигурации Cloudflare Worker для синхронизации с Google Календарём.
+# Скопируйте в wrangler.toml рядом с calendar-sync.js и подставьте свои значения.
+
+name = "artyomcut-calendar-sync"
+main = "calendar-sync.js"
+compatibility_date = "2026-01-01"
+
+# Автозапуск каждые 5 минут
+[triggers]
+crons = ["*/5 * * * *"]
+
+# Хранилище связок «запись → событие». ID выдаёт команда:
+#   wrangler kv namespace create SYNC_STATE
+[[kv_namespaces]]
+binding = "SYNC_STATE"
+id = "ПОДСТАВЬТЕ_ID_ИЗ_КОМАНДЫ"
+
+[vars]
+AC_API_BASE = "https://artyomcut-api.vasia-pupkin1003.workers.dev"
+
+# Секреты (задаются через wrangler secret put, здесь их хранить нельзя):
+#   AC_ADMIN_PASSWORD
+#   GOOGLE_CLIENT_EMAIL
+#   GOOGLE_PRIVATE_KEY
+#   GOOGLE_CALENDAR_ID
+#   TRIGGER_SECRET

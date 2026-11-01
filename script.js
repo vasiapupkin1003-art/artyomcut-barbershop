@@ -444,11 +444,34 @@ function showSuccessMessage(bookingData) {
             <p id="successClientMessage" style="color: #aaa6a0;"></p>
             <p style="color: #fff; font-weight: 700;">${t['booking_service_' + bookingData.serviceKey] || bookingData.service}</p>
             <p style="color: #aaa6a0;">${bookingData.date} в ${bookingData.time}</p>
+            <div id="calendarActions" style="display: none; margin: 18px 0 4px; flex-direction: column; gap: 8px; align-items: center;">
+                <a id="addToCalendarBtn" href="#" target="_blank" rel="noopener" style="color: #fff; background: #15191a; border: 1px solid #343839; border-radius: 3px; padding: 12px 18px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-decoration: none; width: 100%;"></a>
+                <button id="downloadIcsBtn" type="button" style="color: #aaa6a0; background: none; border: 1px solid #343839; border-radius: 3px; padding: 10px 18px; font-size: 11px; font-weight: 700; letter-spacing: 1px; cursor: pointer; width: 100%;"></button>
+            </div>
             <button id="successOkBtn" style="margin-top: 20px; padding: 15px 40px; background: #c51f25; color: #fff; border: none; border-radius: 3px; cursor: pointer;">${t.success_ok}</button>
         </div>
     `;
     document.body.appendChild(modal);
     modal.querySelector('#successClientMessage').textContent = `${bookingData.name}${t.success_text}`;
+
+    if (window.ACCalendar) {
+        const labels = ACCalendar.labels[lang] || ACCalendar.labels.ru;
+        const calendarEvent = {
+            title: 'ArtyomCut — ' + (t['booking_service_' + bookingData.serviceKey] || bookingData.service),
+            date: bookingData.date,
+            time: bookingData.time,
+            details: bookingData.name + (bookingData.contact ? ' · ' + bookingData.contact : '') + '\n' + location.origin,
+            uid: 'booking-' + bookingData.date + '-' + String(bookingData.time).replace(':', '') + '@artyomcut-barbershopgijon.es'
+        };
+        const actions = modal.querySelector('#calendarActions');
+        const calLink = modal.querySelector('#addToCalendarBtn');
+        const icsBtn = modal.querySelector('#downloadIcsBtn');
+        calLink.href = ACCalendar.googleUrl(calendarEvent);
+        calLink.textContent = labels.add_google;
+        icsBtn.textContent = labels.download_ics;
+        icsBtn.addEventListener('click', () => ACCalendar.download(calendarEvent));
+        actions.style.display = 'flex';
+    }
 
     const okBtn = modal.querySelector('#successOkBtn');
     okBtn.addEventListener('click', () => modal.remove());
