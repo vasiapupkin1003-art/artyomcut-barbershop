@@ -61,9 +61,32 @@ async function showAdmin() {
     renderBlockCalendar();
     loadBookings();
     renderGalleryPhotosList();
+    startBookingsAutoRefresh();
 }
 
+// Список записей обновляется сам: раз в 30 секунд и при возврате на вкладку
+let bookingsRefreshTimer = null;
+
+function startBookingsAutoRefresh() {
+    if (bookingsRefreshTimer) clearInterval(bookingsRefreshTimer);
+    bookingsRefreshTimer = setInterval(function () {
+        if (!document.hidden && authToken) loadBookings();
+    }, 30000);
+}
+
+function stopBookingsAutoRefresh() {
+    if (bookingsRefreshTimer) {
+        clearInterval(bookingsRefreshTimer);
+        bookingsRefreshTimer = null;
+    }
+}
+
+document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && authToken) loadBookings();
+});
+
 function logout() {
+    stopBookingsAutoRefresh();
     localStorage.removeItem('authToken');
     authToken = '';
     document.getElementById('adminContent').style.display = 'none';
