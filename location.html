@@ -324,7 +324,11 @@
         <div class="grid">
             <div class="map-card">
                 <div class="map-frame">
-                    <iframe src="https://www.google.com/maps?q=Calle+de+San+Manuel+13+Gij%C3%B3n+Asturias&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="map-consent" id="mapConsent">
+                        <p>El mapa se carga desde Google. Si lo muestras, Google puede tratar tu dirección IP y cookies según su propia política.</p>
+                        <button type="button" class="route-btn" id="loadMapBtn">MOSTRAR MAPA</button>
+                        <a class="map-consent-link" href="https://www.google.com/maps/search/?api=1&query=Calle+de+San+Manuel+13+Gij%C3%B3n" target="_blank" rel="noopener">Abrir en Google Maps</a>
+                    </div>
                     <div class="map-toolbar">
                         <a href="https://www.google.com/maps/search/?api=1&query=Calle+de+San+Manuel+13+Gij%C3%B3n" target="_blank" rel="noopener" data-i18n="location_open_in_maps">
                             Открыть в картах
@@ -395,7 +399,8 @@
     <footer class="footer">
         <p data-i18n="footer_copyright">© 2026 ArtyomCut Barbershop — Gijón</p>
             <p data-i18n="footer_slogan">ROCK &amp; CUTS SINCE 2021</p>
-            <p><a href="/privacy" data-i18n="footer_privacy">POLÍTICA DE PRIVACIDAD</a></p>
+            <p><a href="/privacy" data-i18n="footer_privacy">POLÍTICA DE PRIVACIDAD</a> · <a href="/cookies" data-i18n="footer_cookies">COOKIES</a></p>
+            <p class="footer-note" data-i18n="footer_tax_note">Precios con IVA incluido</p>
     </footer>
 
     <script>
@@ -474,5 +479,20 @@
     </script>
     <script src="translations.js"></script>
     <script src="i18n.js"></script>
+<script>
+    (function () {
+        var button = document.getElementById('loadMapBtn');
+        var consent = document.getElementById('mapConsent');
+        if (!button || !consent) return;
+        button.addEventListener('click', function () {
+            var frame = document.createElement('iframe');
+            frame.src = 'https://www.google.com/maps?q=Calle+de+San+Manuel+13+Gij%C3%B3n+Asturias&output=embed';
+            frame.loading = 'lazy';
+            frame.referrerPolicy = 'no-referrer-when-downgrade';
+            frame.title = 'Mapa de ArtyomCut Barbershop';
+            consent.parentNode.replaceChild(frame, consent);
+        });
+    })();
+</script>
 </body>
 </html>

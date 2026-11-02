@@ -138,6 +138,10 @@ const translations = {
     hours_today_suffix: " • Сегодня",
     hours_off: "Выходной",
 
+    footer_cookies: "COOKIES",
+
+    footer_tax_note: "Цены с НДС (IVA)",
+
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
     footer_slogan: "ROCK & CUTS SINCE 2021",
     footer_privacy: "ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ"
@@ -278,6 +282,10 @@ const translations = {
     hours_day_saturday: "Субота",
     hours_today_suffix: " • Сьогодні",
     hours_off: "Вихідний",
+
+    footer_cookies: "COOKIES",
+
+    footer_tax_note: "Ціни з ПДВ (IVA)",
 
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
     footer_slogan: "ROCK & CUTS SINCE 2021",
@@ -420,6 +428,10 @@ const translations = {
     hours_today_suffix: " • Hoy",
     hours_off: "Cerrado",
 
+    footer_cookies: "COOKIES",
+
+    footer_tax_note: "Precios con IVA incluido",
+
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
     footer_slogan: "ROCK & CUTS SINCE 2021",
     footer_privacy: "POLÍTICA DE PRIVACIDAD"
@@ -560,6 +572,10 @@ const translations = {
     hours_day_saturday: "Saturday",
     hours_today_suffix: " • Today",
     hours_off: "Closed",
+
+    footer_cookies: "COOKIES",
+
+    footer_tax_note: "Prices include VAT",
 
     footer_copyright: "© 2026 ArtyomCut Barbershop — Gijón",
     footer_slogan: "ROCK & CUTS SINCE 2021",

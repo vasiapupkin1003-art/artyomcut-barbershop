@@ -157,10 +157,10 @@ document.querySelectorAll('.nav a, .logo a, .btn').forEach(link => {
 
 // Сообщения при ошибках записи
 const BOOKING_MESSAGES = {
-    ru: { busy: 'Это время только что заняли. Выберите другое.', server: 'Не удалось отправить запись. Попробуйте ещё раз или позвоните: +34 602 692 534', sending: 'ОТПРАВЛЯЕМ…' },
-    es: { busy: 'Ese hueco acaba de ocuparse. Elige otro.', server: 'No se pudo enviar la reserva. Inténtalo otra vez o llámanos: +34 602 692 534', sending: 'ENVIANDO…' },
-    en: { busy: 'That slot was just taken. Please pick another.', server: 'Could not send the booking. Try again or call us: +34 602 692 534', sending: 'SENDING…' },
-    uk: { busy: 'Цей час щойно зайняли. Оберіть інший.', server: 'Не вдалося надіслати запис. Спробуйте ще раз або зателефонуйте: +34 602 692 534', sending: 'НАДСИЛАЄМО…' }
+    ru: { busy: 'Это время только что заняли. Выберите другое.', server: 'Не удалось отправить запись. Попробуйте ещё раз или позвоните: +34 602 692 534', sending: 'ОТПРАВЛЯЕМ…', consent: 'Отметьте согласие с политикой конфиденциальности.' },
+    es: { busy: 'Ese hueco acaba de ocuparse. Elige otro.', server: 'No se pudo enviar la reserva. Inténtalo otra vez o llámanos: +34 602 692 534', sending: 'ENVIANDO…', consent: 'Marca la casilla para aceptar la política de privacidad.' },
+    en: { busy: 'That slot was just taken. Please pick another.', server: 'Could not send the booking. Try again or call us: +34 602 692 534', sending: 'SENDING…', consent: 'Please tick the box to accept the privacy policy.' },
+    uk: { busy: 'Цей час щойно зайняли. Оберіть інший.', server: 'Не вдалося надіслати запис. Спробуйте ще раз або зателефонуйте: +34 602 692 534', sending: 'НАДСИЛАЄМО…', consent: 'Позначте згоду з політикою конфіденційності.' }
 };
 let bookingData = { service: '', date: '', time: '', serviceKey: '' };
 let currentMonth = new Date().getMonth();
@@ -395,7 +395,10 @@ function showContactForm() {
             <label for="client-contact" style="display: block; color: #aaa6a0; font-size: 12px; margin-bottom: 5px;">${t.contact_phone_label || 'WHATSAPP / ТЕЛЕФОН'} <span style="color: #c51f25;">*</span></label>
             <input id="client-contact" name="contact" type="tel" inputmode="tel" required autocomplete="tel" maxlength="40" placeholder="${t.contact_contact_placeholder}" style="width: 100%; height: 48px; margin-bottom: 5px; background: #15191a; border: 1px solid #343839; color: #fff; padding: 0 12px; border-radius: 3px;">
             <p style="font-size: 12px; color: #aaa6a0; margin: 0 0 12px 0;">${t.contact_phone_note || ''}</p>
-            <p class="booking-privacy-note" style="font-size: 11px; color: #aaa6a0; margin: 0 0 20px 0;">${t.contact_privacy_note || ''}</p>
+            <label style="display: flex; gap: 9px; align-items: flex-start; font-size: 11px; line-height: 1.5; color: #aaa6a0; margin: 0 0 20px 0; cursor: pointer;">
+                <input id="privacy-consent" type="checkbox" style="margin-top: 2px; width: 16px; height: 16px; accent-color: #c51f25; flex: none;">
+                <span class="booking-privacy-note">${t.contact_privacy_note || ''}</span>
+            </label>
             <button id="confirmBookingBtn" style="width: 100%; height: 50px; background: #c51f25; color: #fff; border: none; border-radius: 3px; font-size: 14px; font-weight: 800; cursor: pointer;">${t.contact_submit}</button>
         </div>
     `;
@@ -420,6 +423,11 @@ async function confirmBooking() {
     const lang = currentLanguage || 'ru';
     const t = translations[lang] || translations['ru'];
     const messages = BOOKING_MESSAGES[lang] || BOOKING_MESSAGES.ru;
+    const consent = document.querySelector('#privacy-consent');
+    if (consent && !consent.checked) {
+        alert(messages.consent);
+        return;
+    }
 
     try {
         // перед отправкой ещё раз проверяем, что слот свободен
